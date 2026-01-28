@@ -1,26 +1,28 @@
 ---
 name: Use Case
-about: Create a bug report to help us resolving the bug
-title: '🪲[BUG] Write a suitable title'
-labels: 'bug'
+about: A FAIR use case is a concrete, description of who needs what kind of data, for what purpose, and under what conditions.
+title: 'Write a suitable title'
+labels: ''
 assignees: ''
 
 ---
 
-**Describe the use case**
-A clear and concise description of what the bug is.
+**Use case description**
+As a _____, I want to______, so that I can________.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Domain/Field**
+Specifiy domain area.
+e.g., 
+-	Humanities
+-	Social Sciences 
+-	Natural Sciences 
+-	Engineering and Technology 
+-	Medical and Health Sciences 
+-	Agricultural Sciences 
+-	Domain agnostic 
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
 
-**Screenshots**
+**Provenance**
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
