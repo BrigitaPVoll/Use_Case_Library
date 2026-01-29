@@ -13,3 +13,5 @@ This ressource or website showcases:
 -	A guide on how to assess a repository
 -	A guide on how to assess if your data is FAIR
 
+Would you like your user story presented here? Please fill out this (template) and request publication to xxx or xxx 
+
