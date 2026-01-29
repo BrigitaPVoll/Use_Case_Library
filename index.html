@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,7 +118,8 @@
 
     /* ==== Main content ==== */
     main{max-width:1100px; margin:0 auto; padding:1rem 1.25rem 3rem}
-    .status{margin:1rem 0; font-size:.95rem; color:var(--muted); display:flex; align-items:center; gap:.5rem; flex-wrap:wrap}
+    .status{margin:1rem 0; font-size:.95rem; color:var(--muted); display:flex; align-items:center; gap:.75rem; flex-wrap:wrap}
+    .rate{font-size:.85rem; color:var(--muted); padding:.1rem .4rem; border:1px solid var(--control-border); border-radius:999px; background:var(--control-bg)}
     .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:1rem}
     .card{
       background: var(--card);
@@ -218,7 +218,11 @@
         <div id="token-box" class="token-box">
           <label for="token">GitHub Token (optional, required for creating issues)</label>
           <input id="token" type="password" placeholder="ghp_… (classic) or fine-grained token" />
-          <div class="notice">Stored locally in your browser (localStorage) to raise API limits and enable issue creation.</div>
+          <div class="notice">
+            Stored locally in your browser (localStorage) to raise API limits and enable issue creation.
+            Docs: <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">PATs</a>,
+            <a href="https://stackoverflow.com/questions/63906613/minimal-set-of-scopes-to-push-to-github-using-an-access-token" target="_blank" rel="noopener">scopes</a>
+          </div>
         </div>
       </div>
     </div>
@@ -226,7 +230,9 @@
 
   <main>
     <div class="wrap">
-      <div class="status" id="status" aria-live="polite"></div>
+      <div class="status" id="status" aria-live="polite">
+        <span id="rate" class="rate" title="GitHub REST API rate limit">API …</span>
+      </div>
       <section id="stories" class="grid" aria-label="User stories list"></section>
       <div class="empty" id="empty" style="display:none;">No user stories found.</div>
       <div class="error" id="error" style="display:none;"></div>
@@ -304,7 +310,8 @@
 
           <p class="notice" style="margin-top:.5rem;">
             Requires a GitHub token (set in <strong>Token</strong>) with permission to create issues.
-            Public repo: classic <code>public_repo</code> or fine‑grained token with <em>Contents: Read &amp; write</em> on this repo. [3](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)[4](https://stackoverflow.com/questions/63906613/minimal-set-of-scopes-to-push-to-github-using-an-access-token)
+            Public repo: classic <code>public_repo</code> or fine‑grained token with <em>Contents: Read &amp; write</em> on this repo.
+            See <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">docs</a>.
           </p>
         </form>
       </div>
@@ -337,6 +344,7 @@
     const openModalBtn = $('#open-modal');
     const cancelModalBtn = $('#cancel-modal');
     const storyForm = $('#story-form');
+    const rateEl = $('#rate');
 
     // ---------- Utilities ----------
     function escapeHTML(str){
@@ -348,11 +356,23 @@
         return new Intl.DateTimeFormat('en', {dateStyle:'medium', timeStyle:'short'}).format(d);
       }catch{ return iso || '' }
     }
-    function setStatus(text){ statusEl.textContent = text || ''; }
+    function setStatus(text){ statusEl.firstChild ? statusEl.firstChild.textContent = text || '' : (statusEl.textContent = text || ''); }
     function showError(msg){
       errorEl.style.display='block';
       errorEl.textContent = 'Error: ' + msg;
       setStatus('');
+    }
+    function updateRateFromHeaders(h){
+      try{
+        const limit = h.get('x-ratelimit-limit');
+        const remaining = h.get('x-ratelimit-remaining');
+        const reset = h.get('x-ratelimit-reset');
+        if(limit && remaining && rateEl){
+          const secs = reset ? Math.max(0, parseInt(reset,10) - Math.floor(Date.now()/1000)) : null;
+          const mins = secs!=null ? Math.ceil(secs/60) : null;
+          rateEl.textContent = `API ${remaining}/${limit}${mins!=null ? ` (resets ~${mins}m)` : ''}`;
+        }
+      }catch{}
     }
 
     // ---------- Parse template from issue body ----------
@@ -407,9 +427,12 @@
       if (token) headers['Authorization'] = `Bearer ${token}`;
 
       try{
-        if(!append){ setStatus('Loading user stories…'); errorEl.style.display='none'; }
+        if(!append){ setStatus('Loading user stories… '); errorEl.style.display='none'; }
         const res = await fetch(url, { headers });
+        updateRateFromHeaders(res.headers);
         if(!res.ok){
+          if(res.status === 401) throw new Error('401 Unauthorized — invalid or missing token');
+          if(res.status === 403) throw new Error('403 Forbidden or rate-limited — add a token or wait and retry');
           const text = await res.text();
           throw new Error(`${res.status} ${res.statusText} — ${text}`);
         }
@@ -460,13 +483,17 @@
       const body = {
         title: title.trim(),
         body: buildIssueBody({role, goal, benefit, context, consent}),
-        labels: (labels || '').split(',').map(s => s.trim()).filter(Boolean),
+        labels: (labels || 'user-story').split(',').map(s => s.trim()).filter(Boolean),
         assignees: (assignees || '').split(',').map(s => s.trim()).filter(Boolean)
       };
 
       const url = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/issues`;
       const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
+      updateRateFromHeaders(res.headers);
       if (!res.ok) {
+        if(res.status === 401) throw new Error('401 Unauthorized — check your token');
+        if(res.status === 403) throw new Error('403 Forbidden or rate-limited — verify scopes or wait');
+        if(res.status === 410) throw new Error('410 Gone — issues disabled in this repository');
         const text = await res.text();
         throw new Error(`${res.status} ${res.statusText} — ${text}`);
       }
@@ -629,18 +656,24 @@
     openModalBtn.addEventListener('click', () => { backdrop.style.display = 'flex'; });
     cancelModalBtn.addEventListener('click', () => { backdrop.style.display = 'none'; });
     backdrop.addEventListener('click', (e) => { if (e.target === backdrop) backdrop.style.display = 'none'; });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') backdrop.style.display = 'none'; });
 
     // Create story -> GitHub Issue
     storyForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const title = $('#title').value.trim();
+      const role = $('#role').value.trim();
+      const goal = $('#goal').value.trim();
+      const benefit = $('#benefit').value.trim();
+
       if (!title) { alert('Title is required'); return; }
+      if (!role || !goal) { alert('Please provide at least the role and the goal.'); return; }
 
       const payload = {
         title,
-        role: $('#role').value.trim(),
-        goal: $('#goal').value.trim(),
-        benefit: $('#benefit').value.trim(),
+        role,
+        goal,
+        benefit,
         context: $('#context').value.trim(),
         consent: $('#consent').value,
         labels: $('#labels').value.trim(),
@@ -648,12 +681,14 @@
       };
 
       try {
-        setStatus('Creating issue…');
+        setStatus('Creating issue… ');
         const issue = await createIssue(payload);
         setStatus('Issue created successfully.');
         backdrop.style.display = 'none';
 
-        // Prepend new issue to the list and re-render quickly
+        // Clear the form and re-render
+        storyForm.reset();
+        $('#labels').value = 'user-story';
         accumulated = [issue, ...accumulated];
         renderIssues(accumulated);
       } catch (err) {
@@ -672,5 +707,3 @@
   </script>
 </body>
 </html>
-``
-
