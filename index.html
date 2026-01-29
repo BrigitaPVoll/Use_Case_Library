@@ -1,53 +1,84 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>User Story Library</title>
+  <title>User Story Library | DeiC style</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
   <style>
+    /* ==== DeiC-inspired palette ==== */
     :root{
-      --bg:#0b1221; --fg:#f7fafc; --muted:#a0aec0; --card:#11182a; --border:#1f2937;
-      --accent:#60a5fa; --accent-contrast:#0b1221; --ok:#22c55e; --warn:#f59e0b; --no:#ef4444;
-      --shadow:0 6px 18px rgba(0,0,0,.35);
+      --deic-green: #BFD730;   /* Key Lime Pie */
+      --deic-sprout: #C9E1BD;  /* Light sprout green */
+      --deic-blue:  #16385D;   /* Deep blue */
+      --bg: #ffffff;
+      --fg: #0b1221;
+      --muted: #667085;
+      --card: #f8faf7;         /* slightly warm/greenish */
+      --border: #dfe6d8;       /* sprout tint */
+      --accent: var(--deic-green);
+      --accent-contrast: #0b1221;
+      --accent-soft: color-mix(in oklab, var(--deic-green) 18%, white);
+      --shadow: 0 6px 18px rgba(0,0,0,.08);
+      --link: var(--deic-blue);
     }
-    @media (prefers-color-scheme: light){
+    @media (prefers-color-scheme: dark){
       :root{
-        --bg:#ffffff; --fg:#0b1221; --muted:#667085; --card:#f6f7fb; --border:#e5e7eb;
-        --accent:#2563eb; --accent-contrast:#ffffff; --ok:#16a34a; --warn:#d97706; --no:#dc2626;
-        --shadow:0 6px 18px rgba(0,0,0,.08);
+        --bg: #0e1523;
+        --fg: #eef2f7;
+        --muted: #aeb9c7;
+        --card: #121a28;
+        --border: #243045;
+        --accent-contrast: #0e1523;
+        --shadow: 0 6px 18px rgba(0,0,0,.35);
+        --link: #8bb3e8;
       }
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       background:
-        radial-gradient(1200px 600px at 15% -10%, rgba(96,165,250,.10), transparent 40%),
-        radial-gradient(800px 400px at 85% 10%, rgba(52,211,153,.08), transparent 40%),
+        radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--deic-green) 12%, transparent), transparent 40%),
+        radial-gradient(900px 450px at 85% 0%, color-mix(in oklab, var(--deic-sprout) 12%, transparent), transparent 40%),
         var(--bg);
       color:var(--fg); line-height:1.55;
     }
+
     header{
       position:sticky; top:0; z-index:10; backdrop-filter:saturate(160%) blur(10px);
-      background: color-mix(in oklab, var(--bg) 85%, transparent);
-      border-bottom:1px solid var(--border);
+      background: color-mix(in oklab, var(--bg) 88%, transparent);
+      border-bottom: 4px solid var(--accent-soft);
     }
     .wrap{max-width:1100px; margin:0 auto; padding:1rem 1.25rem}
     .bar{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap}
     .brand{display:flex; align-items:center; gap:.75rem}
-    .logo{width:36px; height:36px; border-radius:10px;
-      background:conic-gradient(from 180deg, #60a5fa, #34d399, #f59e0b, #f43f5e, #60a5fa);
-      box-shadow:var(--shadow);
+    .logo{
+      width:40px; height:40px; border-radius:10px;
+      background: conic-gradient(from 180deg, var(--deic-green), var(--deic-sprout), var(--deic-blue), var(--deic-green));
+      box-shadow:var(--shadow); border:1px solid var(--border);
     }
-    h1{font-size: clamp(1.1rem, 2.2vw, 1.5rem); margin:0; letter-spacing:.2px}
-    .tagline{color:var(--muted); font-size:.95rem; margin:.25rem 0 0 0; max-width:900px}
+    h1{font-size: clamp(1.1rem, 2vw, 1.6rem); margin:0; letter-spacing:.2px; color: var(--deic-blue)}
+    .tagline{color:var(--muted); font-size:.95rem; margin:.3rem 0 0 0; max-width:900px}
+
+    .cta-row{display:flex; align-items:center; gap:.5rem; flex-wrap:wrap}
+    .button-link{
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.6rem .8rem; border-radius:.6rem; border:1px solid var(--border);
+      background: var(--accent); color: var(--accent-contrast); font-weight:600; text-decoration:none;
+      box-shadow: var(--shadow);
+    }
+    .button-link:hover{filter:brightness(1.05)}
+    .secondary{ background: var(--bg); color: var(--fg); border-color: var(--border) }
 
     .controls{display:grid; grid-template-columns:1fr; gap:.75rem; margin-top:.75rem}
-    .controls-row{display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:.5rem}
-    @media (max-width:900px){ .controls-row{grid-template-columns:1fr 1fr} }
-    @media (max-width:560px){ .controls-row{grid-template-columns:1fr} }
+    .controls-row{display:grid; grid-template-columns:2fr 1fr 1fr auto auto; gap:.5rem}
+    @media (max-width:1000px){ .controls-row{grid-template-columns:1fr 1fr 1fr 1fr} }
+    @media (max-width:700px){ .controls-row{grid-template-columns:1fr 1fr} }
+    @media (max-width:520px){ .controls-row{grid-template-columns:1fr} }
 
     label{font-size:.85rem; color:var(--muted)}
     input, select, button{
@@ -55,41 +86,48 @@
       background:var(--bg); color:var(--fg); outline:none;
     }
     input, select{width:100%}
-    .inline{display:flex; align-items:center; gap:.5rem}
     button.primary{background:var(--accent); color:var(--accent-contrast); border:none; font-weight:600; box-shadow:var(--shadow); cursor:pointer}
     button.primary:hover{filter:brightness(1.06)}
     .token-box{display:none}
+    .inline{display:flex; align-items:center; gap:.5rem}
 
     main{max-width:1100px; margin:0 auto; padding:1rem 1.25rem 3rem}
     .status{margin:1rem 0; font-size:.95rem; color:var(--muted); display:flex; align-items:center; gap:.5rem; flex-wrap:wrap}
-    .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1rem}
+    .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:1rem}
     .card{
-      background: color-mix(in oklab, var(--card) 88%, transparent);
+      background: var(--card);
       border:1px solid var(--border); border-radius:14px; padding:1rem; box-shadow:var(--shadow);
       display:flex; flex-direction:column; gap:.6rem
     }
     .card h3{margin:.1rem 0 .25rem; font-size:1.05rem; line-height:1.35}
     .meta{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:.85rem}
     .labels{display:flex; gap:.35rem; flex-wrap:wrap}
-    .label{background:color-mix(in oklab, var(--accent) 15%, var(--bg)); color:var(--fg); border:1px solid var(--border); border-radius:999px; padding:.15rem .55rem; font-size:.78rem}
+    .label{background: color-mix(in oklab, var(--deic-green) 15%, white); color:var(--fg); border:1px solid var(--border); border-radius:999px; padding:.15rem .55rem; font-size:.78rem}
     .assignees{display:flex; align-items:center; gap:.35rem}
     .assignees img{width:20px; height:20px; border-radius:50%; border:1px solid var(--border)}
     .pill{border-radius:999px; padding:.12rem .5rem; font-size:.78rem; border:1px solid var(--border)}
-    .pill.ok{background: color-mix(in oklab, var(--ok) 18%, var(--bg)); color:var(--fg)}
-    .pill.no{background: color-mix(in oklab, var(--no) 18%, var(--bg)); color:var(--fg)}
-    .pill.na{background: color-mix(in oklab, var(--warn) 18%, var(--bg)); color:var(--fg)}
+    .pill.ok{background: color-mix(in oklab, #22c55e 18%, white); color:var(--fg)}
+    .pill.no{background: color-mix(in oklab, #ef4444 18%, white); color:var(--fg)}
+    .pill.na{background: color-mix(in oklab, #f59e0b 18%, white); color:var(--fg)}
     .desc{font-size:.95rem}
     .story-parts{display:flex; flex-wrap:wrap; gap:.35rem}
     .story-part{border:1px dashed var(--border); border-radius:8px; padding:.25rem .5rem; font-size:.82rem; color:var(--muted)}
     .empty,.error{text-align:center; color:var(--muted); padding:2rem 0}
-    .cta-row{display:flex; gap:.5rem; flex-wrap:wrap}
-    .load-more{margin-top:1rem; display:flex; justify-content:center}
-    footer{border-top:1px solid var(--border)}
     small{color:var(--muted)}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    a { color: var(--accent); text-decoration: none }
+    a { color: var(--link); text-decoration: none }
     a:hover { text-decoration: underline }
     .notice { font-size: .82rem; color: var(--muted) }
+
+    /* ==== Print-friendly styling (for "Save as PDF") ==== */
+    @page { size: A4; margin: 16mm; }
+    @media print {
+      header, .controls, .status, .load-more, footer { display: none !important; }
+      body { background: #fff; }
+      main { padding: 0 }
+      .grid { grid-template-columns: 1fr; gap: .8rem; }
+      .card { box-shadow: none; border-color: #ddd; }
+      a[href]::after { content: " (" attr(href) ")"; font-size: .8em; color: #888; }
+    }
   </style>
 </head>
 <body>
@@ -104,9 +142,9 @@
           </div>
         </div>
         <div class="cta-row">
-          <a id="new-issue" class="inline" href="https://github.com/BrigitaPVoll/User_Story_Library/issues/new/choose" target="_blank" rel="noopener">
-            <button class="primary">New Story</button>
-          </a>
+          <a class="button-link" href="https://github.com/BrigitaPVoll/User_Story_Library/issues/new/choose" target="_blank" rel="noopener">New Story</a>
+          <button id="export" class="button-link secondary">Export CSV</button>
+          <button id="print" class="button-link secondary">Print / Save PDF</button>
         </div>
       </div>
 
@@ -134,6 +172,9 @@
               Only valid stories
             </label>
           </div>
+          <div class="inline" style="align-items:end">
+            <small>Backend: <a href="https://github.com/BrigitaPVoll/User_Story_Library" target="_blank" rel="noopener">BrigitaPVoll/User_Story_Library</a></small>
+          </div>
         </div>
 
         <div id="token-box" class="token-box">
@@ -152,17 +193,14 @@
       <div class="empty" id="empty" style="display:none;">No user stories found.</div>
       <div class="error" id="error" style="display:none;"></div>
 
-      <div class="load-more">
+      <div class="load-more" style="display:flex; justify-content:center; margin-top:1rem;">
         <button id="more" style="display:none;">Load more</button>
-      </div>
-      <div class="notice" style="margin-top:1rem;">
-        Backend: <a href="https://github.com/BrigitaPVoll/User_Story_Library" target="_blank" rel="noopener">github.com/BrigitaPVoll/User_Story_Library</a>
       </div>
     </div>
   </main>
 
   <footer>
-    <div class="wrap"><small>Powered by GitHub Issues • Responsive UI</small></div>
+    <div class="wrap"><small>Powered by GitHub Issues • DeiC-inspired UI</small></div>
   </footer>
 
   <script>
@@ -227,7 +265,6 @@
         const nextHeaderIdx = lines.slice(ctxHeaderIdx+1).findIndex(l => /can\s+we\s+contact\s+you/i.test(l));
         const end = nextHeaderIdx >= 0 ? ctxHeaderIdx + 1 + nextHeaderIdx : lines.length;
         context = lines.slice(ctxHeaderIdx+1, end).join('\n').trim();
-        // remove markdown bold markers
         context = context.replace(/^\s*\*\*|\*\*\s*$/gm,'').trim();
       }
 
@@ -251,7 +288,6 @@
         per_page: String(PER_PAGE),
         page: String(page || 1)
       });
-      // Only issues (exclude PRs) -> we'll filter client-side using pull_request key
       return `${base}?${params}`;
     }
 
@@ -278,7 +314,6 @@
 
         renderIssues(accumulated);
         setStatus(`Loaded ${accumulated.length} user stor${accumulated.length===1?'y':'ies'}`);
-        // Show/hide Load more button (appear if we received a full page)
         moreBtn.style.display = issues.length === PER_PAGE ? 'inline-block' : 'none';
       }catch(err){ showError(err.message); }
     }
@@ -355,7 +390,7 @@
           ${assignees.length ? `
             <div class="meta assignees">
               <span>Assignees:</span>
-              ${assignees.map(a=>`<img src="${escapeHTML(a.avatar_url)}" alt="${escapeHTML(a.login)}" title="${escapeHTML(a.login)}" />`).join('')}
+              ${assignees.map(a=>`<img src="${escapeHTML(a.avatar_url)}" alt="${escapeHTML(a.login)}" />`).join('')}
             </div>` : ''}
 
           <div class="meta">
@@ -364,6 +399,46 @@
         `;
         storiesEl.appendChild(card);
       }
+    }
+
+    // ---------- CSV export ----------
+    function toCSV(items){
+      const header = ["number","title","state","updated_iso","labels","role","goal","benefit","consent","context","url"];
+      const rows = items.map(i => {
+        const p = parseStory(i.body);
+        const labels = (i.labels||[]).map(l=>l.name).join('|');
+        const clean = s => (s||'').replace(/\r?\n/g,' ').trim();
+        return [
+          i.number,
+          clean(i.title || p.storyLine || ''),
+          i.state || '',
+          i.updated_at || '',
+          labels,
+          clean(p.role),
+          clean(p.goal),
+          clean(p.benefit),
+          p.consent || 'N/A',
+          clean(p.context),
+          i.html_url || ''
+        ];
+      });
+      const escapeCell = v => {
+        const s = String(v ?? '');
+        return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+      };
+      const csv = [header.join(','), ...rows.map(r => r.map(escapeCell).join(','))].join('\n');
+      return csv;
+    }
+    function downloadCSV(){
+      const csv = toCSV(accumulated);
+      const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `user-stories_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
     }
 
     // ---------- Events ----------
@@ -387,6 +462,8 @@
       const v = e.target.value.trim();
       if (v) localStorage.setItem('GITHUB_TOKEN', v);
     });
+    $('#export').addEventListener('click', downloadCSV);
+    $('#print').addEventListener('click', () => window.print());
 
     moreBtn.addEventListener('click', () => {
       currentPage += 1;
@@ -395,7 +472,6 @@
 
     // ---------- Init ----------
     (function init(){
-      // Prefill token if previously saved
       const saved = localStorage.getItem('GITHUB_TOKEN');
       if (saved) $('#token').value = '••••••••••••••••';
       currentPage = 1;
@@ -404,4 +480,3 @@
   </script>
 </body>
 </html>
-
