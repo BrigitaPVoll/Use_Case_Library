@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,26 +8,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
   <style>
-    /* ==== DeiC-inspired palette ==== */
+    /* ==== DeiC-inspired palette & layout variables ==== */
     :root{
       --deic-green: #BFD730;
       --deic-sprout: #C9E1BD;
       --deic-blue:  #16385D;
 
-      /* Page background: make it NOT white */
+      /* Page background: not white */
       --bg: #f2f5f0;            /* soft warm green-grey */
       --fg: #0b1221;
       --muted: #667085;
+
       --card: #f8faf7;
       --border: #dfe6d8;
 
       --accent: var(--deic-green);
       --accent-contrast: #0b1221;
 
-      /* Add missing vars used below */
+      /* Header & controls */
+      --header-bg: color-mix(in oklab, var(--deic-blue) 8%, var(--bg));
+      --header-border: color-mix(in oklab, var(--deic-green) 28%, white);
       --accent-soft: color-mix(in oklab, var(--deic-green) 18%, white);
-      --link: var(--deic-blue);
 
+      --control-bg: #ffffff;
+      --control-border: #cfd8c8;
+      --control-shadow: 0 4px 12px rgba(0,0,0,.07);
+
+      --link: var(--deic-blue);
       --shadow: 0 6px 18px rgba(0,0,0,.08);
     }
 
@@ -38,30 +46,36 @@
         --card: #121a28;
         --border: #243045;
         --accent-contrast: #0e1523;
-        --shadow: 0 6px 18px rgba(0,0,0,.35);
+        --header-bg: #0f1b2b;
+        --header-border: #33527a;
+        --control-bg: #0f1726;
+        --control-border: #243045;
+        --control-shadow: 0 6px 16px rgba(0,0,0,.25);
         --link: #8bb3e8;
       }
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
-
-    /* Ensure the page uses the non-white background */
     body{
       margin:0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       background:
-        radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--deic-green) 12%, transparent), transparent 40%),
-        radial-gradient(900px 450px at 85% 0%, color-mix(in oklab, var(--deic-sprout) 12%, transparent), transparent 40%),
+        radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--deic-green) 8%, transparent), transparent 45%),
+        radial-gradient(900px 450px at 85% 0%, color-mix(in oklab, var(--deic-sprout) 8%, transparent), transparent 45%),
         var(--bg);
       color:var(--fg);
       line-height:1.55;
     }
 
+    /* ==== Header (opaque & elevated for contrast) ==== */
     header{
-      position:sticky; top:0; z-index:10; backdrop-filter:saturate(160%) blur(10px);
-      background: color-mix(in oklab, var(--bg) 88%, transparent);
-      border-bottom: 4px solid var(--accent-soft);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--header-bg);
+      border-bottom: 4px solid var(--header-border);
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
     }
     .wrap{max-width:1100px; margin:0 auto; padding:1rem 1.25rem}
     .bar{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap}
@@ -71,20 +85,21 @@
       background: conic-gradient(from 180deg, var(--deic-green), var(--deic-sprout), var(--deic-blue), var(--deic-green));
       box-shadow:var(--shadow); border:1px solid var(--border);
     }
-    h1{font-size: clamp(1.1rem, 2vw, 1.6rem); margin:0; letter-spacing:.2px; color: var(--deic-blue)}
-    .tagline{color:var(--muted); font-size:.95rem; margin:.3rem 0 0 0; max-width:900px}
+    h1{font-size: clamp(1.1rem, 2vw, 1.6rem); margin:0; letter-spacing:.2px; color: var(--deic-blue); font-weight:700}
+    .tagline{color: color-mix(in oklab, var(--muted) 85%, #000); font-size:.95rem; margin:.3rem 0 0 0; max-width:900px}
 
     .cta-row{display:flex; align-items:center; gap:.5rem; flex-wrap:wrap}
     .button-link{
       display:inline-flex; align-items:center; gap:.5rem;
-      padding:.6rem .8rem; border-radius:.6rem; border:1px solid var(--border);
+      padding:.6rem .8rem; border-radius:.6rem; border:1px solid var(--control-border);
       background: var(--accent); color: var(--accent-contrast); font-weight:600; text-decoration:none;
-      box-shadow: var(--shadow);
+      box-shadow: var(--control-shadow);
     }
     .button-link:hover{filter:brightness(1.05)}
-    .secondary{ background: var(--bg); color: var(--fg); border-color: var(--border) }
+    .secondary{ background: var(--control-bg); color: var(--fg); border-color: var(--control-border) }
 
-    .controls{display:grid; grid-template-columns:1fr; gap:.75rem; margin-top:.75rem}
+    /* ==== Controls: crisp white surface ==== */
+    .controls{display:grid; grid-template-columns:1fr; gap:.75rem; margin-top:.75rem; background: color-mix(in oklab, var(--control-bg) 94%, transparent); border: 1px solid var(--control-border); border-radius: 12px; padding: .8rem; box-shadow: var(--control-shadow);}
     .controls-row{display:grid; grid-template-columns:2fr 1fr 1fr auto auto; gap:.5rem}
     @media (max-width:1000px){ .controls-row{grid-template-columns:1fr 1fr 1fr 1fr} }
     @media (max-width:700px){ .controls-row{grid-template-columns:1fr 1fr} }
@@ -92,15 +107,17 @@
 
     label{font-size:.85rem; color:var(--muted)}
     input, select, button{
-      padding:.6rem .7rem; border-radius:.6rem; border:1px solid var(--border);
-      background:var(--bg); color:var(--fg); outline:none;
+      padding:.6rem .7rem; border-radius:.6rem; border:1px solid var(--control-border);
+      background:var(--control-bg); color:var(--fg); outline:none;
     }
     input, select{width:100%}
-    button.primary{background:var(--accent); color:var(--accent-contrast); border:none; font-weight:600; box-shadow:var(--shadow); cursor:pointer}
+    button.primary{background:var(--accent); color:var(--accent-contrast); border:none; font-weight:600; box-shadow:var(--control-shadow); cursor:pointer}
     button.primary:hover{filter:brightness(1.06)}
     .token-box{display:none}
     .inline{display:flex; align-items:center; gap:.5rem}
+    small{color:var(--muted)}
 
+    /* ==== Main content ==== */
     main{max-width:1100px; margin:0 auto; padding:1rem 1.25rem 3rem}
     .status{margin:1rem 0; font-size:.95rem; color:var(--muted); display:flex; align-items:center; gap:.5rem; flex-wrap:wrap}
     .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:1rem}
@@ -123,15 +140,26 @@
     .story-parts{display:flex; flex-wrap:wrap; gap:.35rem}
     .story-part{border:1px dashed var(--border); border-radius:8px; padding:.25rem .5rem; font-size:.82rem; color:var(--muted)}
     .empty,.error{text-align:center; color:var(--muted); padding:2rem 0}
-    small{color:var(--muted)}
     a { color: var(--link); text-decoration: none }
     a:hover { text-decoration: underline }
     .notice { font-size: .82rem; color: var(--muted) }
 
+    /* ==== Modal (New User Story) ==== */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; z-index:50}
+    .modal{width:min(720px, 92vw); background:var(--control-bg); color:var(--fg); border:1px solid var(--control-border); border-radius:14px; box-shadow:0 16px 40px rgba(0,0,0,.18)}
+    .modal header{position:static; background:var(--control-bg); border-bottom:1px solid var(--control-border); box-shadow:none}
+    .modal .wrap{padding:1rem 1.25rem}
+    .modal h2{margin:.2rem 0 0; font-size:1.2rem; color:var(--deic-blue)}
+    .modal .grid-form{display:grid; grid-template-columns:1fr 1fr; gap:.8rem}
+    .modal .grid-form .full{grid-column:1/-1}
+    .modal .actions{display:flex; justify-content:flex-end; gap:.5rem; margin-top:.5rem}
+
+    textarea{min-height:100px; resize:vertical}
+
     /* ==== Print-friendly styling (for "Save as PDF") ==== */
     @page { size: A4; margin: 16mm; }
     @media print {
-      header, .controls, .status, .load-more, footer { display: none !important; }
+      header, .controls, .status, .load-more, footer, .modal-backdrop { display: none !important; }
       body { background: #fff; }
       main { padding: 0 }
       .grid { grid-template-columns: 1fr; gap: .8rem; }
@@ -152,7 +180,7 @@
           </div>
         </div>
         <div class="cta-row">
-          <a class="button-link" href="https://github.com/BrigitaPVoll/User_Story_Library/issues/new/choose" target="_blank" rel="noopener">New Story</a>
+          <button id="open-modal" class="button-link">New Story</button>
           <button id="export" class="button-link secondary">Export CSV</button>
           <button id="print" class="button-link secondary">Print / Save PDF</button>
         </div>
@@ -188,9 +216,9 @@
         </div>
 
         <div id="token-box" class="token-box">
-          <label for="token">GitHub Token (optional)</label>
-          <input id="token" type="password" placeholder="ghp_…" />
-          <div class="notice">Stored locally in your browser (localStorage) to increase API limits</div>
+          <label for="token">GitHub Token (optional, required for creating issues)</label>
+          <input id="token" type="password" placeholder="ghp_… (classic) or fine-grained token" />
+          <div class="notice">Stored locally in your browser (localStorage) to raise API limits and enable issue creation.</div>
         </div>
       </div>
     </div>
@@ -213,6 +241,76 @@
     <div class="wrap"><small>Powered by GitHub Issues • DeiC-inspired UI</small></div>
   </footer>
 
+  <!-- ==== Modal: New User Story (Create GitHub Issue) ==== -->
+  <div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <header>
+        <div class="wrap">
+          <h2 id="modal-title">New User Story</h2>
+          <p class="notice">Creates a GitHub Issue directly in <strong>BrigitaPVoll/User_Story_Library</strong>.</p>
+        </div>
+      </header>
+      <div class="wrap">
+        <form id="story-form">
+          <div class="grid-form">
+            <div class="full">
+              <label for="title">Title (required)</label>
+              <input id="title" type="text" placeholder="Short descriptive title" required />
+            </div>
+
+            <div>
+              <label for="role">As a… (role)</label>
+              <input id="role" type="text" placeholder="e.g., conservation biologist" />
+            </div>
+            <div>
+              <label for="goal">I want to… (goal)</label>
+              <input id="goal" type="text" placeholder="e.g., reuse butterfly observation data" />
+            </div>
+
+            <div class="full">
+              <label for="benefit">…so that I can… (benefit)</label>
+              <input id="benefit" type="text" placeholder="e.g., study changes in biodiversity across landscapes" />
+            </div>
+
+            <div class="full">
+              <label for="context">Additional context</label>
+              <textarea id="context" placeholder="Any other context about the user story here."></textarea>
+            </div>
+
+            <div>
+              <label>Contact consent</label>
+              <select id="consent">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="N/A" selected>N/A</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="labels">Labels (comma)</label>
+              <input id="labels" type="text" value="user-story" />
+            </div>
+
+            <div class="full">
+              <label for="assignees">Assignees (comma GitHub usernames, optional)</label>
+              <input id="assignees" type="text" placeholder="e.g., BrigitaPVoll" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="button" id="cancel-modal">Cancel</button>
+            <button type="submit" class="primary">Create Story</button>
+          </div>
+
+          <p class="notice" style="margin-top:.5rem;">
+            Requires a GitHub token (set in <strong>Token</strong>) with permission to create issues.
+            Public repo: classic <code>public_repo</code> or fine‑grained token with <em>Contents: Read &amp; write</em> on this repo. [3](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)[4](https://stackoverflow.com/questions/63906613/minimal-set-of-scopes-to-push-to-github-using-an-access-token)
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ---------- Configuration ----------
     const OWNER = 'BrigitaPVoll';
@@ -232,6 +330,14 @@
     const errorEl   = $('#error');
     const moreBtn   = $('#more');
 
+    const tokenBox = $('#token-box');
+    const tokenInput = $('#token');
+
+    const backdrop = $('#backdrop');
+    const openModalBtn = $('#open-modal');
+    const cancelModalBtn = $('#cancel-modal');
+    const storyForm = $('#story-form');
+
     // ---------- Utilities ----------
     function escapeHTML(str){
       return String(str ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[s]);
@@ -249,22 +355,19 @@
       setStatus('');
     }
 
-    // ---------- Parsing of the template ----------
+    // ---------- Parse template from issue body ----------
     function parseStory(body){
       const raw = body || '';
       const lines = raw.split(/\r?\n/);
 
-      // 1) Find the user story sentence
       const storyLineIdx = lines.findIndex(l => /^(\s*\*\*)?\s*As a\b/i.test(l));
       const storyLine = storyLineIdx >= 0 ? lines[storyLineIdx].replace(/^\s*\*\*|\*\*\s*$/g,'').trim() : '';
 
-      // Try to extract parts (role, goal, benefit)
       let role='', goal='', benefit='';
       const m = storyLine.replace(/\*\*/g,'')
         .match(/As a\s+(.*?)[,;]?\s*I\s+want\s+to\s+(.*?)[,;]?\s*so\s+that\s+I\s+can\s+(.*?)(?:\.|$)/i);
       if (m){ role=m[1].trim(); goal=m[2].trim(); benefit=m[3].trim(); }
 
-      // 2) Additional context
       const ctxHeaderIdx = lines.findIndex(l => /additional\s+context/i.test(l));
       let context = '';
       if (ctxHeaderIdx >= 0){
@@ -274,7 +377,6 @@
         context = context.replace(/^\s*\*\*|\*\*\s*$/gm,'').trim();
       }
 
-      // 3) Consent (Yes/No)
       const consentIdx = lines.findIndex(l => /can\s+we\s+contact\s+you/i.test(l));
       let consent = 'N/A';
       if (consentIdx >= 0){
@@ -301,7 +403,7 @@
       const state = $('#state').value;
       const url = buildIssuesURL({state, page: currentPage});
       const headers = { 'Accept': 'application/vnd.github+json' };
-      const token = localStorage.getItem('GITHUB_TOKEN') || $('#token').value.trim();
+      const token = localStorage.getItem('GITHUB_TOKEN') || tokenInput.value.trim();
       if (token) headers['Authorization'] = `Bearer ${token}`;
 
       try{
@@ -322,6 +424,53 @@
         setStatus(`Loaded ${accumulated.length} user stor${accumulated.length===1?'y':'ies'}`);
         moreBtn.style.display = issues.length === PER_PAGE ? 'inline-block' : 'none';
       }catch(err){ showError(err.message); }
+    }
+
+    // ---------- Create issue (New Story) ----------
+    function buildIssueBody({role, goal, benefit, context, consent}) {
+      const line = (role || goal || benefit)
+        ? `As a ${role || '_____'}, I want to ${goal || '______'}, so that I can ${benefit || '________'}.`
+        : '';
+      return [
+        'User Story',
+        '',
+        '**User story description, please follow the syntax below**',
+        line,
+        '',
+        '**Additional context**',
+        context || '',
+        '',
+        '**Can we contact you to participate in a future EOSC funded project on FAIR data management?**',
+        (consent || 'N/A')
+      ].join('\n');
+    }
+
+    async function createIssue({
+      title, role, goal, benefit, context, consent, labels, assignees
+    }) {
+      const token = localStorage.getItem('GITHUB_TOKEN') || tokenInput.value.trim();
+      if (!token) throw new Error('Missing token. Set Token in the header.');
+
+      const headers = {
+        'Accept': 'application/vnd.github+json',
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
+      const body = {
+        title: title.trim(),
+        body: buildIssueBody({role, goal, benefit, context, consent}),
+        labels: (labels || '').split(',').map(s => s.trim()).filter(Boolean),
+        assignees: (assignees || '').split(',').map(s => s.trim()).filter(Boolean)
+      };
+
+      const url = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/issues`;
+      const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`${res.status} ${res.statusText} — ${text}`);
+      }
+      return res.json();
     }
 
     // ---------- Rendering ----------
@@ -458,32 +607,68 @@
     });
     $('#search').addEventListener('input', () => renderIssues(accumulated));
     $('#only-template').addEventListener('change', () => renderIssues(accumulated));
+
     $('#toggle-token').addEventListener('click', () => {
-      const box = $('#token-box');
-      const isOpen = box.style.display !== 'none';
-      box.style.display = isOpen ? 'none' : 'grid';
+      const isOpen = tokenBox.style.display !== 'none';
+      tokenBox.style.display = isOpen ? 'none' : 'grid';
       $('#toggle-token').setAttribute('aria-expanded', String(!isOpen));
     });
     $('#token').addEventListener('change', (e) => {
       const v = e.target.value.trim();
       if (v) localStorage.setItem('GITHUB_TOKEN', v);
     });
+
     $('#export').addEventListener('click', downloadCSV);
     $('#print').addEventListener('click', () => window.print());
-
     moreBtn.addEventListener('click', () => {
       currentPage += 1;
       fetchIssues({append:true});
     });
 
+    // Modal open/close
+    openModalBtn.addEventListener('click', () => { backdrop.style.display = 'flex'; });
+    cancelModalBtn.addEventListener('click', () => { backdrop.style.display = 'none'; });
+    backdrop.addEventListener('click', (e) => { if (e.target === backdrop) backdrop.style.display = 'none'; });
+
+    // Create story -> GitHub Issue
+    storyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = $('#title').value.trim();
+      if (!title) { alert('Title is required'); return; }
+
+      const payload = {
+        title,
+        role: $('#role').value.trim(),
+        goal: $('#goal').value.trim(),
+        benefit: $('#benefit').value.trim(),
+        context: $('#context').value.trim(),
+        consent: $('#consent').value,
+        labels: $('#labels').value.trim(),
+        assignees: $('#assignees').value.trim()
+      };
+
+      try {
+        setStatus('Creating issue…');
+        const issue = await createIssue(payload);
+        setStatus('Issue created successfully.');
+        backdrop.style.display = 'none';
+
+        // Prepend new issue to the list and re-render quickly
+        accumulated = [issue, ...accumulated];
+        renderIssues(accumulated);
+      } catch (err) {
+        alert('Failed to create issue: ' + err.message);
+        setStatus('');
+      }
+    });
+
     // ---------- Init ----------
     (function init(){
       const saved = localStorage.getItem('GITHUB_TOKEN');
-      if (saved) $('#token').value = '••••••••••••••••';
+      if (saved) tokenInput.value = '••••••••••••••••';
       currentPage = 1;
       fetchIssues({append:false});
     })();
   </script>
 </body>
-</html>
-``
+</
