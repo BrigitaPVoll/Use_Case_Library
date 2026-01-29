@@ -1,17 +1,407 @@
 
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My First Webpage</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <title>User Story Library</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root{
+      --bg:#0b1221; --fg:#f7fafc; --muted:#a0aec0; --card:#11182a; --border:#1f2937;
+      --accent:#60a5fa; --accent-contrast:#0b1221; --ok:#22c55e; --warn:#f59e0b; --no:#ef4444;
+      --shadow:0 6px 18px rgba(0,0,0,.35);
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#ffffff; --fg:#0b1221; --muted:#667085; --card:#f6f7fb; --border:#e5e7eb;
+        --accent:#2563eb; --accent-contrast:#ffffff; --ok:#16a34a; --warn:#d97706; --no:#dc2626;
+        --shadow:0 6px 18px rgba(0,0,0,.08);
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 600px at 15% -10%, rgba(96,165,250,.10), transparent 40%),
+        radial-gradient(800px 400px at 85% 10%, rgba(52,211,153,.08), transparent 40%),
+        var(--bg);
+      color:var(--fg); line-height:1.55;
+    }
+    header{
+      position:sticky; top:0; z-index:10; backdrop-filter:saturate(160%) blur(10px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:1rem 1.25rem}
+    .bar{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap}
+    .brand{display:flex; align-items:center; gap:.75rem}
+    .logo{width:36px; height:36px; border-radius:10px;
+      background:conic-gradient(from 180deg, #60a5fa, #34d399, #f59e0b, #f43f5e, #60a5fa);
+      box-shadow:var(--shadow);
+    }
+    h1{font-size: clamp(1.1rem, 2.2vw, 1.5rem); margin:0; letter-spacing:.2px}
+    .tagline{color:var(--muted); font-size:.95rem; margin:.25rem 0 0 0; max-width:900px}
+
+    .controls{display:grid; grid-template-columns:1fr; gap:.75rem; margin-top:.75rem}
+    .controls-row{display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:.5rem}
+    @media (max-width:900px){ .controls-row{grid-template-columns:1fr 1fr} }
+    @media (max-width:560px){ .controls-row{grid-template-columns:1fr} }
+
+    label{font-size:.85rem; color:var(--muted)}
+    input, select, button{
+      padding:.6rem .7rem; border-radius:.6rem; border:1px solid var(--border);
+      background:var(--bg); color:var(--fg); outline:none;
+    }
+    input, select{width:100%}
+    .inline{display:flex; align-items:center; gap:.5rem}
+    button.primary{background:var(--accent); color:var(--accent-contrast); border:none; font-weight:600; box-shadow:var(--shadow); cursor:pointer}
+    button.primary:hover{filter:brightness(1.06)}
+    .token-box{display:none}
+
+    main{max-width:1100px; margin:0 auto; padding:1rem 1.25rem 3rem}
+    .status{margin:1rem 0; font-size:.95rem; color:var(--muted); display:flex; align-items:center; gap:.5rem; flex-wrap:wrap}
+    .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1rem}
+    .card{
+      background: color-mix(in oklab, var(--card) 88%, transparent);
+      border:1px solid var(--border); border-radius:14px; padding:1rem; box-shadow:var(--shadow);
+      display:flex; flex-direction:column; gap:.6rem
+    }
+    .card h3{margin:.1rem 0 .25rem; font-size:1.05rem; line-height:1.35}
+    .meta{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:.85rem}
+    .labels{display:flex; gap:.35rem; flex-wrap:wrap}
+    .label{background:color-mix(in oklab, var(--accent) 15%, var(--bg)); color:var(--fg); border:1px solid var(--border); border-radius:999px; padding:.15rem .55rem; font-size:.78rem}
+    .assignees{display:flex; align-items:center; gap:.35rem}
+    .assignees img{width:20px; height:20px; border-radius:50%; border:1px solid var(--border)}
+    .pill{border-radius:999px; padding:.12rem .5rem; font-size:.78rem; border:1px solid var(--border)}
+    .pill.ok{background: color-mix(in oklab, var(--ok) 18%, var(--bg)); color:var(--fg)}
+    .pill.no{background: color-mix(in oklab, var(--no) 18%, var(--bg)); color:var(--fg)}
+    .pill.na{background: color-mix(in oklab, var(--warn) 18%, var(--bg)); color:var(--fg)}
+    .desc{font-size:.95rem}
+    .story-parts{display:flex; flex-wrap:wrap; gap:.35rem}
+    .story-part{border:1px dashed var(--border); border-radius:8px; padding:.25rem .5rem; font-size:.82rem; color:var(--muted)}
+    .empty,.error{text-align:center; color:var(--muted); padding:2rem 0}
+    .cta-row{display:flex; gap:.5rem; flex-wrap:wrap}
+    .load-more{margin-top:1rem; display:flex; justify-content:center}
+    footer{border-top:1px solid var(--border)}
+    small{color:var(--muted)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    a { color: var(--accent); text-decoration: none }
+    a:hover { text-decoration: underline }
+    .notice { font-size: .82rem; color: var(--muted) }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="wrap">
+      <div class="bar" role="navigation" aria-label="Top bar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>User Story Library</h1>
+            <p class="tagline">A FAIR use case is a concrete description of who needs what kind of data, for what purpose, and under what conditions.</p>
+          </div>
+        </div>
+        <div class="cta-row">
+          <a id="new-issue" class="inline" href="https://github.com/BrigitaPVoll/User_Story_Library/issues/new/choose" target="_blank" rel="noopener">
+            <button class="primary">New Story</button>
+          </a>
+        </div>
+      </div>
 
-    <h1>Hello, world!</h1>
-    <p>This is my first HTML webpage.</p>
+      <div class="controls" aria-label="Filters and configuration">
+        <div class="controls-row">
+          <div>
+            <label for="search">Search</label>
+            <input id="search" type="text" placeholder="Search title, story, context or #number…" />
+          </div>
+          <div>
+            <label for="state">State</label>
+            <select id="state">
+              <option value="open" selected>Open</option>
+              <option value="closed">Closed</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+          <div class="inline" style="align-items:end">
+            <button id="refresh" class="primary">Refresh</button>
+            <button id="toggle-token" aria-expanded="false" aria-controls="token-box">Token</button>
+          </div>
+          <div class="inline" style="align-items:end">
+            <label class="inline" style="gap:.4rem" title="Show only issues that contain a valid 'As a…, I want to…, so that I can…' sentence">
+              <input id="only-template" type="checkbox" checked />
+              Only valid stories
+            </label>
+          </div>
+        </div>
 
-    <a href="https://www.example.com">Visit Example</a>
+        <div id="token-box" class="token-box">
+          <label for="token">GitHub Token (optional)</label>
+          <input id="token" type="password" placeholder="ghp_…" />
+          <div class="notice">Stored locally in your browser (localStorage) to increase API limits</div>
+        </div>
+      </div>
+    </div>
+  </header>
 
+  <main>
+    <div class="wrap">
+      <div class="status" id="status" aria-live="polite"></div>
+      <section id="stories" class="grid" aria-label="User stories list"></section>
+      <div class="empty" id="empty" style="display:none;">No user stories found.</div>
+      <div class="error" id="error" style="display:none;"></div>
+
+      <div class="load-more">
+        <button id="more" style="display:none;">Load more</button>
+      </div>
+      <div class="notice" style="margin-top:1rem;">
+        Backend: <a href="https://github.com/BrigitaPVoll/User_Story_Library" target="_blank" rel="noopener">github.com/BrigitaPVoll/User_Story_Library</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap"><small>Powered by GitHub Issues • Responsive UI</small></div>
+  </footer>
+
+  <script>
+    // ---------- Configuration ----------
+    const OWNER = 'BrigitaPVoll';
+    const REPO  = 'User_Story_Library';
+    const PER_PAGE = 20;
+
+    // ---------- State ----------
+    let currentPage = 1;
+    let lastBatch = [];
+    let accumulated = [];
+
+    // ---------- DOM ----------
+    const $ = sel => document.querySelector(sel);
+    const storiesEl = $('#stories');
+    const statusEl  = $('#status');
+    const emptyEl   = $('#empty');
+    const errorEl   = $('#error');
+    const moreBtn   = $('#more');
+
+    // ---------- Utilities ----------
+    function escapeHTML(str){
+      return String(str ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[s]);
+    }
+    function fmtDate(iso){
+      try{
+        const d = new Date(iso);
+        return new Intl.DateTimeFormat('en', {dateStyle:'medium', timeStyle:'short'}).format(d);
+      }catch{ return iso || '' }
+    }
+    function setStatus(text){ statusEl.textContent = text || ''; }
+    function showError(msg){
+      errorEl.style.display='block';
+      errorEl.textContent = 'Error: ' + msg;
+      setStatus('');
+    }
+
+    // ---------- Parsing of the template ----------
+    // Expected sections in body:
+    // - a line starting with "As a ..., I want to ..., so that I can ..."
+    // - "Additional context" section
+    // - "Can we contact you..." -> Yes/No
+    function parseStory(body){
+      const raw = body || '';
+      const lines = raw.split(/\r?\n/);
+
+      // 1) Find the user story sentence
+      const storyLineIdx = lines.findIndex(l => /^(\s*\*\*)?\s*As a\b/i.test(l));
+      const storyLine = storyLineIdx >= 0 ? lines[storyLineIdx].replace(/^\s*\*\*|\*\*\s*$/g,'').trim() : '';
+
+      // Try to extract parts (role, goal, benefit)
+      let role='', goal='', benefit='';
+      const m = storyLine.replace(/\*\*/g,'')
+        .match(/As a\s+(.*?)[,;]?\s*I\s+want\s+to\s+(.*?)[,;]?\s*so\s+that\s+I\s+can\s+(.*?)(?:\.|$)/i);
+      if (m){ role=m[1].trim(); goal=m[2].trim(); benefit=m[3].trim(); }
+
+      // 2) Additional context
+      const ctxHeaderIdx = lines.findIndex(l => /additional\s+context/i.test(l));
+      let context = '';
+      if (ctxHeaderIdx >= 0){
+        const nextHeaderIdx = lines.slice(ctxHeaderIdx+1).findIndex(l => /can\s+we\s+contact\s+you/i.test(l));
+        const end = nextHeaderIdx >= 0 ? ctxHeaderIdx + 1 + nextHeaderIdx : lines.length;
+        context = lines.slice(ctxHeaderIdx+1, end).join('\n').trim();
+        // remove markdown bold markers
+        context = context.replace(/^\s*\*\*|\*\*\s*$/gm,'').trim();
+      }
+
+      // 3) Consent (Yes/No)
+      const consentIdx = lines.findIndex(l => /can\s+we\s+contact\s+you/i.test(l));
+      let consent = 'N/A';
+      if (consentIdx >= 0){
+        const answerLine = (lines[consentIdx+1] || '').trim();
+        const yn = (answerLine.match(/yes|no/i) || [])[0];
+        if (yn) consent = /^yes$/i.test(yn) ? 'Yes' : 'No';
+      }
+
+      return { storyLine, role, goal, benefit, context, consent };
+    }
+
+    // ---------- GitHub API ----------
+    function buildIssuesURL({state, page}){
+      const base = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/issues`;
+      const params = new URLSearchParams({
+        state: state || 'open',
+        per_page: String(PER_PAGE),
+        page: String(page || 1)
+      });
+      // Only issues (exclude PRs) -> we'll filter client-side using pull_request key
+      return `${base}?${params}`;
+    }
+
+    async function fetchIssues({append=false}={}){
+      const state = $('#state').value;
+      const url = buildIssuesURL({state, page: currentPage});
+      const headers = { 'Accept': 'application/vnd.github+json' };
+      const token = localStorage.getItem('GITHUB_TOKEN') || $('#token').value.trim();
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      try{
+        if(!append){ setStatus('Loading user stories…'); errorEl.style.display='none'; }
+        const res = await fetch(url, { headers });
+        if(!res.ok){
+          const text = await res.text();
+          throw new Error(`${res.status} ${res.statusText} — ${text}`);
+        }
+        const data = await res.json();
+        const issues = data.filter(it => !it.pull_request);
+
+        lastBatch = issues;
+        if (append){ accumulated = accumulated.concat(issues); }
+        else { accumulated = issues; }
+
+        renderIssues(accumulated);
+        setStatus(`Loaded ${accumulated.length} user stor${accumulated.length===1?'y':'ies'}`);
+        // Show/hide Load more button (appear if we received a full page)
+        moreBtn.style.display = issues.length === PER_PAGE ? 'inline-block' : 'none';
+      }catch(err){ showError(err.message); }
+    }
+
+    // ---------- Rendering ----------
+    function renderIssues(items){
+      const q = ($('#search').value || '').toLowerCase().trim();
+      const onlyTemplate = $('#only-template').checked;
+
+      const filtered = items.filter(i => {
+        const parsed = parseStory(i.body);
+        const hasStory = parsed.storyLine && /As a\b/i.test(parsed.storyLine);
+        if (onlyTemplate && !hasStory) return false;
+
+        if (!q) return true;
+        const hay = [
+          i.title || '',
+          i.number,
+          parsed.storyLine || '',
+          parsed.context || '',
+          (i.labels||[]).map(l=>l.name).join(' ')
+        ].join(' ').toLowerCase();
+        return hay.includes(q);
+      });
+
+      storiesEl.innerHTML = '';
+      emptyEl.style.display = filtered.length ? 'none' : 'block';
+
+      for (const i of filtered){
+        const parsed = parseStory(i.body);
+        const labels = (i.labels||[]).map(l=>l.name).sort();
+        const assignees = (i.assignees||[]);
+        const updated = i.updated_at ? fmtDate(i.updated_at) : '';
+        const title = (i.title && i.title.trim()) || parsed.storyLine || `(issue #${i.number})`;
+
+        const storyParts = (parsed.role || parsed.goal || parsed.benefit)
+          ? `<div class="story-parts">
+               ${parsed.role ? `<span class="story-part">Role: ${escapeHTML(parsed.role)}</span>`:''}
+               ${parsed.goal ? `<span class="story-part">Goal: ${escapeHTML(parsed.goal)}</span>`:''}
+               ${parsed.benefit ? `<span class="story-part">Benefit: ${escapeHTML(parsed.benefit)}</span>`:''}
+             </div>` : '';
+
+        const consentPill = parsed.consent === 'Yes' ? 'ok' : (parsed.consent === 'No' ? 'no' : 'na');
+
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3><a href="${escapeHTML(i.html_url)}" target="_blank" rel="noopener">${escapeHTML(title)}</a></h3>
+          <div class="meta">
+            <span>#${i.number}</span><span>•</span>
+            <span>${escapeHTML(i.state)}</span>
+            ${updated ? `<span>•</span><span>Updated ${escapeHTML(updated)}</span>` : ''}
+          </div>
+
+          ${parsed.storyLine ? `<div class="desc">${escapeHTML(parsed.storyLine)}</div>`:''}
+          ${storyParts}
+
+          ${parsed.context ? `
+            <div>
+              <div class="meta" style="margin-top:.25rem;"><strong>Additional context</strong></div>
+              <div class="desc" style="white-space:pre-wrap;">${escapeHTML(parsed.context)}</div>
+            </div>` : ''}
+
+          <div class="meta" style="margin-top:.35rem;">
+            <span class="pill ${consentPill}">Contact consent: ${escapeHTML(parsed.consent)}</span>
+          </div>
+
+          <div class="meta">
+            <div class="labels">
+              ${labels.map(name => `<span class="label">${escapeHTML(name)}</span>`).join('')}
+            </div>
+          </div>
+
+          ${assignees.length ? `
+            <div class="meta assignees">
+              <span>Assignees:</span>
+              ${assignees.map(a=>`<img src="${escapeHTML(a.avatar_url)}" alt="${escapeHTML(a.login)}" title="${escapeHTML(a.login)}" />`).join('')}
+            </div>` : ''}
+
+          <div class="meta">
+            <a href="${escapeHTML(i.html_url)}" target="_blank" rel="noopener">Open in GitHub</a>
+          </div>
+        `;
+        storiesEl.appendChild(card);
+      }
+    }
+
+    // ---------- Events ----------
+    $('#refresh').addEventListener('click', () => {
+      currentPage = 1;
+      fetchIssues({append:false});
+    });
+    $('#state').addEventListener('change', () => {
+      currentPage = 1;
+      fetchIssues({append:false});
+    });
+    $('#search').addEventListener('input', () => renderIssues(accumulated));
+    $('#only-template').addEventListener('change', () => renderIssues(accumulated));
+    $('#toggle-token').addEventListener('click', () => {
+      const box = $('#token-box');
+      const isOpen = box.style.display !== 'none';
+      box.style.display = isOpen ? 'none' : 'grid';
+      $('#toggle-token').setAttribute('aria-expanded', String(!isOpen));
+    });
+    $('#token').addEventListener('change', (e) => {
+      const v = e.target.value.trim();
+      if (v) localStorage.setItem('GITHUB_TOKEN', v);
+    });
+
+    moreBtn.addEventListener('click', () => {
+      currentPage += 1;
+      fetchIssues({append:true});
+    });
+
+    // ---------- Init ----------
+    (function init(){
+      // Prefill token if previously saved
+      const saved = localStorage.getItem('GITHUB_TOKEN');
+      if (saved) $('#token').value = '••••••••••••••••';
+      currentPage = 1;
+      fetchIssues({append:false});
+    })();
+  </script>
 </body>
 </html>
+
