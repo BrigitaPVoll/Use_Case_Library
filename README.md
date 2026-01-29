@@ -7,6 +7,7 @@ A guiding question in understanding what a FAIR use case is:
 “Could someone other than the original data creator realistically find, understand, and reuse this data in the future?”
 What allowed that to happen? 
 
-This ressource or website also has: 
+This ressource or website showcases: 
+- User stories from research groups to provide inspiration.
 -	Documents such as a list of open FAIR repositories commonly used in by danish research groups, how to assess a repository, and how to assess if your data is FAIR.
--	Use cases from research groups to provide inspiration.
+
