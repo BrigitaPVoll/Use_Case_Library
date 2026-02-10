@@ -3,72 +3,75 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>User Story Library · Dark Forest Theme</title>
+<title>User Story Library · DeiC Dark Hybrid</title>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="color-scheme" content="dark"/>
+
 <style>
 
-/* =========================================================
-   DARK FOREST GREEN THEME — OPTION B (Readable Cards)
-   ========================================================= */
+/* ============================================================
+   DEIC DARK HYBRID THEME (Option H1)
+   Lime = Primary Accent (#C4D600)
+   Teal = Secondary Accent (#1FA39B)
+   ============================================================ */
 
-/* Background, text, cards */
+/* Base colors */
 :root {
-  --bg: #0F1A13;                 /* deep forest green-black */
-  --card-bg: #1C2A22;            /* lighter dark green for readability */
-  --card-border: #304238;
+  --bg: #0D110D;            /* dark green-black background */
+  --card-bg: #18251B;       /* slightly lighter dark */
+  --card-border: #2F3E34;   /* subtle border */
 
-  --fg: #E8F0EB;                 /* soft light greenish-white */
-  --muted: #9EB7AD;              /* muted grey-green */
+  --text: #E9F4EA;          /* off-white greenish */
+  --muted: #96A99F;
 
-  /* Accents */
-  --teal: #1FA39B;
-  --teal-light: #29C9BD;
+  --lime: #C4D600;          /* DEiC lime */
+  --lime-light: #D6E834;
 
-  /* Buttons */
-  --btn-bg: var(--teal);
-  --btn-fg: #ffffff;
-
-  /* Shadows */
-  --shadow: 0 8px 24px rgba(0,0,0,.35);
-  --shadow-deep: 0 16px 48px rgba(0,0,0,.45);
+  --teal: #1FA39B;          /* secondary accent */
+  --teal-light: #29CABB;
 
   --radius: 14px;
+
+  --shadow: 0 8px 24px rgba(0,0,0,.35);
+  --shadow-deep: 0 16px 48px rgba(0,0,0,.45);
 }
 
-/* Base */
+/* Global */
 body {
   margin: 0;
   font-family: Inter, sans-serif;
-  background: var(--bg);
-  color: var(--fg);
-  line-height: 1.55;
-
-  /* gentle texture */
   background:
-    radial-gradient(900px 500px at 10% -10%, rgba(10,40,25,.4), transparent 60%),
+    radial-gradient(900px 500px at 10% -10%, rgba(30,60,40,.35), transparent 60%),
     radial-gradient(900px 500px at 90% -10%, rgba(20,70,60,.25), transparent 60%),
     var(--bg);
+  color: var(--text);
+  line-height: 1.55;
 }
 
 * { box-sizing: border-box; }
 
-/* =========================================================
+a { color: var(--lime); }
+
+/* ============================================================
    HEADER
-   ========================================================= */
+   ============================================================ */
 
 header {
   position: sticky;
   top: 0;
   z-index: 20;
   padding: 1rem 0;
-  background: rgba(15,26,19,0.85);
+  background: rgba(13,17,13,0.85);
   backdrop-filter: blur(12px);
-  border-bottom: 2px solid var(--card-border);
+  border-bottom: 2px solid var(--lime);
   box-shadow: 0 4px 20px rgba(0,0,0,.4);
 }
 
-.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem; }
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
 
 .header-row {
   display: flex;
@@ -88,28 +91,20 @@ header {
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: conic-gradient(from 180deg, #2E8B57, #1FA39B, #0F1A13, #2E8B57);
-  box-shadow: var(--shadow);
+  background: conic-gradient(from 180deg, var(--lime), var(--teal), var(--bg), var(--lime));
   border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
 }
 
 h1 {
   font-size: 1.6rem;
   margin: 0;
   font-weight: 800;
-  letter-spacing: .5px;
 }
 
-.tagline {
-  margin: .25rem 0 0;
-  font-size: .9rem;
-  color: var(--muted);
-}
+.tagline { margin: .25rem 0 0; color: var(--muted); }
 
-/* =========================================================
-   HEADER BUTTONS
-   ========================================================= */
-
+/* Buttons */
 .btn {
   padding: .65rem 1rem;
   border-radius: var(--radius);
@@ -119,69 +114,55 @@ h1 {
   transition: .15s ease;
 }
 
-.btn-primary {
-  background: var(--btn-bg);
-  color: var(--btn-fg);
-  box-shadow: var(--shadow);
+.btn-primary { background: var(--lime); color: #000; }
+.btn-secondary { background: var(--teal); color: #000; }
+
+.btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
 }
 
-.btn-secondary {
-  background: #22352D;         /* muted dark green button */
-  color: var(--fg);
-  border: 1px solid var(--card-border);
-}
-
-/* Hover effects */
-.btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
-
-/* =========================================================
-   FILTER PANEL (dark version)
-   ========================================================= */
+/* ============================================================
+   FILTER PANEL
+   ============================================================ */
 
 .filters {
   margin-top: 1rem;
-  padding: 1rem;
+  background: #111A12;
   border-radius: var(--radius);
-  background: #15221B;
+  padding: 1rem;
   border: 1px solid var(--card-border);
   box-shadow: var(--shadow);
 }
 
 .controls-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto auto;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: .75rem;
 }
 
-@media (max-width: 900px) {
-  .controls-row { grid-template-columns: 1fr 1fr 1fr 1fr; }
-}
-@media (max-width: 600px) {
-  .controls-row { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 420px) {
-  .controls-row { grid-template-columns: 1fr; }
-}
+@media(max-width:900px){ .controls-row{grid-template-columns:1fr 1fr 1fr 1fr;} }
+@media(max-width:600px){ .controls-row{grid-template-columns:1fr 1fr;} }
+@media(max-width:420px){ .controls-row{grid-template-columns:1fr;} }
 
-label {
-  font-size: .85rem;
-  color: var(--muted);
-}
+label { font-size: .85rem; color: var(--muted); }
 
 input, select {
   width: 100%;
   padding: .65rem .75rem;
   border-radius: var(--radius);
   border: 1px solid var(--card-border);
-  background: #0F1A13;
-  color: var(--fg);
+  background: #0D110D;
+  color: var(--text);
 }
 
-/* =========================================================
+/* ============================================================
    GRID + CARDS
-   ========================================================= */
+   ============================================================ */
 
-main { padding: 2rem 1.25rem 4rem; }
+main {
+  padding: 2rem 1.25rem 4rem;
+}
 
 .grid {
   margin-top: 1.25rem;
@@ -201,48 +182,48 @@ main { padding: 2rem 1.25rem 4rem; }
 
 .card:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-deep);
+  box-shadow: 0 12px 35px rgba(196,214,0,.25);
 }
 
-/* Title button */
 .card-title-btn {
   padding: .55rem .85rem;
   border-radius: var(--radius);
   border: 1px solid var(--card-border);
-  background: #0F1A13;
-  color: var(--fg);
+  background: #0D110D;
+  color: var(--text);
   font-size: 1rem;
   cursor: pointer;
   transition: .15s ease;
 }
 
 .card-title-btn:hover {
-  background: #1A2E25;
+  background: #1B2A20;
 }
 
-/* Labels */
 .labels-row {
+  margin-top: .75rem;
   display: flex;
   flex-wrap: wrap;
   gap: .35rem;
 }
+
 .label {
   padding: .2rem .55rem;
+  background: #23352A;
   border-radius: 999px;
   font-size: .75rem;
-  background: #2D4036;
   border: 1px solid var(--card-border);
-  color: var(--fg);
+  color: var(--text);
 }
 
-/* =========================================================
+/* ============================================================
    BOTTOM DRAWER (iOS style)
-   ========================================================= */
+   ============================================================ */
 
 #drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.5);
+  background: rgba(0,0,0,.45);
   display: none;
   z-index: 90;
 }
@@ -253,47 +234,48 @@ main { padding: 2rem 1.25rem 4rem; }
   bottom: -90%;
   transform: translateX(-50%);
   width: min(720px,94vw);
-  background: #13211A;
-  color: var(--fg);
+  background: #121A14;
   border-radius: 24px 24px 0 0;
   padding: 1.5rem;
+  color: var(--text);
   box-shadow: var(--shadow-deep);
+  border-top: 1px solid var(--lime);
   transition: bottom .35s cubic-bezier(.25,.8,.25,1);
   z-index: 100;
   max-height: 88vh;
   overflow-y: auto;
-  border-top: 1px solid var(--card-border);
 }
 
 #drawer.open { bottom: 0; }
 
 .drawer-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .drawer-title {
   margin: 0;
   font-size: 1.3rem;
   font-weight: 800;
-  color: var(--teal-light);
+  color: var(--lime);
 }
 
 .drawer-close {
   padding: .45rem .85rem;
   border-radius: var(--radius);
-  background: #0F1A13;
+  background: #0D110D;
   border: 1px solid var(--card-border);
   cursor: pointer;
 }
+
 .drawer-close:hover { background: #1A2E25; }
 
 .drawer-section { margin-bottom: 1.5rem; }
 
-/* =========================================================
-   MODAL (NEW STORY)
-   ========================================================= */
+/* ============================================================
+   NEW STORY MODAL
+   ============================================================ */
 
 #modal-backdrop {
   position: fixed;
@@ -305,60 +287,54 @@ main { padding: 2rem 1.25rem 4rem; }
 }
 
 #modal {
-  width: min(680px, 92vw);
-  background: #13211A;
-  border: 1px solid var(--card-border);
+  width: min(680px,92vw);
+  background: #121A14;
+  border: 1px solid var(--lime);
   border-radius: var(--radius);
   padding: 1.5rem;
-  color: var(--fg);
+  color: var(--text);
   box-shadow: var(--shadow-deep);
   max-height: 90vh;
   overflow-y: auto;
 }
 
-#modal h2 {
-  margin: 0 0 .75rem;
-  color: var(--teal-light);
-}
+#modal h2 { margin: 0 0 .75rem; color: var(--lime); }
 
 .modal-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
+
 .modal-grid .full { grid-column: 1 / -1; }
 
 textarea {
   width: 100%;
+  background: #0D110D;
   border-radius: var(--radius);
   border: 1px solid var(--card-border);
-  background: #0F1A13;
-  color: var(--fg);
+  color: var(--text);
   padding: .7rem;
 }
 
 /* Label Chips */
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .45rem;
-}
+.chips { display: flex; flex-wrap: wrap; gap: .45rem; }
 
 .chip {
   padding: .35rem .7rem;
   border-radius: 999px;
-  background: #1F332B;
+  background: #1F3327;
   border: 1px solid var(--card-border);
   cursor: pointer;
-  color: var(--fg);
+  color: var(--text);
   font-size: .78rem;
   transition: .15s ease;
 }
 
 .chip.selected {
-  background: var(--teal);
+  background: var(--lime);
   color: #000;
-  border-color: var(--teal-light);
+  border-color: var(--lime-light);
 }
 
 /* Footer */
@@ -374,6 +350,9 @@ footer {
 
 <body>
 
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
 <header>
   <div class="wrap">
     <div class="header-row">
@@ -416,24 +395,14 @@ footer {
 
         <div></div>
 
-        <div>
-          <label>&nbsp;</label>
-          <button id="toggleToken" class="btn btn-secondary" style="width:100%;">Token</button>
-        </div>
-
-      </div>
-
-      <div id="tokenBox" style="display:none;">
-        <label>GitHub Token (optional)</label>
-        <input id="tokenInput" type="password" placeholder="ghp_…"/>
-        <small style="color:var(--muted);">
-          Stored locally for higher API limits and issue creation.
-        </small>
       </div>
     </div>
   </div>
 </header>
 
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
 <main>
   <div class="wrap">
 
@@ -442,7 +411,9 @@ footer {
     </div>
 
     <div id="storyGrid" class="grid"></div>
-    <div id="emptyMsg" style="display:none; text-align:center; padding:2rem 0; color:var(--muted);">No user stories found.</div>
+    <div id="emptyMsg" style="display:none; text-align:center; padding:2rem 0; color:var(--muted);">
+      No user stories found.
+    </div>
 
     <div style="display:flex; justify-content:center; margin-top:1rem;">
       <button id="loadMore" class="btn btn-secondary" style="display:none;">Load more</button>
@@ -452,25 +423,30 @@ footer {
 </main>
 
 <footer>
-  <div class="wrap"><small>Powered by GitHub Issues · Dark Forest Theme</small></div>
+  <div class="wrap"><small>Powered by GitHub Issues · DeiC Hybrid Dark</small></div>
 </footer>
 
-<!-- BOTTOM DRAWER -->
+<!-- ============================================================
+     BOTTOM DRAWER
+     ============================================================ -->
 <div id="drawer-backdrop"></div>
 <div id="drawer">
   <div class="drawer-header">
-    <h3 class="drawer-title" id="drawerTitle">Loading…</h3>
+    <h3 id="drawerTitle" class="drawer-title">Loading…</h3>
     <button id="drawerClose" class="drawer-close">Close</button>
   </div>
+
   <div id="drawerContent"></div>
 </div>
 
-<!-- NEW STORY MODAL -->
+<!-- ============================================================
+     NEW STORY MODAL
+     ============================================================ -->
 <div id="modal-backdrop">
   <div id="modal">
     <h2>New User Story</h2>
-    <form id="newStoryForm">
 
+    <form id="newStoryForm">
       <div class="modal-grid">
 
         <div class="full">
@@ -523,21 +499,21 @@ footer {
         <button type="button" id="cancelModal" class="btn btn-secondary">Cancel</button>
         <button type="submit" class="btn btn-primary">Create Story</button>
       </div>
-
     </form>
+
   </div>
 </div>
 
+<!-- ============================================================
+     SCRIPT
+     ============================================================ -->
 <script>
-
-/* =========================================================
-   CONFIG
-   ========================================================= */
+/* CONFIG */
 const OWNER = "BrigitaPVoll";
 const REPO = "User_Story_Library";
 const PER_PAGE = 20;
 
-/* EXACT 17 LABELS FROM YOUR REPO */
+/* 17 DeiC labels */
 const LABELS = [
   "Contact consent>NO",
   "Contact consent>YES",
@@ -558,59 +534,46 @@ const LABELS = [
   "Institution>University of Southern Denmark (SDU)"
 ];
 
-let currentPage = 1;
+let page = 1;
 let issues = [];
 let selected = new Set();
 
 const $ = s => document.querySelector(s);
 
-/* =========================================================
-   TOKEN + AUTH
-   ========================================================= */
+/* Headers without token */
 function headers() {
-  const token = localStorage.getItem("GITHUB_TOKEN") || $("#tokenInput").value.trim();
-  const h = { "Accept": "application/vnd.github+json" };
-  if (token) h["Authorization"] = "Bearer " + token;
-  return h;
+  return { "Accept": "application/vnd.github+json" };
 }
 
-/* =========================================================
-   API
-   ========================================================= */
+/* API */
 async function api(url) {
   const res = await fetch(url, { headers: headers() });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
-/* =========================================================
-   STORY LOAD
-   ========================================================= */
+/* LOAD ISSUES */
 async function loadIssues(reset=false) {
-  if (reset) { issues = []; currentPage = 1; }
+  if (reset) { issues = []; page = 1; }
 
   const state = $("#state").value;
-  const url = `https://api.github.com/repos/${OWNER}/${REPO}/issues?state=${state}&per_page=${PER_PAGE}&page=${currentPage}`;
+  const url = `https://api.github.com/repos/${OWNER}/${REPO}/issues?state=${state}&per_page=${PER_PAGE}&page=${page}`;
   const batch = await api(url);
-  issues = issues.concat(batch.filter(i => !i.pull_request));
 
+  const real = batch.filter(x => !x.pull_request);
+  issues = issues.concat(real);
   renderIssues();
+
   $("#loadMore").style.display = batch.length === PER_PAGE ? "" : "none";
 }
 
-/* =========================================================
-   STORY RENDER (NO VALIDATION)
-   ========================================================= */
+/* RENDER grid */
 function renderIssues() {
   const q = $("#search").value.toLowerCase().trim();
 
   const filtered = issues.filter(i => {
     if (!q) return true;
-    return [
-      i.title,
-      i.number,
-      i.body
-    ].join(" ").toLowerCase().includes(q);
+    return (i.title + " " + i.body + " " + i.number).toLowerCase().includes(q);
   });
 
   $("#storyGrid").innerHTML = "";
@@ -637,14 +600,12 @@ function renderIssues() {
     $("#storyGrid").appendChild(card);
   });
 
-  document.querySelectorAll(".openDrawer").forEach(btn=>{
-    btn.onclick = () => openDrawer(Number(btn.dataset.id));
+  document.querySelectorAll(".openDrawer").forEach(btn => {
+    btn.onclick = ()=> openDrawer(+btn.dataset.id);
   });
 }
 
-/* =========================================================
-   BOTTOM DRAWER
-   ========================================================= */
+/* DRAWER */
 async function openDrawer(num) {
   $("#drawer-backdrop").style.display = "block";
   $("#drawer").classList.add("open");
@@ -671,7 +632,7 @@ async function openDrawer(num) {
     </div>
 
     <div class="drawer-section">
-      <a href="${issue.html_url}" target="_blank" style="color:var(--teal-light)">Open on GitHub</a>
+      <a href="${issue.html_url}" target="_blank">Open on GitHub</a>
     </div>
   `;
 }
@@ -681,9 +642,7 @@ function closeDrawer() {
   $("#drawer").classList.remove("open");
 }
 
-/* =========================================================
-   INITIALIZE LABEL CHIPS
-   ========================================================= */
+/* CHIPS */
 function initChips() {
   selected.clear();
   const box = $("#chips");
@@ -708,13 +667,8 @@ function initChips() {
   });
 }
 
-/* =========================================================
-   CREATE NEW STORY
-   ========================================================= */
+/* CREATE STORY */
 async function createStory() {
-  const token = localStorage.getItem("GITHUB_TOKEN") || $("#tokenInput").value;
-  if (!token) { alert("Token required"); return; }
-
   const title = $("#titleInput").value.trim();
   if (!title) { alert("Title required"); return; }
 
@@ -737,7 +691,6 @@ async function createStory() {
     method: "POST",
     headers: {
       "Accept": "application/vnd.github+json",
-      "Authorization": "Bearer " + token,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ title, body, labels, assignees })
@@ -753,15 +706,11 @@ async function createStory() {
   loadIssues(true);
 }
 
-/* =========================================================
-   MODAL OPEN/CLOSE
-   ========================================================= */
-function openModal() { $("#modal-backdrop").style.display = "grid"; }
-function closeModal() { $("#modal-backdrop").style.display = "none"; }
+/* MODAL */
+function openModal(){ $("#modal-backdrop").style.display = "grid"; }
+function closeModal(){ $("#modal-backdrop").style.display = "none"; }
 
-/* =========================================================
-   CSV EXPORT
-   ========================================================= */
+/* CSV EXPORT */
 function exportCSV() {
   const rows = [
     ["number","title","state","updated_at","labels","body"].join(",")
@@ -786,40 +735,28 @@ function exportCSV() {
   a.click();
 }
 
-/* =========================================================
-   EVENTS
-   ========================================================= */
-$("#openNew").onclick = () => { initChips(); openModal(); };
+/* EVENTS */
+$("#openNew").onclick = ()=>{ initChips(); openModal(); };
 $("#cancelModal").onclick = closeModal;
 
-$("#drawerClose").onclick = closeDrawer;
 $("#drawer-backdrop").onclick = closeDrawer;
+$("#drawerClose").onclick = closeDrawer;
 
-$("#refresh").onclick = () => loadIssues(true);
-$("#state").onchange = () => loadIssues(true);
+$("#refresh").onclick = ()=> loadIssues(true);
+$("#state").onchange = ()=> loadIssues(true);
+$("#loadMore").onclick = ()=>{ page++; loadIssues(); };
+
 $("#search").oninput = renderIssues;
 
-$("#loadMore").onclick = () => { currentPage++; loadIssues(); };
-
-$("#toggleToken").onclick = () => {
-  const box = $("#tokenBox");
-  box.style.display = box.style.display === "none" ? "block" : "none";
-};
-
-$("#tokenInput").onchange = e => {
-  const v = e.target.value.trim();
-  if (v) localStorage.setItem("GITHUB_TOKEN", v);
-};
-
-$("#newStoryForm").onsubmit = e => {
+$("#newStoryForm").onsubmit = e=>{
   e.preventDefault();
   createStory();
 };
 
 $("#exportCsv").onclick = exportCSV;
-$("#printPdf").onclick = () => window.print();
+$("#printPdf").onclick = ()=> window.print();
 
-/* INITIAL LOAD */
+/* INIT */
 loadIssues(true);
 
 </script>
