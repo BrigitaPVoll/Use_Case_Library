@@ -2,80 +2,127 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>User Story Library · DeiC Light Hybrid</title>
+<title>User Story Library · DeiC Light</title>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="color-scheme" content="light"/>
 <style>
-:root {
-  --bg: #F7F9F7;
-  --card-bg: #FFFFFF;
-  --border: #E2E8E4;
-  --text: #1A1F17;
-  --muted: #667075;
-  --lime: #BFD730;
-  --lime-dark: #A0B120;
-  --teal: #16385D;
-  --teal-light: #1E4A7A;
-  --radius: 14px;
-  --shadow: 0 4px 15px rgba(0,0,0,.08);
-  --shadow-hover: 0 8px 22px rgba(0,0,0,.12);
+:root{
+  /* Light, fresh, not pastel */
+  --bg:#F7F9F7;
+  --card-bg:#FFFFFF;
+  --border:#E2E8E4;
+
+  --text:#1A1F17;
+  --muted:#667075;
+
+  /* DeiC accents */
+  --lime:#BFD730;     /* primary accent */
+  --lime-dark:#A0B120;
+  --teal:#16385D;     /* secondary accent (buttons, highlights) */
+  --teal-light:#1E4A7A;
+
+  --radius:14px;
+  --shadow:0 4px 15px rgba(0,0,0,.08);
+  --shadow-hover:0 8px 22px rgba(0,0,0,.12);
 }
-body {
-  margin:0; font-family:Inter,sans-serif;
+
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;
   background:var(--bg); color:var(--text); line-height:1.55;
 }
-*{box-sizing:border-box}
-a{color:var(--lime)}
-header {
+a{color:var(--lime); text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1100px; margin:0 auto; padding:0 1.25rem}
+
+/* Header */
+header{
   position:sticky; top:0; z-index:20;
-  background:rgba(255,255,255,0.85);
+  background:rgba(255,255,255,.85);
   backdrop-filter:blur(12px);
   border-bottom:3px solid var(--lime);
-  box-shadow:0 4px 16px rgba(0,0,0,.1);
+  box-shadow:0 4px 16px rgba(0,0,0,.06);
 }
-.wrap{max-width:1100px;margin:0 auto;padding:0 1.25rem}
-.header-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.brand{display:flex;align-items:center;gap:.75rem}
-.logo{width:42px;height:42px;border-radius:12px;
-  background:conic-gradient(from180deg,var(--lime),var(--teal),#000,var(--lime));
-  border:1px solid var(--border);box-shadow:var(--shadow)}
-h1{margin:0;font-size:1.6rem;font-weight:800}
-.tagline{margin:.3rem 0 0;color:var(--muted)}
-.btn{padding:.65rem 1rem;border-radius:var(--radius);border:none;font-weight:600;cursor:pointer;transition:.15s}
-.btn-primary{background:var(--lime);color:#000;box-shadow:var(--shadow)}
-.btn-secondary{background:var(--teal);color:#fff;box-shadow:var(--shadow)}
-.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.filters{margin-top:1rem;background:#fff;border:1px solid var(--border);padding:1rem;border-radius:var(--radius);box-shadow:var(--shadow)}
-.controls-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:.75rem}
-@media(max-width:900px){.controls-row{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
-@media(max-width:600px){.controls-row{grid-template-columns:1fr 1fr 1fr}}
-label{font-size:.85rem;color:var(--muted)}
-input,select{width:100%;padding:.65rem .75rem;border-radius:var(--radius);border:1px solid var(--border);background:#fff;color:var(--text)}
+.header-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; padding:1rem 0}
+.brand{display:flex; align-items:center; gap:.75rem}
+.logo{width:42px; height:42px; border-radius:12px; border:1px solid var(--border); box-shadow:var(--shadow);
+  background:conic-gradient(from 180deg, var(--lime), var(--teal), #111, var(--lime));}
+h1{margin:0; font-size:1.6rem; font-weight:800}
+.tagline{margin:.3rem 0 0; color:var(--muted)}
+
+/* Buttons */
+.btn{padding:.65rem 1rem; border-radius:var(--radius); border:none; font-weight:600; cursor:pointer; transition:.15s}
+.btn-primary{background:var(--lime); color:#000; box-shadow:var(--shadow)}
+.btn-primary:hover{background:var(--lime-dark)}
+.btn-secondary{background:var(--teal); color:#fff; box-shadow:var(--shadow)}
+.btn-secondary:hover{filter:brightness(1.05)}
+
+/* Filter panel */
+.filters{margin-top:1rem; background:#fff; border:1px solid var(--border); padding:1rem; border-radius:var(--radius); box-shadow:var(--shadow)}
+.controls-row{display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr; gap:.75rem}
+@media (max-width:980px){.controls-row{grid-template-columns:1fr 1fr 1fr 1fr 1fr}}
+@media (max-width:680px){.controls-row{grid-template-columns:1fr 1fr 1fr}}
+label{font-size:.85rem; color:var(--muted)}
+input,select{
+  width:100%; padding:.65rem .75rem; border-radius:var(--radius);
+  border:1px solid var(--border); background:#fff; color:var(--text);
+}
+
+/* Main grid */
 main{padding:2rem 1.25rem 5rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;margin-top:1.25rem}
-.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);transition:.2s;cursor:pointer}
-.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--lime)}
-.card-title{font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
-.meta{color:var(--muted);font-size:.82rem;margin-bottom:.5rem}
-.labels-row{display:flex;flex-wrap:wrap;gap:.35rem}
-.label{padding:.2rem .55rem;background:#E8F3E0;border-radius:999px;border:1px solid var(--border);font-size:.75rem;color:var(--text)}
-#drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.3);display:none;z-index:90}
-#drawer{position:fixed;left:50%;bottom:-90%;transform:translateX(-50%);width:min(720px,94vw);background:#fff;border-top:3px solid var(--lime);border-radius:24px 24px 0 0;padding:1.5rem;box-shadow:var(--shadow-deep);transition:bottom .35s cubic-bezier(.25,.8,.25,1);max-height:88vh;overflow-y:auto;z-index:100}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.25rem; margin-top:1.25rem}
+
+/* Cards (entire card clickable) */
+.card{
+  background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.25rem; box-shadow:var(--shadow); transition:.18s ease; cursor:pointer;
+}
+.card:hover{transform:translateY(-3px); box-shadow:var(--shadow-hover); border-color:var(--lime)}
+.card-title{font-size:1.06rem; font-weight:650; margin-bottom:.45rem}
+.meta{color:var(--muted); font-size:.82rem; margin-bottom:.5rem}
+.labels-row{display:flex; gap:.35rem; flex-wrap:wrap}
+.label{padding:.2rem .55rem; background:#EEF6D9; border:1px solid var(--border); border-radius:999px; font-size:.75rem; color:#203018}
+
+/* Drawer (bottom sheet) */
+#drawer-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.25); display:none; z-index:90}
+#drawer{
+  position:fixed; left:50%; bottom:-90%; transform:translateX(-50%);
+  width:min(720px,94vw); background:#fff;
+  border-top:3px solid var(--lime); border-radius:24px 24px 0 0;
+  padding:1.5rem; box-shadow:0 16px 48px rgba(0,0,0,.25);
+  max-height:88vh; overflow:auto; z-index:100; transition:bottom .35s cubic-bezier(.25,.8,.25,1);
+}
 #drawer.open{bottom:0}
-.drawer-header{display:flex;justify-content:space-between;align-items:center}
-.drawer-title{font-size:1.3rem;font-weight:800;color:var(--lime)}
-.drawer-close{padding:.45rem .8rem;border-radius:var(--radius);background:#fff;border:1px solid var(--border);cursor:pointer}
-.drawer-close:hover{background:#f0f5e0}
-.drawer-section{margin-bottom:1.5rem}
-#modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;place-items:center;z-index:120}
-#modal{width:min(680px,92vw);background:#fff;border:1px solid var(--lime);border-radius:var(--radius);padding:1.5rem;color:var(--text);box-shadow:var(--shadow-deep);max-height:90vh;overflow-y:auto}
-#modal h2{margin:0 0 1rem;color:var(--lime)}
-.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.drawer-header{display:flex; align-items:center; justify-content:space-between; gap:.6rem}
+.drawer-title{margin:0; font-size:1.25rem; font-weight:800; color:#1a2312}
+.drawer-close{padding:.45rem .8rem; border-radius:var(--radius); background:#fff; border:1px solid var(--border); cursor:pointer}
+.drawer-close:hover{background:#F1F5E8}
+.drawer-section{margin:1rem 0}
+
+/* Modal (New Story) — token UI removed, but feature kept if token in localStorage) */
+#modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; place-items:center; z-index:120}
+#modal{
+  width:min(680px,92vw); background:#fff; border:1px solid var(--lime);
+  border-radius:var(--radius); padding:1.5rem; box-shadow:0 16px 48px rgba(0,0,0,.2);
+}
+#modal h2{margin:0 0 .75rem; color:#202A18}
+.modal-grid{display:grid; grid-template-columns:1fr 1fr; gap:1rem}
 .modal-grid .full{grid-column:1/-1}
-textarea{width:100%;background:#fff;border-radius:var(--radius);border:1px solid var(--border);color:var(--text);padding:.75rem}
-.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:.75rem}
-.chip{padding:.35rem .7rem;border-radius:999px;background:#E8F3E0;border:1px solid var(--border);cursor:pointer;font-size:.78rem}
-.chip.selected{background:var(--lime);color:#000;border-color:var(--lime-dark)}
-footer{text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem}
+textarea{width:100%; min-height:110px; resize:vertical; border-radius:var(--radius); border:1px solid var(--border); padding:.75rem}
+.chips{display:flex; flex-wrap:wrap; gap:.45rem; margin:.35rem 0 .5rem}
+.chip{padding:.35rem .7rem; border-radius:999px; background:#EEF6D9; border:1px solid var(--border); font-size:.78rem; cursor:pointer}
+.chip.selected{background:var(--lime); color:#000; border-color:var(--lime-dark)}
+
+/* Footer */
+footer{text-align:center; color:var(--muted); padding:2rem 0; font-size:.85rem}
+
+/* Print */
+@media print{
+  header, .filters, #drawer, #drawer-backdrop, #modal-backdrop, footer { display:none !important }
+  body{background:#fff}
+  .grid{grid-template-columns:1fr; gap:.8rem}
+  .card{box-shadow:none; border-color:#ddd}
+}
 </style>
 </head>
 <body>
@@ -90,37 +137,68 @@ footer{text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem}
           <p class="tagline">FAIR use cases across domains and institutions.</p>
         </div>
       </div>
-      <div class="header-actions">
+      <div class="header-actions" style="display:flex; gap:.5rem; flex-wrap:wrap">
         <button id="openNew" class="btn btn-primary">New Story</button>
         <button id="exportCsv" class="btn btn-secondary">Export CSV</button>
         <button id="printPdf" class="btn btn-secondary">Print / Save PDF</button>
       </div>
     </div>
+
     <div class="filters">
       <div class="controls-row">
-        <div><label>Search</label><input id="search" placeholder="Search…"/></div>
-        <div><label>State</label><select id="state"><option value="open">Open</option><option value="closed">Closed</option><option value="all">All</option></select></div>
-        <div><label>Domain</label><select id="filterDomain"><option value="">All domains</option></select></div>
-        <div><label>Institution</label><select id="filterInstitution"><option value="">All institutions</option></select></div>
-        <div><label>&nbsp;</label><button id="refresh" class="btn btn-primary" style="width:100%;">Refresh</button></div>
+        <div>
+          <label>Search</label>
+          <input id="search" placeholder="Search title, description, #number…"/>
+        </div>
+        <div>
+          <label>State</label>
+          <select id="state">
+            <option value="all" selected>All</option>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div>
+          <label>Domain</label>
+          <select id="filterDomain">
+            <option value="">All domains</option>
+          </select>
+        </div>
+        <div>
+          <label>Institution</label>
+          <select id="filterInstitution">
+            <option value="">All institutions</option>
+          </select>
+        </div>
+        <div>
+          <label>&nbsp;</label>
+          <button id="refresh" class="btn btn-primary" style="width:100%;">Refresh</button>
+        </div>
       </div>
+      <div id="statusLine" style="margin-top:.6rem; font-size:.86rem; color:var(--muted)"></div>
     </div>
   </div>
 </header>
 
 <main>
   <div class="wrap">
-    <div id="statusArea" style="margin:.75rem 0;color:var(--muted);font-size:.9rem;"><span id="rateInfo"></span></div>
-    <div id="storyGrid" class="grid"></div>
-    <div id="emptyMsg" style="display:none;color:var(--muted);text-align:center;padding:2rem 0;">No stories found.</div>
-    <div style="display:flex;justify-content:center;margin-top:1rem;"><button id="loadMore" class="btn btn-secondary" style="display:none;">Load more</button></div>
+    <div id="storyGrid" class="grid" aria-live="polite"></div>
+    <div id="emptyMsg" style="display:none; color:var(--muted); text-align:center; padding:2rem 0">
+      No user stories found. Try changing <strong>State</strong> to <em>All</em> or check the repository path.
+    </div>
+    <div style="display:flex; justify-content:center; margin-top:1rem;">
+      <button id="loadMore" class="btn btn-secondary" style="display:none;">Load more</button>
+    </div>
   </div>
 </main>
 
-<footer><div class="wrap"><small>Powered by GitHub Issues · DeiC Hybrid Light</small></div></footer>
+<footer>
+  <div class="wrap"><small>Powered by GitHub Issues · DeiC Light UI</small></div>
+</footer>
 
+<!-- Drawer -->
 <div id="drawer-backdrop"></div>
-<div id="drawer">
+<div id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
   <div class="drawer-header">
     <h3 id="drawerTitle" class="drawer-title">Loading…</h3>
     <button id="drawerClose" class="drawer-close">Close</button>
@@ -128,31 +206,79 @@ footer{text-align:center;color:var(--muted);padding:2rem 0;font-size:.85rem}
   <div id="drawerContent"></div>
 </div>
 
+<!-- New Story Modal (tokenless UI; works if token present in localStorage) -->
 <div id="modal-backdrop">
   <div id="modal">
     <h2>New User Story</h2>
     <form id="newStoryForm">
       <div class="modal-grid">
-        <div class="full"><label>Title</label><input id="titleInput" required placeholder="Short title"/></div>
-        <div><label>As a…</label><input id="roleInput" placeholder="Role"/></div>
-        <div><label>I want to…</label><input id="goalInput" placeholder="Goal"/></div>
-        <div class="full"><label>…so that I can…</label><input id="benefitInput" placeholder="Benefit"/></div>
-        <div class="full"><label>Additional context</label><textarea id="contextInput"></textarea></div>
-        <div class="full"><label>Contact consent</label><select id="consentInput"><option value="N/A">N/A</option><option value="Yes">YES</option><option value="No">NO</option></select></div>
-        <div class="full"><label>Labels</label><div id="chips" class="chips"></div></div>
-        <div class="full"><label>Assignees (optional)</label><input id="assigneesInput" placeholder="comma-separated GitHub usernames"/></div>
+        <div class="full">
+          <label>Title</label>
+          <input id="titleInput" required placeholder="Short title"/>
+        </div>
+
+        <div>
+          <label>As a…</label>
+          <input id="roleInput" placeholder="Role"/>
+        </div>
+        <div>
+          <label>I want to…</label>
+          <input id="goalInput" placeholder="Goal"/>
+        </div>
+
+        <div class="full">
+          <label>…so that I can…</label>
+          <input id="benefitInput" placeholder="Benefit"/>
+        </div>
+
+        <div class="full">
+          <label>Additional context</label>
+          <textarea id="contextInput" placeholder="Optional details, links, constraints…"></textarea>
+        </div>
+
+        <div class="full">
+          <label>Contact consent</label>
+          <select id="consentInput">
+            <option value="N/A">N/A</option>
+            <option value="Yes">YES</option>
+            <option value="No">NO</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label>Labels</label>
+          <div id="chips" class="chips"></div>
+        </div>
+
+        <div class="full">
+          <label>Assignees (optional)</label>
+          <input id="assigneesInput" placeholder="comma-separated GitHub usernames"/>
+        </div>
       </div>
-      <div style="margin-top:1.25rem;display:flex;justify-content:flex-end;gap:.5rem;">
+
+      <div style="margin-top:1rem; display:flex; justify-content:flex-end; gap:.5rem;">
         <button type="button" id="cancelModal" class="btn btn-secondary">Cancel</button>
         <button type="submit" class="btn btn-primary">Create Story</button>
+      </div>
+      <div id="createHint" style="margin-top:.5rem; font-size:.85rem; color:var(--muted)">
+        Tip: To enable creation and raise rate limits, set a token once in the browser console:<br/>
+        <code>localStorage.setItem('GITHUB_TOKEN','ghp_xxx')</code>
       </div>
     </form>
   </div>
 </div>
 
 <script>
-const OWNER="BrigitaPVoll",REPO="User_Story_Library",PER_PAGE=20;
-const LABELS=[
+/* ========= Configuration =========
+   You can override owner/repo with URL params:
+   index.html?owner=BrigitaPVoll&repo=User_Story_Library
+*/
+const DEFAULT_OWNER = 'BrigitaPVoll';
+const DEFAULT_REPO  = 'User_Story_Library';
+const PER_PAGE = 20;
+
+/* Your 17 labels */
+const STATIC_LABELS = [
   "Contact consent>NO","Contact consent>YES",
   "Domain>Agricultural Sciences","Domain>Domain agnostic","Domain>Engineering and Technology",
   "Domain>Humanities","Domain>Medical and Health Sciences","Domain>Natural Sciences","Domain>Social Sciences",
@@ -161,123 +287,286 @@ const LABELS=[
   "Institution>Technical University of Denmark (DTU)",
   "Institution>University of Copenhagen","Institution>University of Southern Denmark (SDU)"
 ];
-const DOMAINS=LABELS.filter(l=>l.startsWith("Domain>")).map(l=>l.replace("Domain>",""));
-const INSTITUTIONS=LABELS.filter(l=>l.startsWith("Institution>")).map(l=>l.replace("Institution>",""));
-let page=1,issues=[],selected=new Set();
-const $=s=>document.querySelector(s);
 
-function headers(){return{"Accept":"application/vnd.github+json"}}
-async function api(u){const r=await fetch(u,{headers:headers()});if(!r.ok)throw new Error(await r.text());return r.json()}
+const DOMAINS = STATIC_LABELS.filter(x=>x.startsWith('Domain>')).map(x=>x.replace('Domain>',''));
+const INSTITUTIONS = STATIC_LABELS.filter(x=>x.startsWith('Institution>')).map(x=>x.replace('Institution>',''));
 
-async function loadIssues(reset=false){
-  if(reset){page=1;issues=[]}
-  const state=$("#state").value;
-  const url=`https://api.github.com/repos/${OWNER}/${REPO}/issues?state=${state}&per_page=${PER_PAGE}&page=${page}`;
-  const batch=await api(url);
-  issues=issues.concat(batch.filter(i=>!i.pull_request));
-  renderIssues();
-  $("#loadMore").style.display=batch.length===PER_PAGE?"":"none";
+/* ========= State ========= */
+const $ = s => document.querySelector(s);
+const params = new URLSearchParams(location.search);
+const OWNER = params.get('owner') || DEFAULT_OWNER;
+const REPO  = params.get('repo')  || DEFAULT_REPO;
+
+let page = 1;
+let issues = [];
+let hasNextPage = true;
+
+/* ========= DOM ========= */
+const grid = $('#storyGrid');
+const emptyMsg = $('#emptyMsg');
+const loadMoreBtn = $('#loadMore');
+const statusLine = $('#statusLine');
+
+const drawer = $('#drawer');
+const drawerBackdrop = $('#drawer-backdrop');
+const drawerTitle = $('#drawerTitle');
+const drawerContent = $('#drawerContent');
+
+const modalBackdrop = $('#modal-backdrop');
+const newStoryForm = $('#newStoryForm');
+const chipsBox = $('#chips');
+
+/* ========= Helpers ========= */
+function authHeaders(){
+  const h = { 'Accept':'application/vnd.github+json' };
+  const token = localStorage.getItem('GITHUB_TOKEN');
+  if (token) h['Authorization'] = `Bearer ${token}`;
+  return h;
+}
+function apiURL(path, q={}){
+  const u = new URL(`https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/${path}`);
+  Object.entries(q).forEach(([k,v])=>u.searchParams.set(k,String(v)));
+  return u.toString();
+}
+function setStatus(msg){ statusLine.textContent = msg || ''; }
+function showErrorInStatus(err){ setStatus(`Error: ${err}`); }
+function byLabelPrefix(labels, prefix){ return labels.filter(l=>l.name?.startsWith(prefix)); }
+
+/* ========= UI Init ========= */
+function populateFilters(){
+  const dSel = $('#filterDomain'); const iSel = $('#filterInstitution');
+  DOMAINS.forEach(d=>{ const o=document.createElement('option'); o.value=d; o.textContent=d; dSel.appendChild(o); });
+  INSTITUTIONS.forEach(i=>{ const o=document.createElement('option'); o.value=i; o.textContent=i; iSel.appendChild(o); });
+}
+function initChips(){
+  chipsBox.innerHTML = '';
+  STATIC_LABELS.forEach(l=>{
+    const el = document.createElement('span');
+    el.className = 'chip';
+    el.textContent = l;
+    el.onclick = ()=> el.classList.toggle('selected');
+    chipsBox.appendChild(el);
+  });
 }
 
-function renderIssues(){
-  const q=$("#search").value.toLowerCase().trim();
-  const d=$("#filterDomain").value;
-  const inst=$("#filterInstitution").value;
-  const filtered=issues.filter(i=>{
-    const hay=(i.title+i.body+i.number).toLowerCase();
-    if(q&&!hay.includes(q))return false;
-    const names=(i.labels||[]).map(l=>l.name);
-    if(d&&!names.includes(`Domain>${d}`))return false;
-    if(inst&&!names.includes(`Institution>${inst}`))return false;
+/* ========= Fetch Issues ========= */
+async function fetchIssues({reset=false}={}){
+  const state = $('#state').value || 'all';
+  const url = apiURL('issues', { state, per_page: PER_PAGE, page });
+
+  try{
+    if (reset){ setStatus('Loading user stories…'); issues = []; grid.innerHTML=''; emptyMsg.style.display='none'; }
+    const res = await fetch(url, { headers: authHeaders() });
+    // Basic rate info
+    const remain = res.headers.get('x-ratelimit-remaining');
+    const limit  = res.headers.get('x-ratelimit-limit');
+    const reset  = res.headers.get('x-ratelimit-reset');
+    if (remain && limit){
+      const eta = reset ? ` (resets ~${Math.ceil((parseInt(reset,10)-Date.now()/1000)/60)}m)` : '';
+      setStatus(`API ${remain}/${limit}${eta} • Source: ${OWNER}/${REPO} • State: ${state}`);
+    }
+
+    if (!res.ok){
+      const text = await res.text();
+      throw new Error(`${res.status} ${res.statusText} — ${text}`);
+    }
+
+    // Pagination via Link header
+    const link = res.headers.get('link') || '';
+    hasNextPage = /<[^>]+[?&]page=\d+[^>]*>; rel="next"/i.test(link);
+
+    const data = await res.json();
+    const onlyIssues = data.filter(x=>!x.pull_request);
+    issues = issues.concat(onlyIssues);
+    renderIssues(issues);
+
+    loadMoreBtn.style.display = hasNextPage ? '' : 'none';
+    setStatus(issues.length ? `Loaded ${issues.length} issue${issues.length>1?'s':''}` : 'No issues found.');
+    if (!issues.length) emptyMsg.style.display='block';
+  }catch(err){
+    showErrorInStatus(err.message || err);
+    emptyMsg.style.display='block';
+  }
+}
+
+/* ========= Render ========= */
+function renderIssues(all){
+  const q = ($('#search').value || '').toLowerCase().trim();
+  const fDom  = $('#filterDomain').value;
+  const fInst = $('#filterInstitution').value;
+
+  const filtered = all.filter(it=>{
+    // Text search
+    if (q){
+      const hay = `${it.title || ''} ${it.body || ''} ${it.number || ''}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    // Label filters
+    const labels = it.labels || [];
+    if (fDom && !labels.some(l=>l.name === `Domain>${fDom}`)) return false;
+    if (fInst && !labels.some(l=>l.name === `Institution>${fInst}`)) return false;
     return true;
   });
-  $("#storyGrid").innerHTML="";
-  $("#emptyMsg").style.display=filtered.length?"none":"block";
-  filtered.forEach(issue=>{
-    const card=document.createElement("div");card.className="card";
-    const labelsHTML=(issue.labels||[]).map(l=>`<span class="label">${l.name}</span>`).join("");
-    card.innerHTML=`
-      <div class="card-title">${issue.title}</div>
-      <div class="meta">#${issue.number} • ${issue.state}</div>
-      <div class="labels-row">${labelsHTML}</div>`;
-    card.onclick=()=>openDrawer(issue.number);
-    $("#storyGrid").appendChild(card);
-  });
+
+  grid.innerHTML = '';
+  emptyMsg.style.display = filtered.length ? 'none' : 'block';
+
+  for (const it of filtered){
+    const labelsHTML = (it.labels||[]).map(l=>`<span class="label">${escapeHTML(l.name||'')}</span>`).join('');
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.setAttribute('data-number', String(it.number));
+    card.innerHTML = `
+      <div class="card-title">${escapeHTML(it.title || `Issue #${it.number}`)}</div>
+      <div class="meta">#${it.number} • ${escapeHTML(it.state||'')} • ${fmtDate(it.updated_at)}</div>
+      <div class="labels-row">${labelsHTML}</div>
+    `;
+    // Whole card clickable
+    card.addEventListener('click', ()=> openDrawer(it.number));
+    grid.appendChild(card);
+  }
 }
 
-async function openDrawer(num){
-  $("#drawer-backdrop").style.display="block";
-  $("#drawer").classList.add("open");
-  $("#drawerTitle").textContent="Loading…";
-  $("#drawerContent").innerHTML="";
-  const issue=await api(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${num}`);
-  $("#drawerTitle").textContent=issue.title;
-  const labelsHTML=(issue.labels||[]).map(l=>`<span class="label">${l.name}</span>`).join("");
-  $("#drawerContent").innerHTML=`
-    <div class="drawer-section"><h3>Description</h3><pre style="white-space:pre-wrap;">${issue.body}</pre></div>
-    <div class="drawer-section"><h3>Labels</h3>${labelsHTML}</div>
-    <div class="drawer-section">${issue.html_url}Open on GitHub</a></div>`;
-}
+/* ========= Drawer ========= */
+async function openDrawer(number){
+  drawerBackdrop.style.display = 'block';
+  drawer.classList.add('open');
+  drawerTitle.textContent = `#${number} — Loading…`;
+  drawerContent.innerHTML = '';
 
+  try{
+    const issue = await (await fetch(apiURL(`issues/${number}`), { headers: authHeaders() })).json();
+
+    const labelsHTML = (issue.labels||[]).map(l=>`<span class="label">${escapeHTML(l.name||'')}</span>`).join('');
+    const domains = byLabelPrefix(issue.labels||[], 'Domain>').map(l=>l.name.replace('Domain>',''));
+    const insts   = byLabelPrefix(issue.labels||[], 'Institution>').map(l=>l.name.replace('Institution>',''));
+
+    drawerTitle.textContent = issue.title || `Issue #${issue.number}`;
+
+    drawerContent.innerHTML = `
+      <div class="drawer-section"><strong>Number:</strong> #${issue.number} • <strong>State:</strong> ${escapeHTML(issue.state||'')}</div>
+      ${(domains.length||insts.length) ? `
+      <div class="drawer-section">
+        ${domains.length?`<div><strong>Domain:</strong> ${domains.map(escapeHTML).join(', ')}</div>`:''}
+        ${insts.length?`<div><strong>Institution:</strong> ${insts.map(escapeHTML).join(', ')}</div>`:''}
+      </div>`:''}
+      <div class="drawer-section">
+        <h4 style="margin:.2rem 0 .35rem">Description</h4>
+        <pre style="white-space:pre-wrap; font-family:inherit; background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:.75rem; margin:0;">${escapeHTML(issue.body||'')}</pre>
+      </div>
+      <div class="drawer-section"><h4 style="margin:.2rem 0 .35rem">Labels</h4>${labelsHTML||'<span class="meta">No labels</span>'}</div>
+      <div class="drawer-section"><a href="${escapeAttr(issue.html_url||'#')}" target="_blank" rel="noopener">Open on GitHub</a></div>
+    `;
+  }catch(err){
+    drawerContent.textContent = 'Failed to load issue: ' + (err.message||err);
+  }
+}
 function closeDrawer(){
-  $("#drawer-backdrop").style.display="none";
-  $("#drawer").classList.remove("open");
+  drawerBackdrop.style.display = 'none';
+  drawer.classList.remove('open');
 }
 
-function initChips(){
-  selected.clear();
-  const box=$("#chips");box.innerHTML="";
-  LABELS.forEach(l=>{
-    const el=document.createElement("span");
-    el.className="chip";el.textContent=l;
-    el.onclick=()=>{
-      if(selected.has(l)){selected.delete(l);el.classList.remove("selected")}
-      else{selected.add(l);el.classList.add("selected")}
-    };
-    box.appendChild(el);
+/* ========= New Story (uses token if present in localStorage) ========= */
+function selectedLabels(){
+  return Array.from(chipsBox.querySelectorAll('.chip.selected')).map(el=>el.textContent.trim());
+}
+async function createIssue(){
+  const token = localStorage.getItem('GITHUB_TOKEN');
+  if (!token){
+    alert('Creating issues requires a GitHub token set in localStorage.\n\nOpen DevTools (F12) and run:\nlocalStorage.setItem("GITHUB_TOKEN","ghp_xxx")');
+    return;
+  }
+
+  const title = $('#titleInput').value.trim();
+  if (!title){ alert('Title is required'); return; }
+
+  const role = $('#roleInput').value.trim();
+  const goal = $('#goalInput').value.trim();
+  const benefit = $('#benefitInput').value.trim();
+  const context = $('#contextInput').value.trim();
+  const consent = $('#consentInput').value;
+
+  const storyLine = (role || goal || benefit)
+    ? `As a ${role||'____'}, I want to ${goal||'____'}, so that I can ${benefit||'____'}.`
+    : '';
+
+  const body = [
+    'User Story','',
+    storyLine,'',
+    'Additional context:',
+    context,'',
+    'Contact consent:',
+    consent
+  ].join('\n');
+
+  const labels = Array.from(new Set([...selectedLabels(), 'user-story']));
+  const assignees = $('#assigneesInput').value.split(',').map(s=>s.trim()).filter(Boolean);
+
+  const res = await fetch(apiURL('issues'), {
+    method:'POST',
+    headers:{ 'Accept':'application/vnd.github+json', 'Authorization':`Bearer ${token}`, 'Content-Type':'application/json' },
+    body: JSON.stringify({ title, body, labels, assignees })
   });
+  if (!res.ok){ const t = await res.text(); alert('Failed: ' + t); return; }
+  const created = await res.json();
+  alert('Issue created: #' + created.number);
+  closeModal();
+  // refresh first page
+  page = 1; issues = []; await fetchIssues({reset:true});
 }
 
-async function createStory(){
-  const title=$("#titleInput").value.trim();
-  if(!title)return alert("Title required");
-  const body=[
-    "User Story","",
-    `As a ${$("#roleInput").value}, I want to ${$("#goalInput").value}, so that I can ${$("#benefitInput").value}.`,
-    "","Additional context:",$("#contextInput").value.trim(),
-    "","Contact consent:",$("#consentInput").value
-  ].join("\n");
-  const labels=[...selected,"user-story"];
-  const assignees=$("#assigneesInput").value.split(",").map(x=>x.trim()).filter(Boolean);
-  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues`,{
-    method:"POST",
-    headers:{"Accept":"application/vnd.github+json","Content-Type":"application/json"},
-    body:JSON.stringify({title,body,labels,assignees})
-  });
-  if(!res.ok)return alert("Error: "+(await res.text()));
-  alert("Story created!");closeModal();loadIssues(true);
-}
-
-function openModal(){ $("#modal-backdrop").style.display="grid"; }
-function closeModal(){ $("#modal-backdrop").style.display="none"; }
-
+/* ========= CSV ========= */
 function exportCSV(){
-  const rows=[["number","title","state","updated_at","labels","body"].join(",")];
-  issues.forEach(i=>{
-    const labels=(i.labels||[]).map(l=>l.name).join("|").replace(/"/g,'""');
-    const body=(i.body||"").replace(/"/g,'""');
-    rows.push([i.number,`"${i.title.replace(/"/g,'""')}"`,i.state,i.updated_at,`"${labels}"`,`"${body}"`].join(","));
-  });
-  const blob=new Blob([rows.join("\n")],{type:"text/csv"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
-  a.download="user_stories.csv";a.click();
+  const rows = [['number','title','state','updated_at','labels','url','body']];
+  for (const i of issues){
+    const labels = (i.labels||[]).map(l=>l.name).join('|');
+    rows.push([
+      i.number,
+      i.title?.replaceAll('"','""')||'',
+      i.state||'',
+      i.updated_at||'',
+      labels.replaceAll('"','""'),
+      i.html_url||'',
+      (i.body||'').replaceAll('"','""')
+    ].map(v=>/[,\"\n]/.test(String(v))?`"${v}"`:String(v)).join(','));
+  }
+  const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `user_stories_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
 }
 
-$("#openNew").onclick=()=>{initChips();openModal()};
-$("#cancelModal").onclick=closeModal;
-$("#drawerClose").onclick=closeDrawer;
-$("#drawer-backdrop").onclick=closeDrawer;
-$("#refresh").onclick=()=>loadIssues(true);
-$("#state").onchange=()=>loadIssues(true);
-$("#filterDomain").onchange=renderIssues;
-$("#filterInstitution").onchange=renderIssues;
+/* ========= Utilities ========= */
+function escapeHTML(s){ return String(s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function escapeAttr(s){ return String(s||'').replace(/"/g,'&quot;'); }
+function fmtDate(iso){ if(!iso) return ''; const d=new Date(iso); return d.toLocaleString(); }
+
+/* ========= Events ========= */
+$('#refresh').addEventListener('click', ()=>{ page=1; fetchIssues({reset:true}); });
+$('#state').addEventListener('change', ()=>{ page=1; fetchIssues({reset:true}); });
+$('#search').addEventListener('input', ()=> renderIssues(issues));
+$('#filterDomain').addEventListener('change', ()=> renderIssues(issues));
+$('#filterInstitution').addEventListener('change', ()=> renderIssues(issues));
+
+loadMoreBtn.addEventListener('click', ()=>{ if (hasNextPage){ page+=1; fetchIssues(); } });
+
+$('#openNew').addEventListener('click', ()=>{ initChips(); modalBackdrop.style.display='grid'; });
+$('#cancelModal').addEventListener('click', ()=>{ modalBackdrop.style.display='none'; });
+newStoryForm.addEventListener('submit', (e)=>{ e.preventDefault(); createIssue(); });
+
+drawerBackdrop.addEventListener('click', closeDrawer);
+$('#drawerClose').addEventListener('click', closeDrawer);
+
+$('#exportCsv').addEventListener('click', exportCSV);
+$('#printPdf').addEventListener('click', ()=>window.print());
+
+/* ========= Init ========= */
+(function init(){
+  populateFilters();
+  // initial load with state=All
+  fetchIssues({reset:true});
+})();
+</script>
+</body>
+</html>
