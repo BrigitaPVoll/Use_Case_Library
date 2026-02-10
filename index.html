@@ -6,1144 +6,785 @@
   <title>User Story Library · Modern Green/Teal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
-  <meta name="description" content="User Story Library powered by GitHub Issues. Modern green/teal theme, CSV/PDF export, in-page viewer, and tag selector." />
 
   <style>
-    /* ===========================
-       THEME — Modern Green/Teal Minimal (Option A)
-       =========================== */
-    :root {
-      /* Core */
-      --green-dark: #5A7F2C;          /* deep olive green */
-      --green:      #8FBF5D;          /* modern fresh green */
-      --teal:       #1C8C84;          /* deep teal accent */
+/* =====================================================================
+   THEME — Modern Green/Teal Minimal
+   ===================================================================== */
+:root {
+  --green-dark: #4c6626;
+  --green:      #7fb44f;
+  --teal:       #1b8c80;
 
-      /* Surfaces & text */
-      --bg:     #F7F9F7;              /* warm white background */
-      --fg:     #0E1A12;              /* dark greenish text */
-      --muted:  #6C7A70;              /* neutral muted */
+  --bg:         #f7f9f7;
+  --card-bg:    #ffffff;
+  --fg:         #0e1a12;
+  --muted:      #6c7a70;
 
-      --card:   #FFFFFF;              /* white cards */
-      --border: #D7DFC8;              /* soft gray-green border */
+  --border:     #dbe5d2;
+  --shadow:     0 8px 24px rgba(0,0,0,.08);
+  --shadow-deep:0 16px 40px rgba(0,0,0,.12);
 
-      /* Accents */
-      --accent: var(--teal);          /* primary accent (buttons, links) */
-      --accent-contrast: #FFFFFF;
+  --accent: var(--teal);
+  --accent-contrast: #ffffff;
+  --focus: color-mix(in oklab, var(--teal) 65%, white);
+}
 
-      /* UI chrome */
-      --control-bg:     #FFFFFF;
-      --control-border: var(--border);
-      --control-shadow: 0 6px 22px rgba(0,0,0,.06);
-      --shadow:         0 10px 28px rgba(0,0,0,.10);
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background:
+    radial-gradient(800px 400px at 10% -10%, color-mix(in oklab,var(--green)20%,transparent), transparent 45%),
+    radial-gradient(800px 400px at 90% -10%, color-mix(in oklab,var(--teal)18%,transparent), transparent 45%),
+    var(--bg);
+  color: var(--fg);
+  line-height: 1.55;
+}
 
-      --link: var(--teal);
-      --focus: color-mix(in oklab, var(--teal) 60%, white);
+* { box-sizing: border-box; }
+a { color: var(--accent); }
 
-      /* Header */
-      --header-bg: color-mix(in oklab, var(--green-dark) 8%, white);
-      --header-border: var(--green);
-    }
+/* =====================================================================
+   HEADER
+   ===================================================================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in oklab, var(--green-dark) 8%, white);
+  backdrop-filter: blur(12px);
+  border-bottom: 4px solid var(--green);
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem; }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:     #0F1612;
-        --fg:     #EAF2EC;
-        --muted:  #A7B7AA;
+.bar {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: .75rem; }
+.logo {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: conic-gradient(from 180deg, var(--green), var(--teal), var(--green-dark), var(--green));
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+}
+h1 {
+  margin: 0; font-size: 1.55rem; color: var(--green-dark); font-weight: 800;
+}
+.tagline {
+  margin: 0; font-size: .95rem; color: var(--muted);
+  max-width: 760px;
+}
 
-        --card:   #121C16;
-        --border: #223327;
+/* =====================================================================
+   HEADER ACTION BUTTONS
+   ===================================================================== */
+.header-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.btn {
+  padding: .65rem 1rem; border-radius: 12px; border: none;
+  font-weight: 600; cursor: pointer;
+  transition: filter .15s ease, transform .15s ease;
+}
+.btn-primary {
+  background: var(--accent); color: var(--accent-contrast);
+  box-shadow: var(--shadow);
+}
+.btn-secondary {
+  background: color-mix(in oklab, var(--green) 20%, white);
+  color: #0c140d;
+  border: 1px solid var(--border);
+}
+.btn:hover { filter: brightness(1.05); }
 
-        --control-bg:     #0F1813;
-        --control-border: #223327;
-        --control-shadow: 0 10px 26px rgba(0,0,0,.35);
+/* =====================================================================
+   FILTER PANEL
+   ===================================================================== */
+.filters {
+  margin-top: 1rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  box-shadow: var(--shadow);
+}
 
-        --link: #77D0C9;
-        --focus: color-mix(in oklab, var(--teal) 40%, #fff);
+.controls-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto auto;
+  gap: .75rem;
+}
+@media (max-width: 900px) {
+  .controls-row { grid-template-columns: 1fr 1fr 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .controls-row { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) {
+  .controls-row { grid-template-columns: 1fr; }
+}
 
-        --header-bg: #0F1813;
-        --header-border: #2F5231;
-      }
-    }
+label { font-size: .85rem; color: var(--muted); }
+input, select {
+  width: 100%; padding: .65rem .75rem; border-radius: 10px;
+  border: 1px solid var(--border); background: #fff; color: var(--fg);
+}
 
-    /* ===========================
-       BASE
-       =========================== */
-    * { box-sizing: border-box }
-    html, body { height: 100% }
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background:
-        radial-gradient(900px 450px at 15% -10%, color-mix(in oklab, var(--green) 10%, transparent), transparent 45%),
-        radial-gradient(800px 400px at 85% 0%,  color-mix(in oklab, var(--teal) 10%,  transparent), transparent 45%),
-        var(--bg);
-      color: var(--fg);
-      line-height: 1.55;
-    }
-    :focus {
-      outline: 3px solid var(--focus);
-      outline-offset: 2px;
-    }
-    a { color: var(--link); text-decoration: none }
-    a:hover { text-decoration: underline }
+/* =====================================================================
+   FLOATING CARD GRID
+   ===================================================================== */
+main { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 5rem; }
 
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem }
+.grid {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
 
-    /* ===========================
-       HEADER
-       =========================== */
-    header {
-      position: sticky; top: 0; z-index: 10;
-      background: var(--header-bg);
-      border-bottom: 4px solid var(--header-border);
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
-      backdrop-filter: blur(10px);
-    }
-    .bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap }
-    .brand { display: flex; align-items: center; gap: .75rem }
-    .logo {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: conic-gradient(from 180deg, var(--green), var(--teal), var(--green-dark), var(--green));
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
-    h1 { font-size: clamp(1.1rem, 2vw, 1.6rem); margin: 0; letter-spacing: .2px; color: var(--green-dark); font-weight: 800 }
-    .tagline { color: color-mix(in oklab, var(--muted) 85%, #000); font-size: .95rem; margin: .3rem 0 0 0; max-width: 900px }
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0,0,0,.15);
+}
 
-    .cta-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap }
-    .button-link {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem .9rem; border-radius: 10px; border: 1px solid var(--control-border);
-      background: var(--accent); color: var(--accent-contrast); font-weight: 700; text-decoration: none;
-      box-shadow: var(--control-shadow); cursor: pointer;
-      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
-    }
-    .button-link:hover { filter: brightness(1.05) }
-    .button-link:active { transform: translateY(1px) }
-    .secondary { background: color-mix(in oklab, var(--green) 25%, white); color: #0B130E }
+.card-title-btn {
+  font-size: 1.05rem;
+  padding: .55rem .85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: white;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.card-title-btn:hover {
+  background: color-mix(in oklab, var(--teal) 10%, white);
+}
 
-    /* ===========================
-       CONTROLS
-       =========================== */
-    .controls {
-      display: grid; grid-template-columns: 1fr; gap: .75rem; margin-top: .75rem;
-      background: color-mix(in oklab, var(--control-bg) 94%, transparent);
-      border: 1px solid var(--control-border);
-      border-radius: 12px; padding: .9rem; box-shadow: var(--control-shadow);
-    }
-    .controls-row { display: grid; grid-template-columns: 2fr 1fr 1fr auto auto; gap: .5rem }
-    @media (max-width: 1000px) { .controls-row { grid-template-columns: 1fr 1fr 1fr 1fr } }
-    @media (max-width: 700px)  { .controls-row { grid-template-columns: 1fr 1fr } }
-    @media (max-width: 520px)  { .controls-row { grid-template-columns: 1fr } }
+.meta {
+  color: var(--muted);
+  font-size: .82rem;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-bottom: .35rem;
+}
 
-    label { font-size: .85rem; color: var(--muted) }
-    input, select, button {
-      padding: .6rem .7rem; border-radius: .6rem; border: 1px solid var(--control-border);
-      background: var(--control-bg); color: var(--fg); outline: none;
-    }
-    input, select { width: 100% }
-    button.primary {
-      background: var(--accent); color: var(--accent-contrast); border: none; font-weight: 700;
-      box-shadow: var(--control-shadow); cursor: pointer; transition: filter .12s ease, transform .12s ease;
-    }
-    button.primary:hover { filter: brightness(1.06) }
-    button.primary:active { transform: translateY(1px) }
+.labels-row { display: flex; flex-wrap: wrap; gap: .35rem; }
+.label {
+  padding: .18rem .55rem;
+  background: color-mix(in oklab, var(--green) 25%, white);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: .78rem;
+  color: var(--fg);
+}
 
-    .token-box { display: none }
-    .inline { display: flex; align-items: center; gap: .5rem }
-    small { color: var(--muted) }
+/* =====================================================================
+   iOS BOTTOM DRAWER
+   ===================================================================== */
+#drawer-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.2);
+  display: none;
+  z-index: 90;
+}
 
-    /* ===========================
-       MAIN
-       =========================== */
-    main { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 3rem }
-    .status { margin: 1rem 0; font-size: .95rem; color: var(--muted); display: flex; align-items: center; gap: .75rem; flex-wrap: wrap }
-    .rate { font-size: .85rem; color: var(--muted); padding: .1rem .4rem; border: 1px solid var(--control-border); border-radius: 999px; background: var(--control-bg) }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border); border-radius: 14px; padding: 1rem; box-shadow: var(--shadow);
-      display: flex; flex-direction: column; gap: .6rem;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(0,0,0,.14) }
-    .card h3 { margin: .1rem 0 .25rem; font-size: 1.05rem; line-height: 1.35 }
-    .meta { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; color: var(--muted); font-size: .85rem }
-    .labels { display: flex; gap: .35rem; flex-wrap: wrap }
-    .label { background: color-mix(in oklab, var(--green) 22%, white); color: var(--fg); border: 1px solid var(--border); border-radius: 999px; padding: .15rem .55rem; font-size: .78rem }
-    .assignees { display: flex; align-items: center; gap: .35rem }
-    .assignees img { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--border) }
-    .pill { border-radius: 999px; padding: .12rem .5rem; font-size: .78rem; border: 1px solid var(--border) }
-    .pill.ok { background: color-mix(in oklab, #22c55e 20%, white); color: var(--fg) }
-    .pill.no { background: color-mix(in oklab, #ef4444 20%, white); color: var(--fg) }
-    .pill.na { background: color-mix(in oklab, #f59e0b 20%, white); color: var(--fg) }
-    .desc { font-size: .95rem }
-    .story-parts { display: flex; flex-wrap: wrap; gap: .35rem }
-    .story-part { border: 1px dashed var(--border); border-radius: 8px; padding: .25rem .5rem; font-size: .82rem; color: var(--muted) }
-    .empty, .error { text-align: center; color: var(--muted); padding: 2rem 0 }
-    .notice { font-size: .82rem; color: var(--muted) }
+#drawer {
+  position: fixed;
+  left: 50%;
+  bottom: -90%;
+  transform: translateX(-50%);
+  width: min(720px, 94vw);
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  box-shadow: var(--shadow-deep);
+  padding: 1.25rem;
+  transition: bottom .35s cubic-bezier(.25,.8,.25,1);
+  z-index: 100;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+#drawer.open {
+  bottom: 0;
+}
 
-    /* Card title as button */
-    .btn-as-title {
-      background: transparent; border: 1px solid var(--control-border);
-      padding: .45rem .6rem; border-radius: .6rem; cursor: pointer; color: var(--fg);
-      transition: background .12s ease, transform .1s ease;
-    }
-    .btn-as-title:hover { background: color-mix(in oklab, var(--teal) 10%, white) }
-    .btn-as-title:active { transform: translateY(1px) }
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.drawer-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--green-dark);
+}
+.drawer-close {
+  padding: .45rem .8rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: white;
+  cursor: pointer;
+}
+.drawer-close:hover {
+  background: color-mix(in oklab, var(--teal) 10%, white);
+}
 
-    /* ===========================
-       MODAL (New Story)
-       =========================== */
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: none; align-items: center; justify-content: center; z-index: 50 }
-    .modal {
-      width: min(760px, 92vw); background: var(--control-bg); color: var(--fg);
-      border: 1px solid var(--control-border); border-radius: 14px; box-shadow: 0 16px 40px rgba(0,0,0,.18);
-      display: flex; flex-direction: column; max-height: 92vh;
-    }
-    .modal header { position: static; background: var(--control-bg); border-bottom: 1px solid var(--control-border); box-shadow: none }
-    .modal .wrap { padding: 1rem 1.25rem }
-    .modal h2 { margin: .2rem 0 0; font-size: 1.2rem; color: var(--green-dark) }
-    .modal .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem }
-    .modal .grid-form .full { grid-column: 1 / -1 }
-    .modal .actions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: .5rem }
-    textarea { min-height: 110px; resize: vertical }
+/* =====================================================================
+   MODAL — New Story
+   ===================================================================== */
+#modal-backdrop {
+  position: fixed; inset:0;
+  background: rgba(0,0,0,.45);
+  display: none;
+  place-items: center;
+  z-index: 120;
+}
 
-    /* Tag selector (chips) */
-    .tag-options { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .5rem }
-    .chip {
-      padding: .28rem .65rem; border-radius: 999px; cursor: pointer; font-size: .8rem; user-select: none;
-      border: 1px solid var(--control-border); background: color-mix(in oklab, var(--green) 28%, white); color: #0A110D;
-      transition: filter .12s ease, transform .1s ease;
-    }
-    .chip:hover { filter: brightness(1.05) }
-    .chip.selected { background: var(--teal); color: white; border-color: color-mix(in oklab, var(--teal) 50%, black) }
-    .tag-selected { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .4rem }
+#modal {
+  width: min(680px, 92vw);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-deep);
+  padding: 1.5rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
 
-    /* ===========================
-       DRAWER (In-page viewer)
-       =========================== */
-    #detail-drawer {
-      position: fixed; top: 0; right: 0; height: 100%; width: min(780px, 96vw);
-      background: var(--control-bg); color: var(--fg);
-      border-left: 1px solid var(--control-border); box-shadow: -12px 0 30px rgba(0,0,0,.18);
-      transform: translateX(110%); transition: transform .25s ease; z-index: 60;
-      display: flex; flex-direction: column;
-    }
-    #detail-drawer.open { transform: translateX(0) }
-    #detail-header {
-      display: flex; align-items: center; justify-content: space-between; gap: .6rem;
-      padding: .9rem 1rem; border-bottom: 1px solid var(--control-border);
-      background: color-mix(in oklab, var(--control-bg) 90%, transparent);
-    }
-    #detail-title { font-size: 1.05rem; font-weight: 800; color: var(--green-dark); margin: 0 }
-    #detail-body { padding: 1rem; overflow: auto }
-    #detail-body .section { margin-bottom: 1rem }
-    .btn-ghost { background: transparent; border: 1px solid var(--control-border); padding: .5rem .7rem; border-radius: .6rem; cursor: pointer; color: var(--fg) }
-    .btn-ghost:hover { background: color-mix(in oklab, var(--teal) 10%, white) }
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.modal-grid .full { grid-column: 1 / -1; }
 
-    /* Markdown (simple) */
-    .markdown h1, .markdown h2, .markdown h3 { margin: .8rem 0 .4rem; color: var(--green-dark) }
-    .markdown code { background: color-mix(in oklab, #888 12%, white); padding: .05rem .35rem; border-radius: .3rem }
-    .markdown pre code { display: block; padding: .6rem .8rem; overflow: auto }
+textarea {
+  width: 100%;
+  padding: .7rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  min-height: 110px;
+  resize: vertical;
+}
 
-    /* ===========================
-       PRINT STYLES (for Save as PDF)
-       =========================== */
-    @page { size: A4; margin: 16mm; }
-    @media print {
-      header, .controls, .status, .load-more, footer, .modal-backdrop, #detail-drawer { display: none !important }
-      body { background: #fff }
-      main { padding: 0 }
-      .grid { grid-template-columns: 1fr; gap: .8rem }
-      .card { box-shadow: none; border-color: #ddd }
-      a[href]::after { content: " (" attr(href) ")"; font-size: .8em; color: #888 }
-    }
+/* =====================================================================
+   TAG SELECTOR — Chips
+   ===================================================================== */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  margin-bottom: .75rem;
+}
+
+.chip {
+  padding: .35rem .7rem;
+  font-size: .78rem;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--green) 20%, white);
+  transition: all .15s ease;
+  user-select: none;
+}
+
+.chip.selected {
+  background: var(--teal);
+  color: white;
+  border-color: color-mix(in oklab, var(--teal) 50%, black);
+}
+
+footer { margin-top: 3rem; text-align: center; color: var(--muted); }
+
   </style>
 </head>
+
 <body>
-  <!-- ===========================
-       HEADER
-       =========================== -->
-  <header>
-    <div class="wrap">
-      <div class="bar" role="navigation" aria-label="Top bar">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <h1>User Story Library</h1>
-            <p class="tagline">A FAIR use case is a concrete description of who needs what kind of data, for what purpose, and under what conditions.</p>
-          </div>
-        </div>
-        <div class="cta-row">
-          <button id="open-modal" class="button-link" aria-haspopup="dialog">New Story</button>
-          <button id="export" class="button-link secondary">Export CSV</button>
-          <button id="print" class="button-link secondary">Print / Save PDF</button>
-        </div>
-      </div>
 
-      <div class="controls" aria-label="Filters and configuration">
-        <div class="controls-row">
-          <div>
-            <label for="search">Search</label>
-            <input id="search" type="text" placeholder="Search title, story, context or #number…" />
-          </div>
-          <div>
-            <label for="state">State</label>
-            <select id="state">
-              <option value="open" selected>Open</option>
-              <option value="closed">Closed</option>
-              <option value="all">All</option>
-            </select>
-          </div>
-          <div class="inline" style="align-items:end">
-            <button id="refresh" class="primary">Refresh</button>
-            <button id="toggle-token" aria-expanded="false" aria-controls="token-box">Token</button>
-          </div>
-          <div class="inline" style="align-items:end">
-            <label class="inline" style="gap:.4rem" title="Show only issues that contain a valid 'As a…, I want to…, so that I can…' sentence">
-              <input id="only-template" type="checkbox" checked />
-              Only valid stories
-            </label>
-          </div>
-          <div class="inline" style="align-items:end">
-            <small>
-              Backend:
-              <a href="https://github.com/BrigitaPVoll/User_Story_Library" target="_blank" rel="noopener">
-                BrigitaPVoll/User_Story_Library
-              </a>
-            </small>
-          </div>
-        </div>
-
-        <div id="token-box" class="token-box">
-          <label for="token">GitHub Token (optional, required for creating issues)</label>
-          <input id="token" type="password" placeholder="ghp_… (classic) or fine-grained token" />
-          <div class="notice">
-            Stored locally in your browser (localStorage) to raise API limits and enable issue creation.
-            Docs:
-            <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">PATs</a>,
-            <a href="https://stackoverflow.com/questions/63906613/minimal-set-of-scopes-to-push-to-github-using-an-access-token" target="_blank" rel="noopener">scopes</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- ===========================
-       MAIN
-       =========================== -->
-  <main>
-    <div class="wrap">
-      <div class="status" id="status" aria-live="polite">
-        <span id="rate" class="rate" title="GitHub REST API rate limit">API …</span>
-      </div>
-
-      <section id="stories" class="grid" aria-label="User stories list"></section>
-      <div class="empty" id="empty" style="display:none;">No user stories found.</div>
-      <div class="error" id="error" style="display:none;"></div>
-
-      <div class="load-more" style="display:flex; justify-content:center; margin-top:1rem;">
-        <button id="more" style="display:none;">Load more</button>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="wrap"><small>Powered by GitHub Issues • Modern Green/Teal UI</small></div>
-  </footer>
-
-  <!-- ===========================
-       MODAL — New User Story
-       =========================== -->
-  <div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal">
-      <header>
-        <div class="wrap">
-          <h2 id="modal-title">New User Story</h2>
-          <p class="notice">Creates a GitHub Issue directly in <strong>BrigitaPVoll/User_Story_Library</strong>.</p>
-        </div>
-      </header>
-      <div class="wrap" style="overflow:auto">
-        <form id="story-form">
-          <div class="grid-form">
-            <div class="full">
-              <label for="title">Title (required)</label>
-              <input id="title" type="text" placeholder="Short descriptive title" required />
-            </div>
-
-            <div>
-              <label for="role">As a… (role)</label>
-              <input id="role" type="text" placeholder="e.g., conservation biologist" />
-            </div>
-            <div>
-              <label for="goal">I want to… (goal)</label>
-              <input id="goal" type="text" placeholder="e.g., reuse butterfly observation data" />
-            </div>
-
-            <div class="full">
-              <label for="benefit">…so that I can… (benefit)</label>
-              <input id="benefit" type="text" placeholder="e.g., study changes in biodiversity across landscapes" />
-            </div>
-
-            <div class="full">
-              <label for="context">Additional context</label>
-              <textarea id="context" placeholder="Any other context about the user story here."></textarea>
-            </div>
-
-            <div>
-              <label>Contact consent</label>
-              <select id="consent">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-                <option value="N/A" selected>N/A</option>
-              </select>
-            </div>
-
-            <!-- Tag selector (chips + manual input) -->
-            <div class="full">
-              <label>Labels</label>
-
-              <div id="tag-options" class="tag-options" aria-label="Suggested labels">
-                <!-- Default suggestions; you can edit this list -->
-                <span class="chip" data-value="user-story">user-story</span>
-                <span class="chip" data-value="FAIR">FAIR</span>
-                <span class="chip" data-value="metadata">metadata</span>
-                <span class="chip" data-value="interoperability">interoperability</span>
-                <span class="chip" data-value="HPC">HPC</span>
-                <span class="chip" data-value="EOSC">EOSC</span>
-                <span class="chip" data-value="AI Factory">AI Factory</span>
-                <span class="chip" data-value="data-governance">data-governance</span>
-                <span class="chip" data-value="sustainability">sustainability</span>
-              </div>
-
-              <div class="tag-selected" id="tag-selected" aria-live="polite"></div>
-
-              <input id="labels" type="text" placeholder="Add comma-separated labels (optional)" />
-              <small class="notice">Click chips to add/remove. You can also type custom labels (comma-separated). “user-story” will be included automatically if missing.</small>
-            </div>
-
-            <div class="full">
-              <label for="assignees">Assignees (comma GitHub usernames, optional)</label>
-              <input id="assignees" type="text" placeholder="e.g., BrigitaPVoll" />
-            </div>
-          </div>
-
-          <div class="actions">
-            <button type="button" id="cancel-modal" class="btn-ghost">Cancel</button>
-            <button type="submit" class="primary">Create Story</button>
-          </div>
-
-          <p class="notice" style="margin-top:.5rem;">
-            Requires a GitHub token (set in <strong>Token</strong>) with permission to create issues.
-            Public repo: classic <code>public_repo</code> or a fine‑grained token with <em>Issues: Read &amp; write</em> on this repo.
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>User Story Library</h1>
+          <p class="tagline">
+            A FAIR use case is a concrete description of who needs what kind of data,
+            for what purpose, and under what conditions.
           </p>
-        </form>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="openNew" class="btn btn-primary">New Story</button>
+        <button id="exportCsv" class="btn btn-secondary">Export CSV</button>
+        <button id="printPdf" class="btn btn-secondary">Print / Save PDF</button>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="controls-row">
+        <div>
+          <label>Search</label>
+          <input id="search" placeholder="Search…" />
+        </div>
+
+        <div>
+          <label>State</label>
+          <select id="state">
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+            <option value="all">All</option>
+          </select>
+        </div>
+
+        <div>
+          <label>&nbsp;</label>
+          <button id="refresh" class="btn btn-primary" style="width:100%;">Refresh</button>
+        </div>
+
+        <div>
+          <label>&nbsp;</label>
+          <label style="display:flex; gap:.4rem; align-items:center;">
+            <input id="onlyTemplate" type="checkbox" checked />
+            Only valid stories
+          </label>
+        </div>
+
+        <div>
+          <label>&nbsp;</label>
+          <button id="toggleToken" class="btn btn-secondary" style="width:100%;">Token</button>
+        </div>
+      </div>
+
+      <div id="tokenBox" style="display:none;">
+        <label>GitHub Token (optional)</label>
+        <input id="tokenInput" type="password" placeholder="ghp_…" />
+        <small style="color:var(--muted);">
+          Stored locally. Required for creating issues and higher API limits.
+        </small>
       </div>
     </div>
   </div>
+</header>
 
-  <!-- ===========================
-       DRAWER — In-page story viewer
-       =========================== -->
-  <aside id="detail-drawer" aria-hidden="true" aria-label="User story detail">
-    <div id="detail-header">
-      <h3 id="detail-title">Loading…</h3>
-      <div style="display:flex; gap:.5rem; align-items:center">
-        <button id="toggle-comments" class="btn-ghost" title="Load comments">Comments</button>
-        <a id="detail-gh" class="btn-ghost" target="_blank" rel="noopener">Open in GitHub</a>
-        <button id="detail-close" class="btn-ghost" aria-label="Close">Close</button>
+<main>
+  <div class="wrap">
+
+    <div class="status" id="statusArea" style="margin:.75rem 0; color:var(--muted);">
+      <span id="rateInfo"></span>
+    </div>
+
+    <div id="storyGrid" class="grid"></div>
+    <div id="emptyMsg" style="display:none; text-align:center; color:var(--muted); padding:2rem 0;">No user stories found.</div>
+
+    <div style="display:flex; justify-content:center; margin-top:1rem;">
+      <button id="loadMore" class="btn btn-secondary" style="display:none;">Load more</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap"><small>Powered by GitHub Issues • Rebuilt Modern UI</small></div>
+</footer>
+
+<!-- Bottom Drawer -->
+<div id="drawer-backdrop"></div>
+<div id="drawer">
+  <div class="drawer-header">
+    <h3 class="drawer-title" id="drawerTitle">Loading…</h3>
+    <button id="drawerClose" class="drawer-close">Close</button>
+  </div>
+
+  <div id="drawerContent"></div>
+</div>
+
+<!-- New Story Modal -->
+<div id="modal-backdrop">
+  <div id="modal">
+    <h2>New User Story</h2>
+
+    <form id="newStoryForm">
+      <div class="modal-grid">
+        <div class="full">
+          <label>Title</label>
+          <input id="titleInput" required placeholder="Short title" />
+        </div>
+
+        <div>
+          <label>As a…</label>
+          <input id="roleInput" placeholder="Role" />
+        </div>
+        <div>
+          <label>I want to…</label>
+          <input id="goalInput" placeholder="Goal" />
+        </div>
+
+        <div class="full">
+          <label>…so that I can…</label>
+          <input id="benefitInput" placeholder="Benefit" />
+        </div>
+
+        <div class="full">
+          <label>Additional context</label>
+          <textarea id="contextInput"></textarea>
+        </div>
+
+        <div class="full">
+          <label>Contact consent</label>
+          <select id="consentInput">
+            <option value="N/A" selected>N/A</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label>Labels</label>
+          <div id="chips" class="chips"></div>
+        </div>
+
+        <div class="full">
+          <label>Assignees (comma separated)</label>
+          <input id="assigneesInput" placeholder="e.g. BrigitaPVoll" />
+        </div>
       </div>
+
+      <div style="margin-top:1.25rem; display:flex; justify-content:flex-end; gap:.5rem;">
+        <button type="button" id="cancelModal" class="btn btn-secondary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create Story</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG
+   ===================================================================== */
+const OWNER = "BrigitaPVoll";
+const REPO = "User_Story_Library";
+const PER_PAGE = 20;
+
+/* Your exact 17 labels */
+const GITHUB_LABELS = [
+  "Contact consent>NO",
+  "Contact consent>YES",
+  "Domain>Agricultural Sciences",
+  "Domain>Domain agnostic",
+  "Domain>Engineering and Technology",
+  "Domain>Humanities",
+  "Domain>Medical and Health Sciences",
+  "Domain>Natural Sciences",
+  "Domain>Social Sciences",
+  "Institution>Aalborg University",
+  "Institution>Aarhus University",
+  "Institution>Copenhagen Business School (CBS)",
+  "Institution>IT University of Copenhagen",
+  "Institution>Roskilde University",
+  "Institution>Technical University of Denmark (DTU)",
+  "Institution>University of Copenhagen",
+  "Institution>University of Southern Denmark (SDU)"
+];
+
+let currentPage = 1;
+let issues = [];
+let selectedLabels = new Set();
+
+const $ = s => document.querySelector(s);
+
+/* =====================================================================
+   LABEL CHIPS
+   ===================================================================== */
+function initLabelChips() {
+  const box = $("#chips");
+  box.innerHTML = "";
+  GITHUB_LABELS.forEach(label => {
+    const el = document.createElement("span");
+    el.className = "chip";
+    el.textContent = label;
+    el.onclick = () => {
+      if (selectedLabels.has(label)) {
+        selectedLabels.delete(label);
+        el.classList.remove("selected");
+      } else {
+        selectedLabels.add(label);
+        el.classList.add("selected");
+      }
+    };
+    box.appendChild(el);
+  });
+}
+
+/* =====================================================================
+   FETCH HELPERS
+   ===================================================================== */
+function authHeaders() {
+  const token = localStorage.getItem("GITHUB_TOKEN") || $("#tokenInput")?.value || "";
+  const h = { "Accept": "application/vnd.github+json" };
+  if (token) h["Authorization"] = `Bearer ${token}`;
+  return h;
+}
+
+async function api(url) {
+  const res = await fetch(url, { headers: authHeaders() });
+  if (res.status === 403) throw new Error("Forbidden / rate limited – provide token");
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+/* =====================================================================
+   LOAD ISSUES
+   ===================================================================== */
+async function loadIssues(reset = false) {
+  if (reset) {
+    currentPage = 1;
+    issues = [];
+  }
+  const state = $("#state").value;
+  const url = `https://api.github.com/repos/${OWNER}/${REPO}/issues?state=${state}&per_page=${PER_PAGE}&page=${currentPage}`;
+  const batch = await api(url);
+  const real = batch.filter(x => !x.pull_request);
+  issues = issues.concat(real);
+  renderIssues();
+  $("#loadMore").style.display = real.length === PER_PAGE ? "" : "none";
+}
+
+/* =====================================================================
+   PARSE STORY
+   ===================================================================== */
+function parseStory(body = "") {
+  const line = body.split("\n").find(l => l.startsWith("As a"));
+  if (!line) return {};
+  const m = line.match(/As a (.*?), I want to (.*?), so that I can (.*?)\./i);
+  if (!m) return {};
+  return { role: m[1], goal: m[2], benefit: m[3], full: line };
+}
+
+/* =====================================================================
+   RENDER GRID
+   ===================================================================== */
+function renderIssues() {
+  const q = $("#search").value.toLowerCase().trim();
+  const onlyTemplate = $("#onlyTemplate").checked;
+
+  const filtered = issues.filter(issue => {
+    const parsed = parseStory(issue.body);
+    if (onlyTemplate && !parsed.full) return false;
+    if (q) {
+      const hay = [
+        issue.title,
+        issue.number,
+        parsed.full || "",
+        issue.body || ""
+      ].join(" ").toLowerCase();
+      return hay.includes(q);
+    }
+    return true;
+  });
+
+  $("#storyGrid").innerHTML = "";
+  $("#emptyMsg").style.display = filtered.length ? "none" : "block";
+
+  filtered.forEach(issue => {
+    const parsed = parseStory(issue.body);
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <button class="card-title-btn openDrawer" data-id="${issue.number}">
+        ${issue.title}
+      </button>
+      <div class="meta">
+        #${issue.number} • ${issue.state} • ${new Date(issue.updated_at).toLocaleString()}
+      </div>
+      ${parsed.full ? `<div>${parsed.full}</div>` : ""}
+      <div class="labels-row">
+        ${(issue.labels || []).map(l => `<span class="label">${l.name}</span>`).join("")}
+      </div>
+    `;
+
+    $("#storyGrid").appendChild(card);
+  });
+
+  document.querySelectorAll(".openDrawer").forEach(btn => {
+    btn.onclick = () => openDrawer(parseInt(btn.dataset.id));
+  });
+}
+
+/* =====================================================================
+   BOTTOM DRAWER
+   ===================================================================== */
+async function openDrawer(num) {
+  $("#drawer-backdrop").style.display = "block";
+  $("#drawer").classList.add("open");
+
+  $("#drawerTitle").textContent = "Loading…";
+  $("#drawerContent").innerHTML = "";
+
+  const issue = await api(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${num}`);
+
+  $("#drawerTitle").textContent = issue.title;
+
+  const parsed = parseStory(issue.body);
+  $("#drawerContent").innerHTML = `
+    <div class="drawer-section">
+      <h3>Story</h3>
+      ${parsed.full ? `<p>${parsed.full}</p>` : "<p>No structured story line.</p>"}
     </div>
-    <div id="detail-body">
-      <div class="section" id="detail-meta"></div>
-      <div class="section" id="detail-story"></div>
-      <div class="section markdown" id="detail-markdown"></div>
-      <div class="section" id="detail-comments" style="display:none;"></div>
+
+    <div class="drawer-section">
+      <h3>Labels</h3>
+      ${(issue.labels||[]).map(l => `<span class="label">${l.name}</span>`).join("")}
     </div>
-  </aside>
 
-  <!-- ===========================
-       SCRIPT
-       =========================== -->
-  <script>
-    // ---------- Configuration ----------
-    const OWNER = 'BrigitaPVoll';
-    const REPO  = 'User_Story_Library';
-    const PER_PAGE = 20;
+    <div class="drawer-section">
+      <h3>Description</h3>
+      <pre style="white-space:pre-wrap;">${issue.body}</pre>
+    </div>
+
+    <div class="drawer-section">
+      <a href="${issue.html_url}" target="_blank">Open on GitHub</a>
+    </div>
+  `;
+}
+
+function closeDrawer() {
+  $("#drawer-backdrop").style.display = "none";
+  $("#drawer").classList.remove("open");
+}
+
+/* =====================================================================
+   CREATE NEW STORY
+   ===================================================================== */
+async function createStory() {
+  const token = localStorage.getItem("GITHUB_TOKEN") || $("#tokenInput").value;
+  if (!token) { alert("Token required"); return; }
+
+  const title = $("#titleInput").value.trim();
+  const role = $("#roleInput").value.trim();
+  const goal = $("#goalInput").value.trim();
+  const benefit = $("#benefitInput").value.trim();
+  const context = $("#contextInput").value.trim();
+  const consent = $("#consentInput").value;
+  const assignees = $("#assigneesInput").value.split(",").map(x=>x.trim()).filter(Boolean);
+
+  const storyLine = `As a ${role}, I want to ${goal}, so that I can ${benefit}.`;
+
+  const body = [
+    "User Story",
+    "",
+    storyLine,
+    "",
+    "Additional context:",
+    context,
+    "",
+    "Contact consent:",
+    consent
+  ].join("\n");
+
+  const labels = [...selectedLabels, "user-story"];
+
+  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues`, {
+    method: "POST",
+    headers: {
+      "Accept": "application/vnd.github+json",
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ title, body, labels, assignees })
+  });
+
+  if (!res.ok) { alert("Failed: " + (await res.text())); return; }
+
+  alert("Story created!");
+  closeModal();
+  loadIssues(true);
+}
+
+/* =====================================================================
+   MODAL
+   ===================================================================== */
+function openModal() {
+  $("#modal-backdrop").style.display = "grid";
+}
+
+function closeModal() {
+  $("#modal-backdrop").style.display = "none";
+}
+
+/* =====================================================================
+   CSV EXPORT
+   ===================================================================== */
+function exportCSV() {
+  const rows = [
+    ["number","title","state","updated_at","labels","story"].join(",")
+  ];
+
+  issues.forEach(i => {
+    const parsed = parseStory(i.body);
+    const labels = (i.labels || []).map(l => l.name).join("|");
+    rows.push([
+      i.number,
+      `"${i.title.replace(/"/g,'""')}"`,
+      i.state,
+      i.updated_at,
+      `"${labels.replace(/"/g,'""')}"`,
+      `"${(parsed.full||"").replace(/"/g,'""')}"`
+    ].join(","));
+  });
+
+  const blob = new Blob([rows.join("\n")], {type:"text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "user_stories.csv";
+  a.click();
+}
+
+/* =====================================================================
+   EVENTS
+   ===================================================================== */
+$("#openNew").onclick = () => { selectedLabels = new Set(); initLabelChips(); openModal(); };
+$("#cancelModal").onclick = closeModal;
+
+$("#drawerClose").onclick = closeDrawer;
+$("#drawer-backdrop").onclick = closeDrawer;
+
+$("#refresh").onclick = () => loadIssues(true);
+$("#state").onchange = () => loadIssues(true);
+$("#search").oninput = renderIssues;
+$("#onlyTemplate").onchange = renderIssues;
+
+$("#loadMore").onclick = () => { currentPage++; loadIssues(); };
+
+$("#toggleToken").onclick = () => {
+  const box = $("#tokenBox");
+  box.style.display = box.style.display === "none" ? "block" : "none";
+};
+$("#tokenInput").onchange = e => {
+  const val = e.target.value.trim();
+  if (val) localStorage.setItem("GITHUB_TOKEN", val);
+};
+
+$("#newStoryForm").onsubmit = e => {
+  e.preventDefault();
+  createStory();
+};
+
+$("#exportCsv").onclick = exportCSV;
+$("#printPdf").onclick = () => window.print();
+
+/* INIT */
+loadIssues(true);
+
+</script>
 
-    // ---------- State ----------
-    let currentPage = 1;
-    let lastBatch = [];
-    let accumulated = [];
-
-    // ---------- DOM ----------
-    const $ = sel => document.querySelector(sel);
-
-    const storiesEl = $('#stories');
-    const statusEl  = $('#status');
-    const emptyEl   = $('#empty');
-    const errorEl   = $('#error');
-    const moreBtn   = $('#more');
-
-    const tokenBox  = $('#token-box');
-    const tokenInput = $('#token');
-
-    const backdrop = $('#backdrop');
-    const openModalBtn = $('#open-modal');
-    const cancelModalBtn = $('#cancel-modal');
-    const storyForm = $('#story-form');
-    const rateEl = $('#rate');
-
-    // Drawer
-    const drawer = $('#detail-drawer');
-    const detailTitle = $('#detail-title');
-    const detailMeta = $('#detail-meta');
-    const detailStory = $('#detail-story');
-    const detailMarkdown = $('#detail-markdown');
-    const detailComments = $('#detail-comments');
-    const detailCloseBtn = $('#detail-close');
-    const ghLink = $('#detail-gh');
-    const toggleCommentsBtn = $('#toggle-comments');
-
-    // Tag selector
-    const tagOptions = $('#tag-options');
-    const tagSelected = $('#tag-selected');
-    const labelsInput = $('#labels');
-    let selectedTags = [];
-
-    // ---------- Utilities ----------
-    function escapeHTML(str) {
-      return String(str ?? '').replace(/[&<>"']/g, s => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
-      })[s]);
-    }
-    function fmtDate(iso) {
-      try {
-        const d = new Date(iso);
-        return new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(d);
-      } catch { return iso || '' }
-    }
-    function setStatus(text) {
-      // Show text near the rate badge
-      if (rateEl && rateEl.parentElement) {
-        const id = 'status-inline';
-        let node = document.getElementById(id);
-        if (!node) {
-          node = document.createElement('span');
-          node.id = id;
-          node.style.marginLeft = '.5rem';
-          node.style.color = 'var(--muted)';
-          statusEl.appendChild(node);
-        }
-        node.textContent = text || '';
-      }
-    }
-    function showError(msg) {
-      errorEl.style.display = 'block';
-      errorEl.textContent = 'Error: ' + msg;
-      setStatus('');
-    }
-    function updateRateFromHeaders(h) {
-      try {
-        const limit = h.get('x-ratelimit-limit');
-        const remaining = h.get('x-ratelimit-remaining');
-        const reset = h.get('x-ratelimit-reset');
-        if (limit && remaining && rateEl) {
-          const secs = reset ? Math.max(0, parseInt(reset,10) - Math.floor(Date.now()/1000)) : null;
-          const mins = secs != null ? Math.ceil(secs/60) : null;
-          rateEl.textContent = `API ${remaining}/${limit}${mins!=null ? ` (resets ~${mins}m)` : ''}`;
-        }
-      } catch {}
-    }
-
-    // ---------- Markdown (simple & safe-ish) ----------
-    function markdownToHTML(md) {
-      if (!md) return '';
-      // Preserve code blocks first
-      const fences = [];
-      md = md.replace(/```([\\s\\S]*?)```/g, (m, code) => {
-        const token = `[[CODE_BLOCK_${fences.length}]]`;
-        fences.push(code);
-        return token;
-      });
-
-      // Escape HTML
-      let s = escapeHTML(md);
-
-      // Headings
-      s = s.replace(/^###### (.*)$/gm, '<h6>$1</h6>')
-           .replace(/^##### (.*)$/gm, '<h5>$1</h5>')
-           .replace(/^#### (.*)$/gm, '<h4>$1</h4>')
-           .replace(/^### (.*)$/gm, '<h3>$1</h3>')
-           .replace(/^## (.*)$/gm,  '<h2>$1</h2>')
-           .replace(/^# (.*)$/gm,   '<h1>$1</h1>');
-
-      // Inline code
-      s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-      // Bold/italic
-      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-           .replace(/\*([^*]+)\*/g, '<em>$1</em>');
-
-      // Links [text](url)
-      s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-      // Lists (- item)
-      s = s.replace(/(^|\n)\s*-\s+(.*)(?=\n|$)/g, '$1<li>$2</li>');
-      s = s.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>').replace(/<\/ul>\s*<ul>/g, '');
-
-      // Paragraphs (simple)
-      s = s.replace(/(\n\s*\n)/g, '</p><p>');
-      s = `<p>${s}</p>`.replace(/<p>\s*<\/p>/g,'');
-
-      // Reinsert code blocks safely
-      s = s.replace(/\[\[CODE_BLOCK_(\d+)]]/g, (m, idx) => {
-        const code = fences[Number(idx)] ?? '';
-        return `<pre><code>${escapeHTML(code)}</code></pre>`;
-      });
-
-      return s;
-    }
-
-    // ---------- Parse story line & sections ----------
-    function parseStory(body) {
-      const raw = body || '';
-      const lines = raw.split(/\r?\n/);
-
-      const storyLineIdx = lines.findIndex(l => /^(\s*\*\*)?\s*As a\b/i.test(l));
-      const storyLine = storyLineIdx >= 0 ? lines[storyLineIdx].replace(/^\s*\*\*|\*\*\s*$/g,'').trim() : '';
-
-      let role='', goal='', benefit='';
-      const m = storyLine.replace(/\*\*/g,'')
-        .match(/As a\s+(.*?)[,;]?\s*I\s+want\s+to\s+(.*?)[,;]?\s*so\s+that\s+I\s+can\s+(.*?)(?:\.|$)/i);
-      if (m){ role=m[1].trim(); goal=m[2].trim(); benefit=m[3].trim(); }
-
-      const ctxHeaderIdx = lines.findIndex(l => /additional\s+context/i.test(l));
-      let context = '';
-      if (ctxHeaderIdx >= 0){
-        const nextHeaderIdx = lines.slice(ctxHeaderIdx+1).findIndex(l => /can\s+we\s+contact\s+you/i.test(l));
-        const end = nextHeaderIdx >= 0 ? ctxHeaderIdx + 1 + nextHeaderIdx : lines.length;
-        context = lines.slice(ctxHeaderIdx+1, end).join('\n').trim();
-        context = context.replace(/^\s*\*\*|\*\*\s*$/gm,'').trim();
-      }
-
-      const consentIdx = lines.findIndex(l => /can\s+we\s+contact\s+you/i.test(l));
-      let consent = 'N/A';
-      if (consentIdx >= 0){
-        const answerLine = (lines[consentIdx+1] || '').trim();
-        const yn = (answerLine.match(/yes|no/i) || [])[0];
-        if (yn) consent = /^yes$/i.test(yn) ? 'Yes' : 'No';
-      }
-
-      return { storyLine, role, goal, benefit, context, consent };
-    }
-
-    // ---------- GitHub API ----------
-    function authHeaders() {
-      const headers = { 'Accept': 'application/vnd.github+json' };
-      const token = localStorage.getItem('GITHUB_TOKEN') || (tokenInput?.value?.trim() || '');
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-      return headers;
-    }
-
-    function buildIssuesURL({state, page}) {
-      const base = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/issues`;
-      const params = new URLSearchParams({
-        state: state || 'open',
-        per_page: String(PER_PAGE),
-        page: String(page || 1)
-      });
-      return `${base}?${params}`;
-    }
-
-    async function fetchIssues({append=false}={}) {
-      const state = $('#state').value;
-      const url = buildIssuesURL({state, page: currentPage});
-      try {
-        if (!append){ setStatus('Loading user stories…'); errorEl.style.display='none'; }
-        const res = await fetch(url, { headers: authHeaders() });
-        updateRateFromHeaders(res.headers);
-        if (!res.ok) {
-          if (res.status === 401) throw new Error('401 Unauthorized — invalid or missing token');
-          if (res.status === 403) throw new Error('403 Forbidden or rate-limited — add a token or wait and retry');
-          const text = await res.text();
-          throw new Error(`${res.status} ${res.statusText} — ${text}`);
-        }
-        const data = await res.json();
-        const issues = data.filter(it => !it.pull_request);
-        lastBatch = issues;
-        accumulated = append ? accumulated.concat(issues) : issues;
-        renderIssues(accumulated);
-        setStatus(`Loaded ${accumulated.length} user stor${accumulated.length===1?'y':'ies'}`);
-        moreBtn.style.display = issues.length === PER_PAGE ? 'inline-block' : 'none';
-      } catch (err) { showError(err.message); }
-    }
-
-    async function fetchIssue(number) {
-      const url = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/issues/${number}`;
-      const res = await fetch(url, { headers: authHeaders() });
-      updateRateFromHeaders(res.headers);
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`${res.status} ${res.statusText} — ${text}`);
-      }
-      return res.json();
-    }
-
-    async function fetchComments(number) {
-      const url = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/issues/${number}/comments?per_page=50`;
-      const res = await fetch(url, { headers: authHeaders() });
-      updateRateFromHeaders(res.headers);
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`${res.status} ${res.statusText} — ${text}`);
-      }
-      return res.json();
-    }
-
-    // ---------- Render list ----------
-    function renderIssues(items) {
-      const q = ($('#search').value || '').toLowerCase().trim();
-      const onlyTemplate = $('#only-template').checked;
-
-      const filtered = items.filter(i => {
-        const parsed = parseStory(i.body);
-        const hasStory = parsed.storyLine && /As a\b/i.test(parsed.storyLine);
-        if (onlyTemplate && !hasStory) return false;
-
-        if (!q) return true;
-        const hay = [
-          i.title || '',
-          i.number,
-          parsed.storyLine || '',
-          parsed.context || '',
-          (i.labels||[]).map(l=>l.name).join(' ')
-        ].join(' ').toLowerCase();
-        return hay.includes(q);
-      });
-
-      storiesEl.innerHTML = '';
-      emptyEl.style.display = filtered.length ? 'none' : 'block';
-
-      for (const i of filtered) {
-        const parsed = parseStory(i.body);
-        const labels = (i.labels||[]).map(l=>l.name).sort();
-        const updated = i.updated_at ? fmtDate(i.updated_at) : '';
-        const title = (i.title && i.title.trim()) || parsed.storyLine || `(issue #${i.number})`;
-
-        const storyParts = (parsed.role || parsed.goal || parsed.benefit)
-          ? `<div class="story-parts">
-               ${parsed.role ? `<span class="story-part">Role: ${escapeHTML(parsed.role)}</span>` : ''}
-               ${parsed.goal ? `<span class="story-part">Goal: ${escapeHTML(parsed.goal)}</span>` : ''}
-               ${parsed.benefit ? `<span class="story-part">Benefit: ${escapeHTML(parsed.benefit)}</span>` : ''}
-             </div>` : '';
-
-        const consentPill = parsed.consent === 'Yes' ? 'ok' : (parsed.consent === 'No' ? 'no' : 'na');
-
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML = `
-          <h3>
-            <button class="btn-as-title open-issue" data-number="${i.number}" title="Open in page">${escapeHTML(title)}</button>
-          </h3>
-          <div class="meta">
-            <span>#${i.number}</span><span>•</span>
-            <span>${escapeHTML(i.state)}</span>
-            ${updated ? `<span>•</span><span>Updated ${escapeHTML(updated)}</span>` : ''}
-          </div>
-
-          ${parsed.storyLine ? `<div class="desc">${escapeHTML(parsed.storyLine)}</div>` : ''}
-          ${storyParts}
-
-          ${parsed.context ? `
-            <div>
-              <div class="meta" style="margin-top:.25rem;"><strong>Additional context</strong></div>
-              <div class="desc" style="white-space:pre-wrap;">${escapeHTML(parsed.context)}</div>
-            </div>` : ''}
-
-          <div class="meta" style="margin-top:.35rem;">
-            <span class="pill ${consentPill}">Contact consent: ${escapeHTML(parsed.consent || 'N/A')}</span>
-          </div>
-
-          <div class="meta">
-            <div class="labels">
-              ${labels.map(name => `<span class="label">${escapeHTML(name)}</span>`).join('')}
-            </div>
-          </div>
-
-          <div class="meta">
-            <a href="${escapeHTML(i.html_url)}" target="_blank" rel="noopener">Open in GitHub</a>
-          </div>
-        `;
-        storiesEl.appendChild(card);
-      }
-
-      // wire up in-page openers
-      storiesEl.querySelectorAll('.open-issue').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const n = parseInt(btn.getAttribute('data-number'), 10);
-          openIssue(n, { push: true });
-        });
-      });
-    }
-
-    // ---------- CSV export ----------
-    function toCSV(items) {
-      const header = ["number","title","state","updated_iso","labels","role","goal","benefit","consent","context","url"];
-      const rows = items.map(i => {
-        const p = parseStory(i.body);
-        const labels = (i.labels||[]).map(l=>l.name).join('|');
-        const clean = s => (s||'').replace(/\r?\n/g,' ').trim();
-        return [
-          i.number,
-          clean(i.title || p.storyLine || ''),
-          i.state || '',
-          i.updated_at || '',
-          labels,
-          clean(p.role),
-          clean(p.goal),
-          clean(p.benefit),
-          p.consent || 'N/A',
-          clean(p.context),
-          i.html_url || ''
-        ];
-      });
-      const escapeCell = v => {
-        const s = String(v ?? '');
-        return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
-      };
-      const csv = [header.join(','), ...rows.map(r => r.map(escapeCell).join(','))].join('\n');
-      return csv;
-    }
-    function downloadCSV() {
-      const csv = toCSV(accumulated);
-      const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `user-stories_${new Date().toISOString().slice(0,10)}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-    }
-
-    // ---------- Drawer: open/close & render ----------
-    async function openIssue(number, {push=false} = {}) {
-      try {
-        setStatus(`Opening #${number}…`);
-        drawer.classList.add('open');
-        drawer.setAttribute('aria-hidden', 'false');
-        detailTitle.textContent = `#${number} Loading…`;
-        detailMeta.innerHTML = '';
-        detailStory.innerHTML = '';
-        detailMarkdown.innerHTML = '';
-        detailComments.style.display = 'none';
-        detailComments.innerHTML = '';
-        ghLink.removeAttribute('href');
-
-        if (push) {
-          const url = new URL(location.href);
-          url.searchParams.set('issue', String(number));
-          history.pushState({ issue: number }, '', url);
-        }
-
-        const issue = await fetchIssue(number);
-
-        // Title & GitHub link
-        detailTitle.textContent = issue.title || `Issue #${issue.number}`;
-        ghLink.href = issue.html_url || '#';
-
-        // Meta
-        const updated = issue.updated_at ? fmtDate(issue.updated_at) : '';
-        const labels = (issue.labels||[]).map(l=>l.name).sort();
-        const lblHTML = labels.map(n => `<span class="label">${escapeHTML(n)}</span>`).join(' ');
-        detailMeta.innerHTML = `
-          <div class="meta" style="margin-bottom:.5rem;">
-            <span>#${issue.number}</span><span>•</span>
-            <span>${escapeHTML(issue.state || '')}</span>
-            ${updated ? `<span>•</span><span>Updated ${escapeHTML(updated)}</span>` : ''}
-          </div>
-          ${lblHTML ? `<div class="labels">${lblHTML}</div>` : ''}
-        `;
-
-        // Extract story parts
-        const parsed = parseStory(issue.body || '');
-        const consentPill = parsed.consent === 'Yes' ? 'ok' : (parsed.consent === 'No' ? 'no' : 'na');
-        detailStory.innerHTML = `
-          ${parsed.storyLine ? `<div class="desc" style="margin:.25rem 0 .4rem;">${escapeHTML(parsed.storyLine)}</div>` : ''}
-          <div class="story-parts" style="margin-bottom:.35rem;">
-            ${parsed.role ? `<span class="story-part">Role: ${escapeHTML(parsed.role)}</span>` : ''}
-            ${parsed.goal ? `<span class="story-part">Goal: ${escapeHTML(parsed.goal)}</span>` : ''}
-            ${parsed.benefit ? `<span class="story-part">Benefit: ${escapeHTML(parsed.benefit)}</span>` : ''}
-            <span class="pill ${consentPill}">Consent: ${escapeHTML(parsed.consent || 'N/A')}</span>
-          </div>
-          ${
-            parsed.context
-            ? `<div><div class="meta"><strong>Additional context</strong></div>
-                <div class="desc" style="white-space:pre-wrap;">${escapeHTML(parsed.context)}</div></div>`
-            : ''
-          }
-        `;
-
-        // Full body
-        detailMarkdown.innerHTML = `
-          <h3>Full description</h3>
-          ${markdownToHTML(issue.body || '_No description provided._')}
-        `;
-
-        setStatus('');
-      } catch (err) {
-        detailTitle.textContent = 'Failed to load';
-        detailMarkdown.innerHTML = `<div class="notice">Error: ${escapeHTML(err.message)}</div>`;
-        setStatus('');
-      }
-    }
-
-    function closeIssue({pop=false} = {}) {
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden', 'true');
-      if (!pop) {
-        const url = new URL(location.href);
-        url.searchParams.delete('issue');
-        history.pushState({}, '', url);
-      }
-    }
-
-    // Comments loader
-    toggleCommentsBtn.addEventListener('click', async () => {
-      const params = new URLSearchParams(location.search);
-      const n = parseInt(params.get('issue') || '0', 10);
-      if (!n) return;
-      if (detailComments.style.display === 'none') {
-        toggleCommentsBtn.textContent = 'Loading…';
-        try {
-          const comments = await fetchComments(n);
-          if (!comments.length) {
-            detailComments.innerHTML = `<div class="notice">No comments.</div>`;
-          } else {
-            detailComments.innerHTML = `
-              <h3 style="margin-top:0">Comments</h3>
-              ${comments.map(c => `
-                <div style="border-top:1px solid var(--control-border); padding:.6rem 0;">
-                  <div class="meta" style="margin-bottom:.25rem;">
-                    <img src="${escapeHTML((c.user||{}).avatar_url || '')}" alt="" width="18" height="18" style="border-radius:50%; border:1px solid var(--border)" />
-                    <strong>${escapeHTML((c.user||{}).login || '')}</strong>
-                    <span>•</span><span>${escapeHTML(fmtDate(c.created_at))}</span>
-                  </div>
-                  <div class="markdown">${markdownToHTML(c.body || '')}</div>
-                </div>
-              `).join('')}
-            `;
-          }
-          detailComments.style.display = 'block';
-          toggleCommentsBtn.textContent = 'Hide comments';
-        } catch (e) {
-          detailComments.innerHTML = `<div class="notice">Failed to load comments: ${escapeHTML(e.message)}</div>`;
-          detailComments.style.display = 'block';
-          toggleCommentsBtn.textContent = 'Hide comments';
-        }
-      } else {
-        detailComments.style.display = 'none';
-        toggleCommentsBtn.textContent = 'Comments';
-      }
-    });
-
-    // ---------- Create issue ----------
-    function buildIssueBody({role, goal, benefit, context, consent}) {
-      const line = (role || goal || benefit)
-        ? `As a ${role || '_____'}, I want to ${goal || '______'}, so that I can ${benefit || '________'}.`
-        : '';
-      return [
-        'User Story',
-        '',
-        '**User story description, please follow the syntax below**',
-        line,
-        '',
-        '**Additional context**',
-        context || '',
-        '',
-        '**Can we contact you to participate in a future EOSC funded project on FAIR data management?**',
-        (consent || 'N/A')
-      ].join('\n');
-    }
-
-    async function createIssue({ title, role, goal, benefit, context, consent, labels, assignees }) {
-      const token = localStorage.getItem('GITHUB_TOKEN') || tokenInput.value.trim();
-      if (!token) throw new Error('Missing token. Set Token in the header.');
-
-      const headers = {
-        'Accept': 'application/vnd.github+json',
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      };
-
-      const body = {
-        title: title.trim(),
-        body: buildIssueBody({role, goal, benefit, context, consent}),
-        labels: (labels || []).map(s => s.trim()).filter(Boolean),
-        assignees: (assignees || '').split(',').map(s => s.trim()).filter(Boolean)
-      };
-
-      const url = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/issues`;
-      const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body) });
-      updateRateFromHeaders(res.headers);
-      if (!res.ok) {
-        if (res.status === 401) throw new Error('401 Unauthorized — check your token');
-        if (res.status === 403) throw new Error('403 Forbidden or rate-limited — verify scopes or wait');
-        if (res.status === 410) throw new Error('410 Gone — issues disabled in this repository');
-        const text = await res.text();
-        throw new Error(`${res.status} ${res.statusText} — ${text}`);
-      }
-      return res.json();
-    }
-
-    // ---------- Events ----------
-    $('#refresh').addEventListener('click', () => {
-      currentPage = 1; fetchIssues({append: false});
-    });
-    $('#state').addEventListener('change', () => {
-      currentPage = 1; fetchIssues({append: false});
-    });
-    $('#search').addEventListener('input', () => renderIssues(accumulated));
-    $('#only-template').addEventListener('change', () => renderIssues(accumulated));
-
-    $('#toggle-token').addEventListener('click', () => {
-      const isOpen = tokenBox.style.display !== 'none';
-      tokenBox.style.display = isOpen ? 'none' : 'grid';
-      $('#toggle-token').setAttribute('aria-expanded', String(!isOpen));
-    });
-    $('#token').addEventListener('change', (e) => {
-      const v = e.target.value.trim();
-      if (v) localStorage.setItem('GITHUB_TOKEN', v);
-    });
-
-    $('#export').addEventListener('click', downloadCSV);
-    $('#print').addEventListener('click', () => window.print());
-    moreBtn.addEventListener('click', () => {
-      currentPage += 1; fetchIssues({append: true});
-    });
-
-    // Modal open/close
-    openModalBtn.addEventListener('click', () => { backdrop.style.display = 'flex'; });
-    cancelModalBtn.addEventListener('click', () => { backdrop.style.display = 'none'; });
-    backdrop.addEventListener('click', (e) => { if (e.target === backdrop) backdrop.style.display = 'none'; });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape'){
-        if (drawer.classList.contains('open')) closeIssue();
-        else backdrop.style.display = 'none';
-      }
-    });
-
-    // Tag selector interactions
-    function renderSelectedTags() {
-      tagSelected.innerHTML = selectedTags.map(t => `<span class="chip selected" data-value="${escapeHTML(t)}">${escapeHTML(t)}</span>`).join('');
-      // Keep input in sync for visibility, but creation will use selectedTags + typed unique set
-      labelsInput.value = selectedTags.join(', ');
-    }
-    tagOptions.addEventListener('click', (e) => {
-      const el = e.target;
-      if (!el.classList.contains('chip')) return;
-      const val = el.getAttribute('data-value');
-      const idx = selectedTags.indexOf(val);
-      if (idx === -1) {
-        selectedTags.push(val);
-        el.classList.add('selected');
-      } else {
-        selectedTags.splice(idx, 1);
-        el.classList.remove('selected');
-      }
-      renderSelectedTags();
-    });
-    tagSelected.addEventListener('click', (e) => {
-      const el = e.target;
-      if (!el.classList.contains('chip')) return;
-      const val = el.getAttribute('data-value');
-      selectedTags = selectedTags.filter(t => t !== val);
-      // also toggle off in options list if present
-      const inOptions = tagOptions.querySelector(`.chip[data-value="${CSS.escape(val)}"]`);
-      if (inOptions) inOptions.classList.remove('selected');
-      renderSelectedTags();
-    });
-
-    // Create story -> GitHub Issue
-    storyForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const title = $('#title').value.trim();
-      const role = $('#role').value.trim();
-      const goal = $('#goal').value.trim();
-      const benefit = $('#benefit').value.trim();
-
-      if (!title) { alert('Title is required'); return; }
-      if (!role || !goal) { alert('Please provide at least the role and the goal.'); return; }
-
-      // Collect labels: selected tags + typed values
-      const typed = (labelsInput.value || '')
-        .split(',')
-        .map(s => s.trim())
-        .filter(Boolean);
-      const labelsSet = new Set([...selectedTags, ...typed, 'user-story']); // ensure default
-      const labels = Array.from(labelsSet);
-
-      const payload = {
-        title,
-        role,
-        goal,
-        benefit,
-        context: $('#context').value.trim(),
-        consent: $('#consent').value,
-        labels,
-        assignees: $('#assignees').value.trim()
-      };
-
-      try {
-        setStatus('Creating issue…');
-        const issue = await createIssue(payload);
-        setStatus('Issue created successfully.');
-        backdrop.style.display = 'none';
-
-        // Reset form
-        storyForm.reset();
-        // Reset tag UI
-        selectedTags = [];
-        tagSelected.innerHTML = '';
-        tagOptions.querySelectorAll('.chip.selected').forEach(c => c.classList.remove('selected'));
-
-        // Prepend newly created issue and open drawer
-        accumulated = [issue, ...accumulated];
-        renderIssues(accumulated);
-        openIssue(issue.number, { push: true });
-      } catch (err) {
-        alert('Failed to create issue: ' + err.message);
-        setStatus('');
-      }
-    });
-
-    // Drawer close button
-    detailCloseBtn.addEventListener('click', () => closeIssue());
-
-    // Routing
-    window.addEventListener('popstate', () => {
-      const params = new URLSearchParams(location.search);
-      const issue = params.get('issue');
-      if (issue){
-        openIssue(parseInt(issue,10), { push:false });
-      } else {
-        if (drawer.classList.contains('open')) closeIssue({pop:true});
-      }
-    });
-
-    // ---------- Init ----------
-    (function init() {
-      const saved = localStorage.getItem('GITHUB_TOKEN');
-      if (saved) tokenInput.value = '••••••••••••••••'; // visual hint only
-      currentPage = 1;
-      fetchIssues({append:false}).then(() => {
-        const params = new URLSearchParams(location.search);
-        const issue = params.get('issue');
-        if (issue) openIssue(parseInt(issue,10), { push:false });
-      });
-    })();
-  </script>
 </body>
 </html>
