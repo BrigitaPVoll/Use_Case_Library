@@ -7,154 +7,153 @@
 <style>
 
 /* ============================================================
-   THEME VARIABLES — LIGHT + DARK
+   THEME — DeiC Light + Dark
 ============================================================ */
 :root {
-  --deic-green: #BFD730;
-  --deic-blue: #16385D;
+  --deic-green:#BFD730;
+  --deic-blue:#16385D;
 
-  --bg: #F7F9F7;
-  --card: #FFFFFF;
-  --border: #DDE5D7;
+  --bg:#F7F9F7;
+  --card:#FFFFFF;
+  --border:#DDE5D7;
 
-  --text: #1B1F14;
-  --muted: #667085;
+  --text:#1B1F14;
+  --muted:#667085;
 
-  --radius: 14px;
-  --shadow: 0 4px 15px rgba(0,0,0,.08);
-  --shadow-hover: 0 8px 24px rgba(0,0,0,.12);
+  --chip-bg:#EFF6D9;
+  --chip-selected:#BFD730;
+  --chip-selected-text:#000;
 
-  --chip-bg: #EFF6D9;
-  --chip-selected-bg: var(--deic-green);
-  --chip-selected-text: #000;
+  --radius:14px;
+  --shadow:0 4px 15px rgba(0,0,0,.08);
+  --shadow-hover:0 8px 24px rgba(0,0,0,.12);
 }
-
 .dark {
-  --bg: #0E1523;
-  --card: #151E2A;
-  --border: #2C3A4D;
-  --text: #E5EAF2;
-  --muted: #9AA4B6;
-  --chip-bg: #243044;
-  --chip-selected-bg: var(--deic-green);
-  --chip-selected-text: #000;
+  --bg:#0E1523;
+  --card:#151E2A;
+  --border:#2C3A4D;
+  --text:#E6EAF1;
+  --muted:#99A3B3;
+  --chip-bg:#273346;
+  --chip-selected:#BFD730;
+  --chip-selected-text:#000;
 }
 
 /* ============================================================
    BASE
 ============================================================ */
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Inter, ui-sans-serif, system-ui;
-  background: var(--bg);
-  color: var(--text);
-  transition: background .25s, color .25s;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .25s,color .25s;
 }
-a { color: var(--deic-blue); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem; }
+.wrap{max-width:1100px;margin:0 auto;padding:0 1.25rem}
+a{color:var(--deic-blue);text-decoration:none}
+a:hover{text-decoration:underline}
 
 /* ============================================================
    HEADER
 ============================================================ */
-header {
-  position: sticky; top: 0; z-index: 20;
-  background: rgba(255,255,255,.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 3px solid var(--deic-green);
-  box-shadow: var(--shadow);
+header{
+  position:sticky;top:0;z-index:20;
+  background:#ffffffee;
+  backdrop-filter:blur(12px);
+  border-bottom:3px solid var(--deic-green);
+  box-shadow:var(--shadow);
 }
-.dark header { background: rgba(20,26,40,.85); }
+.dark header{
+  background:#141a28dd;
+}
+.header-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 0;flex-wrap:wrap;gap:1rem;
+}
+.brand{display:flex;align-items:center;gap:.75rem}
+.logo{
+  width:42px;height:42px;border-radius:12px;
+  background:conic-gradient(from 180deg,var(--deic-green),var(--deic-blue),#000,var(--deic-green));
+  border:1px solid var(--border);box-shadow:var(--shadow);
+}
+h1{margin:0;font-size:1.6rem;font-weight:800;color:var(--deic-blue)}
+.dark h1{color:var(--deic-green)}
+.tagline{margin:.2rem 0 0;color:var(--muted)}
 
-.header-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 1rem 0; flex-wrap: wrap; gap: 1rem;
+.btn{
+  padding:.65rem 1rem;border-radius:var(--radius);border:none;
+  font-weight:600;cursor:pointer;transition:.15s;
 }
+.btn-primary{background:var(--deic-green);color:#000}
+.btn-primary:hover{filter:brightness(1.1)}
+.btn-secondary{background:var(--deic-blue);color:#fff}
+.btn-secondary:hover{filter:brightness(1.1)}
 
-.brand { display: flex; align-items: center; gap: .75rem; }
-.logo {
-  width: 42px; height: 42px; border-radius: 12px;
-  background: conic-gradient(from 180deg,var(--deic-green),var(--deic-blue),#000,var(--deic-green));
-  border: 1px solid var(--border); box-shadow: var(--shadow);
-}
-h1 { margin: 0; font-size: 1.6rem; font-weight: 800; color: var(--deic-blue); }
-.dark h1 { color: var(--deic-green); }
-.tagline { margin: .2rem 0 0; color: var(--muted); max-width: 650px; }
-
-/* ============================================================
-   BUTTONS
-============================================================ */
-.btn {
-  padding:.65rem 1rem; border-radius: var(--radius); border:none;
-  font-weight:600; cursor:pointer; transition:.15s;
-}
-.btn-primary { background: var(--deic-green); color:#000; }
-.btn-primary:hover { filter: brightness(1.1); }
-.btn-secondary { background: var(--deic-blue); color:white; }
-.btn-secondary:hover { filter: brightness(1.1); }
-
-/* ============================================================
-   FILTERS + SORT + DARK MODE
-============================================================ */
-.filters {
-  margin-top: 1rem;
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 1rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.filter-top {
-  display:flex; gap:1rem; flex-wrap:wrap;
-  align-items:center; justify-content:space-between;
-}
-
-input, select {
-  padding:.65rem .75rem;
-  border-radius:var(--radius);
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--text);
-}
+.switch{display:flex;align-items:center;gap:.35rem;cursor:pointer}
 
 /* ============================================================
-   LABEL CHIPS (MULTI-SELECT)
+   FILTER BAR
 ============================================================ */
-.chip-row {
+.filters{
   margin-top:1rem;
-  display:flex; flex-wrap:wrap;
-  gap:.5rem;
-}
-.chip {
-  padding:.35rem .75rem;
-  font-size:.85rem;
-  background: var(--chip-bg);
+  background:var(--card);
   border:1px solid var(--border);
-  border-radius:999px;
-  cursor:pointer;
-  transition: background .15s;
+  padding:1rem;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
 }
-.chip.selected {
-  background: var(--chip-selected-bg);
-  color: var(--chip-selected-text);
-  border-color: var(--chip-selected-bg);
+
+.filter-top{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  justify-content:space-between;align-items:center;
+}
+input,select{
+  padding:.65rem .75rem;border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:var(--card);color:var(--text);
 }
 
 /* ============================================================
-   GRID OF USE CASES
+   FACETED FILTER GROUP
 ============================================================ */
-.grid {
+.facet-group{
+  margin-top:1rem;
+  display:flex;flex-direction:column;
+  gap:1.8rem;
+}
+.facet-title{
+  margin:0 0 .4rem;
+  font-size:.9rem;font-weight:600;color:var(--muted);
+}
+.facet-chips{
+  display:flex;flex-wrap:wrap;gap:.45rem;
+}
+.chip{
+  padding:.35rem .7rem;
+  border-radius:999px;
+  background:var(--chip-bg);
+  border:1px solid var(--border);
+  cursor:pointer;
+  font-size:.82rem;
+}
+.chip.selected{
+  background:var(--chip-selected);
+  border-color:var(--chip-selected);
+  color:var(--chip-selected-text);
+}
+
+/* ============================================================
+   GRID
+============================================================ */
+.grid{
   margin-top:1.5rem;
   display:grid;
-  gap:1.25rem;
   grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:1.25rem;
 }
-
-.card {
-  background: var(--card);
+.card{
+  background:var(--card);
   border:1px solid var(--border);
   border-radius:var(--radius);
   padding:1.25rem;
@@ -162,80 +161,99 @@ input, select {
   cursor:pointer;
   transition:.2s ease;
 }
-.card:hover { transform:translateY(-3px); box-shadow:var(--shadow-hover); }
-
-.card-title { font-size:1.1rem; font-weight:700; margin-bottom:.5rem; }
-.meta { font-size:.85rem; color:var(--muted); margin-bottom:.6rem; }
-.labels { display:flex; flex-wrap:wrap; gap:.35rem; }
-.label {
-  background:#EFF6D9; padding:.2rem .55rem; border-radius:999px;
-  border:1px solid var(--border); font-size:.75rem; color:#1F2A14;
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--deic-green)}
+.card-title{font-weight:700;font-size:1.1rem;margin-bottom:.5rem}
+.meta{color:var(--muted);font-size:.85rem;margin-bottom:.6rem}
+.labels{display:flex;flex-wrap:wrap;gap:.3rem}
+.label{
+  padding:.2rem .55rem;border-radius:999px;
+  background:#EFF6D9;border:1px solid var(--border);
+  font-size:.75rem;color:#203018;
 }
-.dark .label { background:#243044; color:#E5EAF2; }
-
-/* ============================================================
-   PAGINATION
-============================================================ */
-.pagination {
-  margin:2rem 0; display:flex; gap:.5rem;
-  justify-content:center; align-items:center;
-}
-.page-btn {
-  padding:.5rem .9rem; border-radius:var(--radius);
-  background:var(--card); border:1px solid var(--border);
-  cursor:pointer;
-}
-.page-btn:hover { background:var(--chip-bg); }
-.page-info { font-size:.9rem; color:var(--muted); }
+.dark .label{background:#243044;color:#E6EAF1}
 
 /* ============================================================
-   DARK-MODE SWITCH
+   PAGINATION + SORT
 ============================================================ */
-.switch {
-  display:flex; align-items:center; gap:.4rem; cursor:pointer;
+.pagination{
+  margin:2rem 0;display:flex;gap:.5rem;
+  justify-content:center;align-items:center;
 }
-.switch input { cursor:pointer; }
+.page-btn{
+  padding:.5rem .9rem;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);cursor:pointer;
+}
+.page-btn:hover{background:var(--chip-bg)}
+.page-info{color:var(--muted);font-size:.9rem}
 
 /* ============================================================
-   BOTTOM-SHEET PREVIEW
+   BOTTOM SHEET PREVIEW
 ============================================================ */
-#sheet-backdrop {
-  position:fixed; inset:0;
+#sheet-backdrop{
+  position:fixed;inset:0;
   background:rgba(0,0,0,.3);
-  display:none;
-  z-index:90;
+  display:none;z-index:90;
 }
-#sheet {
-  position:fixed;
-  left:0; right:0; bottom:-100%;
+#sheet{
+  position:fixed;left:0;right:0;bottom:-100%;
   background:var(--card);
   border-radius:24px 24px 0 0;
   padding:1.5rem;
+  box-shadow:0 -8px 25px rgba(0,0,0,.25);
   max-height:85vh;
   overflow-y:auto;
-  box-shadow:0 -8px 25px rgba(0,0,0,.25);
   z-index:100;
   transition:bottom .35s cubic-bezier(.25,.8,.25,1);
 }
-#sheet.open { bottom:0; }
-
-.sheet-header {
-  display:flex; justify-content:space-between; align-items:center;
+#sheet.open{bottom:0}
+.sheet-header{
+  display:flex;justify-content:space-between;align-items:center;
 }
-.sheet-title { font-size:1.25rem; font-weight:800; }
-.sheet-close {
-  background:var(--card); border:1px solid var(--border);
-  padding:.45rem .8rem; border-radius:var(--radius);
+.sheet-title{margin:0;font-size:1.25rem;font-weight:800}
+.sheet-close{
+  padding:.45rem .8rem;border-radius:var(--radius);
+  background:var(--card);border:1px solid var(--border);
   cursor:pointer;
 }
 
+/* ============================================================
+   MODAL (for CREATE STORY)
+============================================================ */
+#modal-backdrop{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.35);
+  display:none;align-items:center;justify-content:center;
+  z-index:200;
+}
+#modal{
+  width:min(620px,92vw);
+  background:var(--card);
+  border:2px solid var(--deic-green);
+  border-radius:var(--radius);
+  padding:1.5rem;
+  box-shadow:0 8px 40px rgba(0,0,0,.25);
+}
+.modal-title{
+  font-size:1.3rem;font-weight:800;margin-top:0;color:var(--deic-blue)
+}
+.dark .modal-title{color:var(--deic-green)}
+.modal-grid{
+  display:grid;gap:1rem;grid-template-columns:1fr 1fr;
+}
+.modal-grid .full{grid-column:1/-1}
+textarea{
+  min-height:110px;resize:vertical;
+  padding:.8rem;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+}
+
+/**************************************************************/
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     HEADER
-============================================================ -->
 <header>
   <div class="wrap">
     <div class="header-row">
@@ -248,11 +266,9 @@ input, select {
       </div>
 
       <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-        <button id="openNew" class="btn btn-primary">New Story</button>
+        <button id="openModal" class="btn btn-primary">New Story</button>
         <button id="exportCsv" class="btn btn-secondary">CSV</button>
-        <button id="printPdf" class="btn btn-secondary">Print / PDF</button>
-
-        <!-- DARK MODE -->
+        <button id="printPdf" class="btn btn-secondary">Print/PDF</button>
         <label class="switch">
           <input id="darkToggle" type="checkbox">
           <span>🌙</span>
@@ -260,38 +276,47 @@ input, select {
       </div>
     </div>
 
-    <!-- FILTERS -->
     <div class="filters">
 
       <div class="filter-top">
         <input id="search" placeholder="Search…"/>
-
         <select id="sort">
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
         </select>
-
         <button id="refresh" class="btn btn-primary">Refresh</button>
       </div>
 
-      <!-- LABEL CHIPS (ALL 17) -->
-      <div id="chipRow" class="chip-row"></div>
-    </div>
+      <!-- FACETS -->
+      <div class="facet-group">
 
+        <div class="facet">
+          <div class="facet-title">Contact Consent</div>
+          <div class="facet-chips" id="facetConsent"></div>
+        </div>
+
+        <div class="facet">
+          <div class="facet-title">Domain</div>
+          <div class="facet-chips" id="facetDomain"></div>
+        </div>
+
+        <div class="facet">
+          <div class="facet-title">Institution</div>
+          <div class="facet-chips" id="facetInstitution"></div>
+        </div>
+
+      </div>
+
+    </div>
   </div>
 </header>
 
-<!-- ============================================================
-     USE CASE GRID
-============================================================ -->
 <div class="wrap">
   <section id="storyGrid" class="grid"></section>
-
-  <div id="empty" style="display:none;color:var(--muted);text-align:center;padding:2rem">
-    No user stories found.
+  <div id="empty" style="display:none;text-align:center;padding:2rem;color:var(--muted)">
+    No stories found.
   </div>
 
-  <!-- PAGINATION -->
   <div class="pagination">
     <button id="prevPage" class="page-btn">Previous</button>
     <span id="pageInfo" class="page-info"></span>
@@ -299,27 +324,92 @@ input, select {
   </div>
 </div>
 
-<!-- ============================================================
-     BOTTOM SHEET PREVIEW
-============================================================ -->
+<!-- BOTTOM SHEET PREVIEW -->
 <div id="sheet-backdrop"></div>
 <div id="sheet">
   <div class="sheet-header">
-    <h3 id="sheetTitle" class="sheet-title">Loading…</h3>
+    <h3 id="sheetTitle" class="sheet-title"></h3>
     <button id="sheetClose" class="sheet-close">Close</button>
   </div>
   <div id="sheetContent"></div>
+</div>
+
+<!-- NEW STORY MODAL -->
+<div id="modal-backdrop">
+  <div id="modal">
+    <h3 class="modal-title">Create New User Story</h3>
+
+    <form id="storyForm">
+      <div class="modal-grid">
+
+        <div class="full">
+          <label>Title</label>
+          <input id="titleInput" required/>
+        </div>
+
+        <div>
+          <label>As a…</label>
+          <input id="roleInput"/>
+        </div>
+        <div>
+          <label>I want to…</label>
+          <input id="goalInput"/>
+        </div>
+
+        <div class="full">
+          <label>…so that I can…</label>
+          <input id="benefitInput"/>
+        </div>
+
+        <div class="full">
+          <label>Additional context</label>
+          <textarea id="contextInput"></textarea>
+        </div>
+
+        <div class="full">
+          <label>Contact consent</label>
+          <select id="consentInput">
+            <option value="Yes">YES</option>
+            <option value="No">NO</option>
+            <option value="N/A" selected>N/A</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label>Labels (comma separated)</label>
+          <input id="labelsInput" value="user-story"/>
+        </div>
+
+        <div class="full">
+          <label>Assignees (comma GitHub usernames)</label>
+          <input id="assigneesInput"/>
+        </div>
+
+        <div class="full">
+          <label>GitHub Token (stored in browser)</label>
+          <input id="tokenInput" type="password" placeholder="ghp_…" />
+          <small style="color:var(--muted)">Needed to create stories (write access)</small>
+        </div>
+
+      </div>
+
+      <div style="text-align:right;margin-top:1rem">
+        <button type="button" id="cancelModal" class="btn btn-secondary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script>
 /* ============================================================
    CONFIG
 ============================================================ */
-const OWNER = "BrigitaPVoll";
-const REPO  = "User_Story_Library";
-const PER_PAGE = 20;
+const OWNER="BrigitaPVoll";
+const REPO="User_Story_Library";
+const PER_PAGE=20;
 
-const STATIC_LABELS = [
+const STATIC_LABELS=[
   "Contact consent>NO","Contact consent>YES",
   "Domain>Agricultural Sciences","Domain>Domain agnostic","Domain>Engineering and Technology",
   "Domain>Humanities","Domain>Medical and Health Sciences","Domain>Natural Sciences","Domain>Social Sciences",
@@ -329,56 +419,62 @@ const STATIC_LABELS = [
   "Institution>University of Copenhagen","Institution>University of Southern Denmark (SDU)"
 ];
 
-const $ = s => document.querySelector(s);
+const FACETS = {
+  consent: ["Contact consent>YES","Contact consent>NO"],
+  domain: STATIC_LABELS.filter(x=>x.startsWith("Domain>")),
+  inst: STATIC_LABELS.filter(x=>x.startsWith("Institution>"))
+};
 
-let issues = [];
-let filtered = [];
-let page = 1;
+const $ = s => document.querySelector(s);
+let issues=[];
+let filtered=[];
+let page=1;
+let activeChips=new Set();
 
 /* ============================================================
    DARK MODE
 ============================================================ */
-const toggleDark = $("#darkToggle");
+const darkToggle=$("#darkToggle");
 if(localStorage.getItem("darkMode")==="true"){
   document.body.classList.add("dark");
-  toggleDark.checked = true;
+  darkToggle.checked=true;
 }
-toggleDark.onchange = ()=>{
+darkToggle.onchange=()=>{
   document.body.classList.toggle("dark");
-  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+  localStorage.setItem("darkMode",document.body.classList.contains("dark"));
 };
 
 /* ============================================================
-   CHIP FILTER SETUP
+   FACET BUILD
 ============================================================ */
-let activeChips = new Set();
-
-function renderChips(){
-  const row = $("#chipRow");
-  row.innerHTML = "";
-  STATIC_LABELS.forEach(label=>{
-    const chip = document.createElement("div");
+function buildFacet(id,list){
+  const box=$(id);
+  box.innerHTML="";
+  list.forEach(label=>{
+    const chip=document.createElement("div");
     chip.className="chip";
-    chip.textContent = label;
-    chip.onclick = ()=>{
-      if(activeChips.has(label)) activeChips.delete(label);
+    chip.textContent=label;
+    chip.onclick=()=>{
+      if(activeChips.has(label))activeChips.delete(label);
       else activeChips.add(label);
       chip.classList.toggle("selected");
       applyFilters();
     };
-    row.appendChild(chip);
+    box.appendChild(chip);
   });
+}
+function buildFacets(){
+  buildFacet("#facetConsent", FACETS.consent);
+  buildFacet("#facetDomain", FACETS.domain);
+  buildFacet("#facetInstitution", FACETS.inst);
 }
 
 /* ============================================================
-   FETCH ISSUES
+   LOAD ISSUES (state=all)
 ============================================================ */
 async function loadIssues(){
-  const res = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/issues?state=all&per_page=100`
-  );
-  const data = await res.json();
-  issues = data.filter(x=>!x.pull_request);
+  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues?state=all&per_page=100`);
+  issues = (await res.json()).filter(x=>!x.pull_request);
   applyFilters();
 }
 
@@ -390,53 +486,53 @@ function applyFilters(){
   const sort = $("#sort").value;
 
   filtered = issues.filter(it=>{
-    // Text search
-    const hay = `${it.title} ${it.body}`.toLowerCase();
-    if(q && !hay.includes(q)) return false;
+    const labels=(it.labels||[]).map(l=>l.name);
 
-    // Chips filter
-    if(activeChips.size>0){
-      const names = (it.labels||[]).map(l=>l.name);
-      for(const chip of activeChips){
-        if(!names.includes(chip)) return false;
-      }
+    if(q){
+      const hay=`${it.title} ${it.body}`.toLowerCase();
+      if(!hay.includes(q))return false;
     }
+
+    // facet filtering
+    for(const chip of activeChips){
+      if(!labels.includes(chip))return false;
+    }
+
     return true;
   });
 
-  // Sorting
   filtered.sort((a,b)=>{
     if(sort==="newest") return new Date(b.created_at)-new Date(a.created_at);
     return new Date(a.created_at)-new Date(b.created_at);
   });
 
-  // Reset to page 1
-  page = 1;
+  page=1;
   renderPage();
 }
 
 function renderPage(){
-  const grid = $("#storyGrid");
+  const grid=$("#storyGrid");
   grid.innerHTML="";
 
-  const start = (page-1)*PER_PAGE;
-  const end = start + PER_PAGE;
-  const slice = filtered.slice(start,end);
+  const start=(page-1)*PER_PAGE;
+  const end=start+PER_PAGE;
+  const slice=filtered.slice(start,end);
 
   if(slice.length===0){
     $("#empty").style.display="block";
-    $("#pageInfo").textContent = "";
+    $("#pageInfo").textContent="";
     return;
   }
 
   $("#empty").style.display="none";
 
   slice.forEach(it=>{
-    const card = document.createElement("div");
+    const card=document.createElement("div");
     card.className="card";
 
-    const labelsHTML = (it.labels||[])
-      .map(l=>`<span class="label">${l.name}</span>`).join("");
+    const labelsHTML=(it.labels||[])
+      .map(l=>`<span class="label">${l.name}</span>`)
+      .join("");
 
     card.innerHTML=`
       <div class="card-title">${it.title}</div>
@@ -444,37 +540,27 @@ function renderPage(){
       <div class="labels">${labelsHTML}</div>
     `;
 
-    card.onclick = ()=>openSheet(it.number);
+    card.onclick=()=>openSheet(it.number);
     grid.appendChild(card);
   });
 
-  $("#pageInfo").textContent =
-    `Page ${page} of ${Math.ceil(filtered.length/PER_PAGE)}`;
-
-  $("#prevPage").disabled = (page===1);
-  $("#nextPage").disabled = (page*PER_PAGE >= filtered.length);
+  $("#pageInfo").textContent = `Page ${page} / ${Math.ceil(filtered.length/PER_PAGE)}`;
+  $("#prevPage").disabled = page===1;
+  $("#nextPage").disabled = page*PER_PAGE >= filtered.length;
 }
 
-/* ============================================================
-   PAGINATION BUTTONS
-============================================================ */
-$("#prevPage").onclick = ()=>{
-  if(page>1){ page--; renderPage(); }
-};
-$("#nextPage").onclick = ()=>{
-  if(page*PER_PAGE < filtered.length){ page++; renderPage(); }
-};
+/* Pagination */
+$("#prevPage").onclick=()=>{ if(page>1){page--;renderPage();} };
+$("#nextPage").onclick=()=>{ if(page*PER_PAGE < filtered.length){page++;renderPage();} };
 
 /* ============================================================
-   BOTTOM SHEET PREVIEW
+   PREVIEW BOTTOM SHEET
 ============================================================ */
 async function openSheet(num){
   $("#sheet-backdrop").style.display="block";
   $("#sheet").classList.add("open");
 
-  const res = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/issues/${num}`
-  );
+  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${num}`);
   const it = await res.json();
 
   $("#sheetTitle").textContent = it.title;
@@ -482,14 +568,14 @@ async function openSheet(num){
   const labelsHTML = (it.labels||[])
     .map(l=>`<span class="label">${l.name}</span>`).join("");
 
-  $("#sheetContent").innerHTML = `
+  $("#sheetContent").innerHTML=`
     <div><strong>ID:</strong> #${it.number}</div>
     <div><strong>Status:</strong> ${it.state}</div>
     <div><strong>Updated:</strong> ${new Date(it.updated_at).toLocaleString()}</div>
 
     <hr style="margin:1rem 0">
 
-    <pre style="white-space:pre-wrap;background:#FAFAF7;padding:1rem;border-radius:var(--radius);border:1px solid var(--border);">
+    <pre style="white-space:pre-wrap;background:#F0F1F3;padding:1rem;border-radius:var(--radius);border:1px solid var(--border);">
 ${it.body||""}
     </pre>
 
@@ -498,25 +584,78 @@ ${it.body||""}
     </div>
 
     <div style="margin-top:1.2rem">
-      <a href="${it.html_url}" target="_blank">Open on GitHub ↗</a>
+      ${it.html_url}Open on GitHub ↗</a>
     </div>
   `;
 }
+$("#sheet-backdrop").onclick = closeSheet;
+$("#sheetClose").onclick = closeSheet;
+
 function closeSheet(){
   $("#sheet-backdrop").style.display="none";
   $("#sheet").classList.remove("open");
 }
 
-$("#sheet-backdrop").onclick = closeSheet;
-$("#sheetClose").onclick = closeSheet;
+/* ============================================================
+   CREATE STORY (POST to GitHub)
+============================================================ */
+$("#openModal").onclick=()=>$("#modal-backdrop").style.display="flex";
+$("#cancelModal").onclick=()=>$("#modal-backdrop").style.display="none";
+
+$("#storyForm").onsubmit=async(e)=>{
+  e.preventDefault();
+
+  const token=$("#tokenInput").value.trim();
+  if(!token){alert("Token required to create issues.");return;}
+
+  const title=$("#titleInput").value.trim();
+  const role=$("#roleInput").value.trim();
+  const goal=$("#goalInput").value.trim();
+  const benefit=$("#benefitInput").value.trim();
+  const context=$("#contextInput").value.trim();
+  const consent=$("#consentInput").value;
+  const labels=$("#labelsInput").value.split(",").map(x=>x.trim()).filter(Boolean);
+  const assignees=$("#assigneesInput").value.split(",").map(x=>x.trim()).filter(Boolean);
+
+  const body=[
+    "User Story",
+    "",
+    `As a ${role||"____"}, I want to ${goal||"____"}, so that I can ${benefit||"____"}.`,
+    "",
+    "Additional context:",
+    context,
+    "",
+    "Contact consent:",
+    consent
+  ].join("\n");
+
+  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues`,{
+    method:"POST",
+    headers:{
+      "Accept":"application/vnd.github+json",
+      "Authorization":"Bearer "+token,
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({title,body,labels,assignees})
+  });
+
+  if(!res.ok){
+    alert("Failed: "+await res.text());
+    return;
+  }
+
+  alert("Story created!");
+  $("#modal-backdrop").style.display="none";
+  loadIssues();
+};
 
 /* ============================================================
-   CSV + PRINT
+   CSV EXPORT + PRINT
 ============================================================ */
-$("#exportCsv").onclick = ()=>{
-  let rows = [["number","title","state","updated","labels","body"]];
+$("#exportCsv").onclick=()=>{
+  let rows=[["number","title","state","updated","labels","body"]];
   issues.forEach(i=>{
-    const labels = (i.labels||[]).map(l=>l.name).join("|");
+    const labels=(i.labels||[]).map(l=>l.name).join("|");
     rows.push([
       i.number,
       i.title.replace(/"/g,'""'),
@@ -526,27 +665,25 @@ $("#exportCsv").onclick = ()=>{
       (i.body||"").replace(/"/g,'""')
     ].map(v=>`"${v}"`).join(","));
   });
-
-  const blob = new Blob([rows.join("\n")],{type:'text/csv'});
-  const a = document.createElement("a");
+  const blob=new Blob([rows.join("\n")],{type:'text/csv'});
+  const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
-  a.download="stories.csv";
+  a.download="user_stories.csv";
   a.click();
 };
-
-$("#printPdf").onclick = ()=>window.print();
+$("#printPdf").onclick=()=>window.print();
 
 /* ============================================================
    EVENTS
 ============================================================ */
 $("#search").oninput = applyFilters;
 $("#sort").onchange = applyFilters;
-$("#refresh").onclick = ()=>loadIssues();
+$("#refresh").onclick = loadIssues;
 
 /* ============================================================
    INIT
 ============================================================ */
-renderChips();
+buildFacets();
 loadIssues();
 
 </script>
