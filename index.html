@@ -2,110 +2,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>User Story Library · Modern Green/Teal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="light dark" />
+<meta charset="utf-8"/>
+<title>User Story Library · Dark Forest Theme</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="color-scheme" content="dark"/>
+<style>
 
-  <style>
-/* =====================================================================
-   THEME — Modern Green/Teal Minimal
-   ===================================================================== */
+/* =========================================================
+   DARK FOREST GREEN THEME — OPTION B (Readable Cards)
+   ========================================================= */
+
+/* Background, text, cards */
 :root {
-  --green-dark: #4c6626;
-  --green:      #7fb44f;
-  --teal:       #1b8c80;
+  --bg: #0F1A13;                 /* deep forest green-black */
+  --card-bg: #1C2A22;            /* lighter dark green for readability */
+  --card-border: #304238;
 
-  --bg:         #f7f9f7;
-  --card-bg:    #ffffff;
-  --fg:         #0e1a12;
-  --muted:      #6c7a70;
+  --fg: #E8F0EB;                 /* soft light greenish-white */
+  --muted: #9EB7AD;              /* muted grey-green */
 
-  --border:     #dbe5d2;
-  --shadow:     0 8px 24px rgba(0,0,0,.08);
-  --shadow-deep:0 16px 40px rgba(0,0,0,.12);
+  /* Accents */
+  --teal: #1FA39B;
+  --teal-light: #29C9BD;
 
-  --accent: var(--teal);
-  --accent-contrast: #ffffff;
-  --focus: color-mix(in oklab, var(--teal) 65%, white);
+  /* Buttons */
+  --btn-bg: var(--teal);
+  --btn-fg: #ffffff;
+
+  /* Shadows */
+  --shadow: 0 8px 24px rgba(0,0,0,.35);
+  --shadow-deep: 0 16px 48px rgba(0,0,0,.45);
+
+  --radius: 14px;
 }
 
+/* Base */
 body {
   margin: 0;
   font-family: Inter, sans-serif;
-  background:
-    radial-gradient(800px 400px at 10% -10%, color-mix(in oklab,var(--green)20%,transparent), transparent 45%),
-    radial-gradient(800px 400px at 90% -10%, color-mix(in oklab,var(--teal)18%,transparent), transparent 45%),
-    var(--bg);
+  background: var(--bg);
   color: var(--fg);
   line-height: 1.55;
+
+  /* gentle texture */
+  background:
+    radial-gradient(900px 500px at 10% -10%, rgba(10,40,25,.4), transparent 60%),
+    radial-gradient(900px 500px at 90% -10%, rgba(20,70,60,.25), transparent 60%),
+    var(--bg);
 }
 
 * { box-sizing: border-box; }
-a { color: var(--accent); }
 
-/* =====================================================================
+/* =========================================================
    HEADER
-   ===================================================================== */
+   ========================================================= */
+
 header {
   position: sticky;
   top: 0;
-  z-index: 10;
-  background: color-mix(in oklab, var(--green-dark) 8%, white);
+  z-index: 20;
+  padding: 1rem 0;
+  background: rgba(15,26,19,0.85);
   backdrop-filter: blur(12px);
-  border-bottom: 4px solid var(--green);
-  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  border-bottom: 2px solid var(--card-border);
+  box-shadow: 0 4px 20px rgba(0,0,0,.4);
 }
-.wrap { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem; }
 
-.bar {
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem; }
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
-.brand { display: flex; align-items: center; gap: .75rem; }
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
 .logo {
-  width: 42px; height: 42px; border-radius: 12px;
-  background: conic-gradient(from 180deg, var(--green), var(--teal), var(--green-dark), var(--green));
-  border: 1px solid var(--border); box-shadow: var(--shadow);
-}
-h1 {
-  margin: 0; font-size: 1.55rem; color: var(--green-dark); font-weight: 800;
-}
-.tagline {
-  margin: 0; font-size: .95rem; color: var(--muted);
-  max-width: 760px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: conic-gradient(from 180deg, #2E8B57, #1FA39B, #0F1A13, #2E8B57);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--card-border);
 }
 
-/* =====================================================================
-   HEADER ACTION BUTTONS
-   ===================================================================== */
-.header-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
-.btn {
-  padding: .65rem 1rem; border-radius: 12px; border: none;
-  font-weight: 600; cursor: pointer;
-  transition: filter .15s ease, transform .15s ease;
+h1 {
+  font-size: 1.6rem;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: .5px;
 }
+
+.tagline {
+  margin: .25rem 0 0;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+/* =========================================================
+   HEADER BUTTONS
+   ========================================================= */
+
+.btn {
+  padding: .65rem 1rem;
+  border-radius: var(--radius);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .15s ease;
+}
+
 .btn-primary {
-  background: var(--accent); color: var(--accent-contrast);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
   box-shadow: var(--shadow);
 }
-.btn-secondary {
-  background: color-mix(in oklab, var(--green) 20%, white);
-  color: #0c140d;
-  border: 1px solid var(--border);
-}
-.btn:hover { filter: brightness(1.05); }
 
-/* =====================================================================
-   FILTER PANEL
-   ===================================================================== */
+.btn-secondary {
+  background: #22352D;         /* muted dark green button */
+  color: var(--fg);
+  border: 1px solid var(--card-border);
+}
+
+/* Hover effects */
+.btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+
+/* =========================================================
+   FILTER PANEL (dark version)
+   ========================================================= */
+
 .filters {
   margin-top: 1rem;
-  background: #ffffff;
-  border: 1px solid var(--border);
-  border-radius: 12px;
   padding: 1rem;
-  display: grid;
-  gap: 1rem;
+  border-radius: var(--radius);
+  background: #15221B;
+  border: 1px solid var(--card-border);
   box-shadow: var(--shadow);
 }
 
@@ -114,6 +152,7 @@ h1 {
   grid-template-columns: 2fr 1fr 1fr auto auto;
   gap: .75rem;
 }
+
 @media (max-width: 900px) {
   .controls-row { grid-template-columns: 1fr 1fr 1fr 1fr; }
 }
@@ -124,74 +163,86 @@ h1 {
   .controls-row { grid-template-columns: 1fr; }
 }
 
-label { font-size: .85rem; color: var(--muted); }
-input, select {
-  width: 100%; padding: .65rem .75rem; border-radius: 10px;
-  border: 1px solid var(--border); background: #fff; color: var(--fg);
+label {
+  font-size: .85rem;
+  color: var(--muted);
 }
 
-/* =====================================================================
-   FLOATING CARD GRID
-   ===================================================================== */
-main { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 5rem; }
+input, select {
+  width: 100%;
+  padding: .65rem .75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--card-border);
+  background: #0F1A13;
+  color: var(--fg);
+}
+
+/* =========================================================
+   GRID + CARDS
+   ========================================================= */
+
+main { padding: 2rem 1.25rem 4rem; }
 
 .grid {
   margin-top: 1.25rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
   gap: 1.25rem;
 }
 
 .card {
   background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 18px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
   padding: 1.25rem;
   box-shadow: var(--shadow);
-  transition: transform .2s ease, box-shadow .2s ease;
+  transition: .2s ease;
 }
+
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px rgba(0,0,0,.15);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-deep);
 }
 
+/* Title button */
 .card-title-btn {
-  font-size: 1.05rem;
   padding: .55rem .85rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: white;
+  border-radius: var(--radius);
+  border: 1px solid var(--card-border);
+  background: #0F1A13;
+  color: var(--fg);
+  font-size: 1rem;
   cursor: pointer;
-  transition: background .15s ease;
+  transition: .15s ease;
 }
+
 .card-title-btn:hover {
-  background: color-mix(in oklab, var(--teal) 10%, white);
+  background: #1A2E25;
 }
 
-.meta {
-  color: var(--muted);
-  font-size: .82rem;
+/* Labels */
+.labels-row {
   display: flex;
-  gap: .5rem;
   flex-wrap: wrap;
-  margin-bottom: .35rem;
+  gap: .35rem;
 }
-
-.labels-row { display: flex; flex-wrap: wrap; gap: .35rem; }
 .label {
-  padding: .18rem .55rem;
-  background: color-mix(in oklab, var(--green) 25%, white);
+  padding: .2rem .55rem;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  font-size: .78rem;
+  font-size: .75rem;
+  background: #2D4036;
+  border: 1px solid var(--card-border);
   color: var(--fg);
 }
 
-/* =====================================================================
-   iOS BOTTOM DRAWER
-   ===================================================================== */
+/* =========================================================
+   BOTTOM DRAWER (iOS style)
+   ========================================================= */
+
 #drawer-backdrop {
-  position: fixed; inset: 0; background: rgba(0,0,0,.2);
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
   display: none;
   z-index: 90;
 }
@@ -201,47 +252,53 @@ main { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 5rem; }
   left: 50%;
   bottom: -90%;
   transform: translateX(-50%);
-  width: min(720px, 94vw);
-  background: #ffffff;
+  width: min(720px,94vw);
+  background: #13211A;
+  color: var(--fg);
   border-radius: 24px 24px 0 0;
+  padding: 1.5rem;
   box-shadow: var(--shadow-deep);
-  padding: 1.25rem;
   transition: bottom .35s cubic-bezier(.25,.8,.25,1);
   z-index: 100;
   max-height: 88vh;
   overflow-y: auto;
+  border-top: 1px solid var(--card-border);
 }
-#drawer.open {
-  bottom: 0;
-}
+
+#drawer.open { bottom: 0; }
 
 .drawer-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-.drawer-title {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--green-dark);
-}
-.drawer-close {
-  padding: .45rem .8rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: white;
-  cursor: pointer;
-}
-.drawer-close:hover {
-  background: color-mix(in oklab, var(--teal) 10%, white);
+  justify-content: space-between;
 }
 
-/* =====================================================================
-   MODAL — New Story
-   ===================================================================== */
+.drawer-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--teal-light);
+}
+
+.drawer-close {
+  padding: .45rem .85rem;
+  border-radius: var(--radius);
+  background: #0F1A13;
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+}
+.drawer-close:hover { background: #1A2E25; }
+
+.drawer-section { margin-bottom: 1.5rem; }
+
+/* =========================================================
+   MODAL (NEW STORY)
+   ========================================================= */
+
 #modal-backdrop {
-  position: fixed; inset:0;
-  background: rgba(0,0,0,.45);
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
   display: none;
   place-items: center;
   z-index: 120;
@@ -249,13 +306,19 @@ main { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 5rem; }
 
 #modal {
   width: min(680px, 92vw);
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-deep);
+  background: #13211A;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
   padding: 1.5rem;
+  color: var(--fg);
+  box-shadow: var(--shadow-deep);
   max-height: 90vh;
   overflow-y: auto;
+}
+
+#modal h2 {
+  margin: 0 0 .75rem;
+  color: var(--teal-light);
 }
 
 .modal-grid {
@@ -267,58 +330,58 @@ main { max-width: 1100px; margin: 0 auto; padding: 1rem 1.25rem 5rem; }
 
 textarea {
   width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--card-border);
+  background: #0F1A13;
+  color: var(--fg);
   padding: .7rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  min-height: 110px;
-  resize: vertical;
 }
 
-/* =====================================================================
-   TAG SELECTOR — Chips
-   ===================================================================== */
+/* Label Chips */
 .chips {
   display: flex;
   flex-wrap: wrap;
   gap: .45rem;
-  margin-bottom: .75rem;
 }
 
 .chip {
   padding: .35rem .7rem;
-  font-size: .78rem;
   border-radius: 999px;
+  background: #1F332B;
+  border: 1px solid var(--card-border);
   cursor: pointer;
-  border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--green) 20%, white);
-  transition: all .15s ease;
-  user-select: none;
+  color: var(--fg);
+  font-size: .78rem;
+  transition: .15s ease;
 }
 
 .chip.selected {
   background: var(--teal);
-  color: white;
-  border-color: color-mix(in oklab, var(--teal) 50%, black);
+  color: #000;
+  border-color: var(--teal-light);
 }
 
-footer { margin-top: 3rem; text-align: center; color: var(--muted); }
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--muted);
+  font-size: .85rem;
+}
 
-  </style>
+</style>
 </head>
 
 <body>
 
 <header>
   <div class="wrap">
-    <div class="bar">
+    <div class="header-row">
       <div class="brand">
         <div class="logo"></div>
         <div>
           <h1>User Story Library</h1>
-          <p class="tagline">
-            A FAIR use case is a concrete description of who needs what kind of data,
-            for what purpose, and under what conditions.
-          </p>
+          <p class="tagline">FAIR use cases across domains and institutions.</p>
         </div>
       </div>
 
@@ -331,9 +394,10 @@ footer { margin-top: 3rem; text-align: center; color: var(--muted); }
 
     <div class="filters">
       <div class="controls-row">
+
         <div>
           <label>Search</label>
-          <input id="search" placeholder="Search…" />
+          <input id="search" placeholder="Search…"/>
         </div>
 
         <div>
@@ -350,25 +414,20 @@ footer { margin-top: 3rem; text-align: center; color: var(--muted); }
           <button id="refresh" class="btn btn-primary" style="width:100%;">Refresh</button>
         </div>
 
-        <div>
-          <label>&nbsp;</label>
-          <label style="display:flex; gap:.4rem; align-items:center;">
-            <input id="onlyTemplate" type="checkbox" checked />
-            Only valid stories
-          </label>
-        </div>
+        <div></div>
 
         <div>
           <label>&nbsp;</label>
           <button id="toggleToken" class="btn btn-secondary" style="width:100%;">Token</button>
         </div>
+
       </div>
 
       <div id="tokenBox" style="display:none;">
         <label>GitHub Token (optional)</label>
-        <input id="tokenInput" type="password" placeholder="ghp_…" />
+        <input id="tokenInput" type="password" placeholder="ghp_…"/>
         <small style="color:var(--muted);">
-          Stored locally. Required for creating issues and higher API limits.
+          Stored locally for higher API limits and issue creation.
         </small>
       </div>
     </div>
@@ -378,58 +437,60 @@ footer { margin-top: 3rem; text-align: center; color: var(--muted); }
 <main>
   <div class="wrap">
 
-    <div class="status" id="statusArea" style="margin:.75rem 0; color:var(--muted);">
+    <div id="statusArea" style="margin:.75rem 0; color:var(--muted); font-size:.9rem;">
       <span id="rateInfo"></span>
     </div>
 
     <div id="storyGrid" class="grid"></div>
-    <div id="emptyMsg" style="display:none; text-align:center; color:var(--muted); padding:2rem 0;">No user stories found.</div>
+    <div id="emptyMsg" style="display:none; text-align:center; padding:2rem 0; color:var(--muted);">No user stories found.</div>
 
     <div style="display:flex; justify-content:center; margin-top:1rem;">
       <button id="loadMore" class="btn btn-secondary" style="display:none;">Load more</button>
     </div>
+
   </div>
 </main>
 
 <footer>
-  <div class="wrap"><small>Powered by GitHub Issues • Rebuilt Modern UI</small></div>
+  <div class="wrap"><small>Powered by GitHub Issues · Dark Forest Theme</small></div>
 </footer>
 
-<!-- Bottom Drawer -->
+<!-- BOTTOM DRAWER -->
 <div id="drawer-backdrop"></div>
 <div id="drawer">
   <div class="drawer-header">
     <h3 class="drawer-title" id="drawerTitle">Loading…</h3>
     <button id="drawerClose" class="drawer-close">Close</button>
   </div>
-
   <div id="drawerContent"></div>
 </div>
 
-<!-- New Story Modal -->
+<!-- NEW STORY MODAL -->
 <div id="modal-backdrop">
   <div id="modal">
     <h2>New User Story</h2>
-
     <form id="newStoryForm">
+
       <div class="modal-grid">
+
         <div class="full">
           <label>Title</label>
-          <input id="titleInput" required placeholder="Short title" />
+          <input id="titleInput" required placeholder="Short title"/>
         </div>
 
         <div>
           <label>As a…</label>
-          <input id="roleInput" placeholder="Role" />
+          <input id="roleInput" placeholder="Role"/>
         </div>
+
         <div>
           <label>I want to…</label>
-          <input id="goalInput" placeholder="Goal" />
+          <input id="goalInput" placeholder="Goal"/>
         </div>
 
         <div class="full">
           <label>…so that I can…</label>
-          <input id="benefitInput" placeholder="Benefit" />
+          <input id="benefitInput" placeholder="Benefit"/>
         </div>
 
         <div class="full">
@@ -440,7 +501,7 @@ footer { margin-top: 3rem; text-align: center; color: var(--muted); }
         <div class="full">
           <label>Contact consent</label>
           <select id="consentInput">
-            <option value="N/A" selected>N/A</option>
+            <option value="N/A">N/A</option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
@@ -453,28 +514,31 @@ footer { margin-top: 3rem; text-align: center; color: var(--muted); }
 
         <div class="full">
           <label>Assignees (comma separated)</label>
-          <input id="assigneesInput" placeholder="e.g. BrigitaPVoll" />
+          <input id="assigneesInput" placeholder="e.g. BrigitaPVoll"/>
         </div>
+
       </div>
 
-      <div style="margin-top:1.25rem; display:flex; justify-content:flex-end; gap:.5rem;">
+      <div style="margin-top:1.5rem; display:flex; justify-content:flex-end; gap:.5rem;">
         <button type="button" id="cancelModal" class="btn btn-secondary">Cancel</button>
         <button type="submit" class="btn btn-primary">Create Story</button>
       </div>
+
     </form>
   </div>
 </div>
 
 <script>
-/* =====================================================================
+
+/* =========================================================
    CONFIG
-   ===================================================================== */
+   ========================================================= */
 const OWNER = "BrigitaPVoll";
 const REPO = "User_Story_Library";
 const PER_PAGE = 20;
 
-/* Your exact 17 labels */
-const GITHUB_LABELS = [
+/* EXACT 17 LABELS FROM YOUR REPO */
+const LABELS = [
   "Contact consent>NO",
   "Contact consent>YES",
   "Domain>Agricultural Sciences",
@@ -496,107 +560,69 @@ const GITHUB_LABELS = [
 
 let currentPage = 1;
 let issues = [];
-let selectedLabels = new Set();
+let selected = new Set();
 
 const $ = s => document.querySelector(s);
 
-/* =====================================================================
-   LABEL CHIPS
-   ===================================================================== */
-function initLabelChips() {
-  const box = $("#chips");
-  box.innerHTML = "";
-  GITHUB_LABELS.forEach(label => {
-    const el = document.createElement("span");
-    el.className = "chip";
-    el.textContent = label;
-    el.onclick = () => {
-      if (selectedLabels.has(label)) {
-        selectedLabels.delete(label);
-        el.classList.remove("selected");
-      } else {
-        selectedLabels.add(label);
-        el.classList.add("selected");
-      }
-    };
-    box.appendChild(el);
-  });
-}
-
-/* =====================================================================
-   FETCH HELPERS
-   ===================================================================== */
-function authHeaders() {
-  const token = localStorage.getItem("GITHUB_TOKEN") || $("#tokenInput")?.value || "";
+/* =========================================================
+   TOKEN + AUTH
+   ========================================================= */
+function headers() {
+  const token = localStorage.getItem("GITHUB_TOKEN") || $("#tokenInput").value.trim();
   const h = { "Accept": "application/vnd.github+json" };
-  if (token) h["Authorization"] = `Bearer ${token}`;
+  if (token) h["Authorization"] = "Bearer " + token;
   return h;
 }
 
+/* =========================================================
+   API
+   ========================================================= */
 async function api(url) {
-  const res = await fetch(url, { headers: authHeaders() });
-  if (res.status === 403) throw new Error("Forbidden / rate limited – provide token");
+  const res = await fetch(url, { headers: headers() });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
-/* =====================================================================
-   LOAD ISSUES
-   ===================================================================== */
-async function loadIssues(reset = false) {
-  if (reset) {
-    currentPage = 1;
-    issues = [];
-  }
+/* =========================================================
+   STORY LOAD
+   ========================================================= */
+async function loadIssues(reset=false) {
+  if (reset) { issues = []; currentPage = 1; }
+
   const state = $("#state").value;
   const url = `https://api.github.com/repos/${OWNER}/${REPO}/issues?state=${state}&per_page=${PER_PAGE}&page=${currentPage}`;
   const batch = await api(url);
-  const real = batch.filter(x => !x.pull_request);
-  issues = issues.concat(real);
+  issues = issues.concat(batch.filter(i => !i.pull_request));
+
   renderIssues();
-  $("#loadMore").style.display = real.length === PER_PAGE ? "" : "none";
+  $("#loadMore").style.display = batch.length === PER_PAGE ? "" : "none";
 }
 
-/* =====================================================================
-   PARSE STORY
-   ===================================================================== */
-function parseStory(body = "") {
-  const line = body.split("\n").find(l => l.startsWith("As a"));
-  if (!line) return {};
-  const m = line.match(/As a (.*?), I want to (.*?), so that I can (.*?)\./i);
-  if (!m) return {};
-  return { role: m[1], goal: m[2], benefit: m[3], full: line };
-}
-
-/* =====================================================================
-   RENDER GRID
-   ===================================================================== */
+/* =========================================================
+   STORY RENDER (NO VALIDATION)
+   ========================================================= */
 function renderIssues() {
   const q = $("#search").value.toLowerCase().trim();
-  const onlyTemplate = $("#onlyTemplate").checked;
 
-  const filtered = issues.filter(issue => {
-    const parsed = parseStory(issue.body);
-    if (onlyTemplate && !parsed.full) return false;
-    if (q) {
-      const hay = [
-        issue.title,
-        issue.number,
-        parsed.full || "",
-        issue.body || ""
-      ].join(" ").toLowerCase();
-      return hay.includes(q);
-    }
-    return true;
+  const filtered = issues.filter(i => {
+    if (!q) return true;
+    return [
+      i.title,
+      i.number,
+      i.body
+    ].join(" ").toLowerCase().includes(q);
   });
 
   $("#storyGrid").innerHTML = "";
   $("#emptyMsg").style.display = filtered.length ? "none" : "block";
 
   filtered.forEach(issue => {
-    const parsed = parseStory(issue.body);
     const card = document.createElement("div");
     card.className = "card";
+
+    const labelsHTML = (issue.labels||[])
+      .map(l => `<span class="label">${l.name}</span>`)
+      .join("");
 
     card.innerHTML = `
       <button class="card-title-btn openDrawer" data-id="${issue.number}">
@@ -605,53 +631,47 @@ function renderIssues() {
       <div class="meta">
         #${issue.number} • ${issue.state} • ${new Date(issue.updated_at).toLocaleString()}
       </div>
-      ${parsed.full ? `<div>${parsed.full}</div>` : ""}
-      <div class="labels-row">
-        ${(issue.labels || []).map(l => `<span class="label">${l.name}</span>`).join("")}
-      </div>
+      <div class="labels-row">${labelsHTML}</div>
     `;
 
     $("#storyGrid").appendChild(card);
   });
 
-  document.querySelectorAll(".openDrawer").forEach(btn => {
-    btn.onclick = () => openDrawer(parseInt(btn.dataset.id));
+  document.querySelectorAll(".openDrawer").forEach(btn=>{
+    btn.onclick = () => openDrawer(Number(btn.dataset.id));
   });
 }
 
-/* =====================================================================
+/* =========================================================
    BOTTOM DRAWER
-   ===================================================================== */
+   ========================================================= */
 async function openDrawer(num) {
   $("#drawer-backdrop").style.display = "block";
   $("#drawer").classList.add("open");
-
   $("#drawerTitle").textContent = "Loading…";
   $("#drawerContent").innerHTML = "";
 
   const issue = await api(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${num}`);
 
+  const labelsHTML = (issue.labels||[])
+    .map(l => `<span class="label">${l.name}</span>`)
+    .join("");
+
   $("#drawerTitle").textContent = issue.title;
 
-  const parsed = parseStory(issue.body);
   $("#drawerContent").innerHTML = `
-    <div class="drawer-section">
-      <h3>Story</h3>
-      ${parsed.full ? `<p>${parsed.full}</p>` : "<p>No structured story line.</p>"}
-    </div>
-
-    <div class="drawer-section">
-      <h3>Labels</h3>
-      ${(issue.labels||[]).map(l => `<span class="label">${l.name}</span>`).join("")}
-    </div>
-
     <div class="drawer-section">
       <h3>Description</h3>
       <pre style="white-space:pre-wrap;">${issue.body}</pre>
     </div>
 
     <div class="drawer-section">
-      <a href="${issue.html_url}" target="_blank">Open on GitHub</a>
+      <h3>Labels</h3>
+      ${labelsHTML}
+    </div>
+
+    <div class="drawer-section">
+      <a href="${issue.html_url}" target="_blank" style="color:var(--teal-light)">Open on GitHub</a>
     </div>
   `;
 }
@@ -661,83 +681,101 @@ function closeDrawer() {
   $("#drawer").classList.remove("open");
 }
 
-/* =====================================================================
+/* =========================================================
+   INITIALIZE LABEL CHIPS
+   ========================================================= */
+function initChips() {
+  selected.clear();
+  const box = $("#chips");
+  box.innerHTML = "";
+
+  LABELS.forEach(l => {
+    const el = document.createElement("span");
+    el.className = "chip";
+    el.textContent = l;
+
+    el.onclick = () => {
+      if (selected.has(l)) {
+        selected.delete(l);
+        el.classList.remove("selected");
+      } else {
+        selected.add(l);
+        el.classList.add("selected");
+      }
+    };
+
+    box.appendChild(el);
+  });
+}
+
+/* =========================================================
    CREATE NEW STORY
-   ===================================================================== */
+   ========================================================= */
 async function createStory() {
   const token = localStorage.getItem("GITHUB_TOKEN") || $("#tokenInput").value;
   if (!token) { alert("Token required"); return; }
 
   const title = $("#titleInput").value.trim();
-  const role = $("#roleInput").value.trim();
-  const goal = $("#goalInput").value.trim();
-  const benefit = $("#benefitInput").value.trim();
-  const context = $("#contextInput").value.trim();
-  const consent = $("#consentInput").value;
-  const assignees = $("#assigneesInput").value.split(",").map(x=>x.trim()).filter(Boolean);
-
-  const storyLine = `As a ${role}, I want to ${goal}, so that I can ${benefit}.`;
+  if (!title) { alert("Title required"); return; }
 
   const body = [
     "User Story",
     "",
-    storyLine,
+    `As a ${$("#roleInput").value}, I want to ${$("#goalInput").value}, so that I can ${$("#benefitInput").value}.`,
     "",
     "Additional context:",
-    context,
+    $("#contextInput").value.trim(),
     "",
     "Contact consent:",
-    consent
+    $("#consentInput").value
   ].join("\n");
 
-  const labels = [...selectedLabels, "user-story"];
+  const labels = [...selected, "user-story"];
+  const assignees = $("#assigneesInput").value.split(",").map(x=>x.trim()).filter(Boolean);
 
   const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues`, {
     method: "POST",
     headers: {
       "Accept": "application/vnd.github+json",
-      "Authorization": `Bearer ${token}`,
+      "Authorization": "Bearer " + token,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ title, body, labels, assignees })
   });
 
-  if (!res.ok) { alert("Failed: " + (await res.text())); return; }
+  if (!res.ok) {
+    alert("Error: " + (await res.text()));
+    return;
+  }
 
   alert("Story created!");
   closeModal();
   loadIssues(true);
 }
 
-/* =====================================================================
-   MODAL
-   ===================================================================== */
-function openModal() {
-  $("#modal-backdrop").style.display = "grid";
-}
+/* =========================================================
+   MODAL OPEN/CLOSE
+   ========================================================= */
+function openModal() { $("#modal-backdrop").style.display = "grid"; }
+function closeModal() { $("#modal-backdrop").style.display = "none"; }
 
-function closeModal() {
-  $("#modal-backdrop").style.display = "none";
-}
-
-/* =====================================================================
+/* =========================================================
    CSV EXPORT
-   ===================================================================== */
+   ========================================================= */
 function exportCSV() {
   const rows = [
-    ["number","title","state","updated_at","labels","story"].join(",")
+    ["number","title","state","updated_at","labels","body"].join(",")
   ];
 
   issues.forEach(i => {
-    const parsed = parseStory(i.body);
-    const labels = (i.labels || []).map(l => l.name).join("|");
+    const labels = (i.labels||[]).map(l=>l.name).join("|");
     rows.push([
       i.number,
       `"${i.title.replace(/"/g,'""')}"`,
       i.state,
       i.updated_at,
       `"${labels.replace(/"/g,'""')}"`,
-      `"${(parsed.full||"").replace(/"/g,'""')}"`
+      `"${(i.body||"").replace(/"/g,'""')}"`
     ].join(","));
   });
 
@@ -748,10 +786,10 @@ function exportCSV() {
   a.click();
 }
 
-/* =====================================================================
+/* =========================================================
    EVENTS
-   ===================================================================== */
-$("#openNew").onclick = () => { selectedLabels = new Set(); initLabelChips(); openModal(); };
+   ========================================================= */
+$("#openNew").onclick = () => { initChips(); openModal(); };
 $("#cancelModal").onclick = closeModal;
 
 $("#drawerClose").onclick = closeDrawer;
@@ -760,7 +798,6 @@ $("#drawer-backdrop").onclick = closeDrawer;
 $("#refresh").onclick = () => loadIssues(true);
 $("#state").onchange = () => loadIssues(true);
 $("#search").oninput = renderIssues;
-$("#onlyTemplate").onchange = renderIssues;
 
 $("#loadMore").onclick = () => { currentPage++; loadIssues(); };
 
@@ -768,9 +805,10 @@ $("#toggleToken").onclick = () => {
   const box = $("#tokenBox");
   box.style.display = box.style.display === "none" ? "block" : "none";
 };
+
 $("#tokenInput").onchange = e => {
-  const val = e.target.value.trim();
-  if (val) localStorage.setItem("GITHUB_TOKEN", val);
+  const v = e.target.value.trim();
+  if (v) localStorage.setItem("GITHUB_TOKEN", v);
 };
 
 $("#newStoryForm").onsubmit = e => {
@@ -781,7 +819,7 @@ $("#newStoryForm").onsubmit = e => {
 $("#exportCsv").onclick = exportCSV;
 $("#printPdf").onclick = () => window.print();
 
-/* INIT */
+/* INITIAL LOAD */
 loadIssues(true);
 
 </script>
