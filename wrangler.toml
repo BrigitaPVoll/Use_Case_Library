@@ -1,0 +1,28 @@
+name = "use-case-library"
+type = "javascript"
+main = "src/index.js"
+compatibility_date = "2024-02-11"
+
+[env.production]
+routes = [
+  { pattern = "example.com/*", zone_name = "example.com" }
+]
+vars = { ENVIRONMENT = "production" }
+
+[build]
+command = "npm install"
+cwd = "./"
+watch_paths = ["src/**/*.js"]
+
+# API endpoint configuration
+[[env.production.routes]]
+pattern = "*/api/createStory"
+zone_name = "example.com"
+
+# Environment variables
+[env.production.vars]
+REPO_OWNER = "BrigitaPVoll"
+REPO_NAME = "User_Story_Library"
+
+# Secrets (set via: wrangler secret put TOKEN --env production)
+# Then reference in code as: context.env.TOKEN
