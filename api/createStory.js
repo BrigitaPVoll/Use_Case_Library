@@ -12,7 +12,7 @@ export async function onRequestPost(context) {
     {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${GITHUB_TOKEN}`,
+        "Authorization": `Bearer ${TOKEN}`,
         "Accept": "application/vnd.github+json",
         "Content-Type": "application/json"
       },
