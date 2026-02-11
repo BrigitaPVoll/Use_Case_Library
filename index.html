@@ -182,16 +182,34 @@
     .notice { font-size: .82rem; color: var(--muted) }
 
     /* ==== Modal (New User Story) ==== */
-    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; z-index:50}
-    .modal{width:min(720px, 92vw); background:var(--control-bg); color:var(--fg); border:1px solid var(--control-border); border-radius:14px; box-shadow:0 16px 40px rgba(0,0,0,.18)}
-    .modal header{position:static; background:var(--control-bg); border-bottom:1px solid var(--control-border); box-shadow:none}
-    .modal .wrap{padding:1rem 1.25rem}
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; align-items:center; justify-content:center; z-index:50; padding:1rem}
+    .modal{
+      width:min(720px, 100% - 2rem);
+      max-height:min(90vh, calc(100vh - 2rem));
+      background:var(--control-bg);
+      color:var(--fg);
+      border:1px solid var(--control-border);
+      border-radius:14px;
+      box-shadow:0 16px 40px rgba(0,0,0,.18);
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .modal header{position:static; background:var(--control-bg); border-bottom:1px solid var(--control-border); box-shadow:none; flex-shrink:0;}
+    .modal .wrap{padding:1rem 1.25rem; overflow-y:auto; flex:1}
     .modal h2{margin:.2rem 0 0; font-size:1.2rem; color:var(--deic-blue)}
     .modal .grid-form{display:grid; grid-template-columns:1fr 1fr; gap:.8rem}
     .modal .grid-form .full{grid-column:1/-1}
-    .modal .actions{display:flex; justify-content:flex-end; gap:.5rem; margin-top:.5rem}
+    .modal .actions{display:flex; justify-content:flex-end; gap:.5rem; margin-top:.5rem; flex-wrap:wrap}
 
     textarea{min-height:100px; resize:vertical}
+
+    @media (max-width:640px){
+      .modal{width:100%; max-height:calc(100vh - 2rem)}
+      .modal .wrap{padding:1rem}
+      .modal .grid-form{grid-template-columns:1fr; gap:.6rem}
+      .modal h2{font-size:1rem}
+    }
 
     /* ==== Assignee selector ==== */
     .assignee-selector{position:relative}
