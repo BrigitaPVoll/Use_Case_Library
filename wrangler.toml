@@ -1,7 +1,10 @@
 name = "use-case-library"
 type = "javascript"
-main = "src/index.js"
 compatibility_date = "2024-02-11"
+
+# Serve static files from root directory
+[site]
+bucket = "."
 
 # Environment variables
 [vars]
@@ -14,4 +17,4 @@ REPO_NAME = "User_Story_Library"
 [build]
 command = "npm install"
 cwd = "./"
-watch_paths = ["src/**/*.js", "api/**/*.js"]
+watch_paths = ["functions/**/*.js"]
