@@ -4,15 +4,15 @@
 <meta charset="utf-8" />
 <title>User Story Library · DeiC</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <style>
 /* ============================================================
-   THEME — DeiC Light + Dark (darker light, readable dark)
+   THEME — DeiC Light + Dark
 ============================================================ */
 :root{
   --deic-green:#BFD730;
   --deic-blue:#16385D;
 
-  /* Light theme, slightly darker for contrast */
   --bg:#EEF2EC;
   --card:#FFFFFF;
   --border:#C9D3C2;
@@ -28,22 +28,20 @@
   --shadow:0 4px 15px rgba(0,0,0,.10);
   --shadow-hover:0 10px 28px rgba(0,0,0,.14);
 }
+
 .dark{
-  /* Dark mode tuned for readability */
   --bg:#0C1420;
-  --card:#182234;           /* brighter than before */
+  --card:#182234;
   --border:#2E3B52;
-  --text:#ECF2FA;           /* brighter text */
+  --text:#ECF2FA;
   --muted:#AAB6C6;
 
-  --chip-bg:#233149;        /* readable chip base */
-  --chip-selected:#BFD730;  /* same lime */
+  --chip-bg:#233149;
+  --chip-selected:#BFD730;
   --chip-selected-text:#000;
 }
 
-/* ============================================================
-   BASE
-============================================================ */
+/* BASE */
 *{box-sizing:border-box}
 body{
   margin:0; font-family:Inter,ui-sans-serif,system-ui;
@@ -51,71 +49,56 @@ body{
   transition:background .25s, color .25s;
 }
 .wrap{max-width:1100px;margin:0 auto;padding:0 1.25rem}
-a{color:var(--deic-blue);text-decoration:none}
-a:hover{text-decoration:underline}
 
-/* ============================================================
-   HEADER
-============================================================ */
+/* HEADER */
 header{
   position:sticky;top:0;z-index:20;
-  background:#fffffff0;
-  backdrop-filter:blur(12px);
+  background:#fffffff0; backdrop-filter:blur(12px);
   border-bottom:3px solid var(--deic-green);
   box-shadow:var(--shadow);
 }
 .dark header{background:#131A28DD}
+
 .header-row{
   display:flex;justify-content:space-between;align-items:center;
   padding:1rem 0;gap:1rem;flex-wrap:wrap;
 }
-.brand{display:flex;align-items:center;gap:.75rem}
+
 .logo{
   width:42px;height:42px;border-radius:12px;
   background:conic-gradient(from 180deg,var(--deic-green),var(--deic-blue),#000,var(--deic-green));
-  border:1px solid var(--border);box-shadow:var(--shadow);
+  border:1px solid var(--border);
 }
+
 h1{margin:0;font-size:1.6rem;font-weight:800;color:var(--deic-blue)}
 .dark h1{color:var(--deic-green)}
-.tagline{margin:.15rem 0 0;color:var(--muted)}
 
-/* Buttons */
 .btn{
   padding:.65rem 1rem;border:none;border-radius:var(--radius);
   font-weight:600;cursor:pointer;transition:.15s;
 }
 .btn-primary{background:var(--deic-green);color:#000}
-.btn-primary:hover{filter:brightness(1.07)}
 .btn-secondary{background:var(--deic-blue);color:#fff}
-.btn-secondary:hover{filter:brightness(1.07)}
-.btn-ghost{
-  background:var(--card);border:1px solid var(--border);color:var(--text);
-}
-.btn-ghost:hover{background:var(--chip-bg)}
 
-/* ============================================================
-   FILTER BAR
-============================================================ */
+/* FILTERS */
 .filters{
-  margin-top:1rem;background:var(--card);
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:1rem;box-shadow:var(--shadow);
+  margin-top:1rem;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1rem;box-shadow:var(--shadow);
 }
+
 .filter-top{
   display:grid;grid-template-columns:1fr auto auto auto;gap:.6rem;
 }
-@media (max-width:900px){ .filter-top{grid-template-columns:1fr 1fr 1fr} }
-@media (max-width:640px){ .filter-top{grid-template-columns:1fr 1fr} }
+
 input,select{
   padding:.65rem .75rem;border-radius:var(--radius);
   border:1px solid var(--border);background:var(--card);color:var(--text);
 }
 
-/* Facets (expand/collapse) */
 .facets{margin-top:1rem;display:flex;flex-direction:column;gap:1rem}
+
 .facet{
-  border:1px solid var(--border);
-  border-radius:var(--radius);
+  border:1px solid var(--border);border-radius:var(--radius);
   background:var(--card);
 }
 .facet-header{
@@ -123,231 +106,198 @@ input,select{
   padding:.6rem .8rem;cursor:pointer;
 }
 .facet-title{margin:0;font-weight:700;font-size:.95rem;color:var(--muted)}
-.chevron{
-  width:.65rem;height:.65rem;transform:rotate(-45deg);
-  border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
-  transition:transform .2s ease;
-}
-.facet.collapsed .chevron{transform:rotate(135deg)}
-.facet-body{overflow:hidden;transition:max-height .25s ease;max-height:500px;padding:0 .8rem .8rem}
 .facet.collapsed .facet-body{max-height:0;padding-bottom:0}
-
 .chip-row{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.5rem}
+
 .chip{
-  padding:.35rem .7rem;border-radius:999px;
-  background:var(--chip-bg);border:1px solid var(--border);
-  cursor:pointer;font-size:.82rem;transition:background .15s;
+  padding:.35rem .7rem;border-radius:999px;background:var(--chip-bg);
+  border:1px solid var(--border);cursor:pointer;font-size:.82rem;
 }
 .chip.selected{
-  background:var(--chip-selected);
-  border-color:var(--chip-selected);
+  background:var(--chip-selected);border-color:var(--chip-selected);
   color:var(--chip-selected-text);
 }
 
-/* ============================================================
-   GRID / CARDS
-============================================================ */
-.grid{margin-top:1.5rem;display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+/* GRID */
+.grid{margin-top:1.5rem;display:grid;gap:1.25rem;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-  padding:1.25rem;box-shadow:var(--shadow);cursor:pointer;transition:.2s;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.25rem;box-shadow:var(--shadow);
+  cursor:pointer;transition:.2s;
 }
-.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--deic-green)}
-.card-title{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
-.meta{font-size:.85rem;color:var(--muted);margin-bottom:.6rem}
+.card:hover{
+  transform:translateY(-3px);box-shadow:var(--shadow-hover);
+  border-color:var(--deic-green)
+}
+
 .labels{display:flex;flex-wrap:wrap;gap:.35rem}
 .label{
   padding:.2rem .55rem;border-radius:999px;background:#E9F1D8;
-  border:1px solid var(--border);font-size:.75rem;color:#213014
+  border:1px solid var(--border);font-size:.75rem;color:#213014;
 }
 .dark .label{background:#283752;color:#E9EFF8}
 
-/* Pagination */
-.pagination{margin:2rem 0;display:flex;gap:.5rem;justify-content:center;align-items:center}
-.page-btn{padding:.5rem .9rem;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);cursor:pointer}
-.page-btn:hover{background:var(--chip-bg)}
-.page-info{color:var(--muted);font-size:.9rem}
-
-/* ============================================================
-   BOTTOM-SHEET PREVIEW
-============================================================ */
-#sheet-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;z-index:90}
+/* Preview Sheet */
+#sheet-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.35);
+  display:none;z-index:90;
+}
 #sheet{
   position:fixed;left:0;right:0;bottom:-100%;
-  background:var(--card);border-radius:24px 24px 0 0;box-shadow:0 -10px 28px rgba(0,0,0,.28);
-  padding:1.5rem;max-height:85vh;overflow-y:auto;z-index:100;transition:bottom .35s cubic-bezier(.25,.8,.25,1);
+  background:var(--card);border-radius:24px 24px 0 0;
+  padding:1.5rem;max-height:85vh;overflow-y:auto;transition:bottom .35s;
+  z-index:100;box-shadow:0 -10px 28px rgba(0,0,0,.28);
 }
 #sheet.open{bottom:0}
-.sheet-header{display:flex;justify-content:space-between;align-items:center}
-.sheet-title{margin:0;font-size:1.25rem;font-weight:800}
-.sheet-close{background:var(--card);border:1px solid var(--border);padding:.45rem .8rem;border-radius:var(--radius);cursor:pointer}
-.sheet-content pre{
-  white-space:pre-wrap;padding:1rem;border-radius:var(--radius);border:1px solid var(--border);
-  background:var(--card);color:var(--text);
+
+/* Modal Create */
+#modal-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.35);
+  display:none;align-items:center;justify-content:center;z-index:200;
 }
 
-/* ============================================================
-   MODAL (Create Story)
-============================================================ */
-#modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:200}
 #modal{
-  width:min(680px,92vw);background:var(--card);border:2px solid var(--deic-green);
-  border-radius:var(--radius);padding:1.5rem;box-shadow:0 10px 40px rgba(0,0,0,.3)
+  width:min(680px,92vw);background:var(--card);
+  border:2px solid var(--deic-green);border-radius:var(--radius);
+  padding:1.5rem;box-shadow:0 10px 40px rgba(0,0,0,.3)
 }
-.modal-title{margin:0 0 .75rem;font-size:1.25rem;font-weight:800;color:var(--deic-blue)}
-.dark .modal-title{color:var(--deic-green)}
-.modal-grid{display:grid;gap:1rem;grid-template-columns:1fr 1fr}
+
+.modal-grid{
+  display:grid;gap:1rem;grid-template-columns:1fr 1fr
+}
 .modal-grid .full{grid-column:1/-1}
-textarea{min-height:110px;resize:vertical;padding:.75rem;border:1px solid var(--border);border-radius:var(--radius)}
-.hint{font-size:.85rem;color:var(--muted);margin-top:.6rem}
+textarea{min-height:110px;resize:vertical;}
 </style>
 </head>
+
 <body>
 
 <header>
   <div class="wrap">
     <div class="header-row">
-      <div class="brand">
+      <div style="display:flex;align-items:center;gap:1rem">
         <div class="logo"></div>
-        <div>
-          <h1>User Story Library</h1>
-          <p class="tagline">FAIR use cases integrated with GitHub Issues</p>
-        </div>
+        <h1>User Story Library</h1>
       </div>
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+
+      <div style="display:flex;gap:.5rem">
         <button id="openModal" class="btn btn-primary">New Story</button>
-        <button id="exportCsv" class="btn btn-secondary">CSV</button>
-        <button id="printPdf" class="btn btn-secondary">Print/PDF</button>
-        <label class="switch"><input id="darkToggle" type="checkbox"><span>🌙</span></label>
       </div>
     </div>
 
-    <!-- Filters bar -->
     <div class="filters">
       <div class="filter-top">
         <input id="search" placeholder="Search…"/>
         <select id="sort">
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
         </select>
         <button id="refresh" class="btn btn-primary">Refresh</button>
-        <button id="clearFilters" class="btn btn-ghost">Clear filters</button>
+        <button id="clearFilters" class="btn btn-secondary">Clear</button>
       </div>
 
-      <!-- Faceted filters -->
       <div class="facets">
-
-        <div class="facet" data-facet="consent">
+        <div class="facet">
           <div class="facet-header">
             <h3 class="facet-title">Contact Consent</h3>
-            <span class="chevron"></span>
           </div>
-          <div class="facet-body">
-            <div id="facetConsent" class="chip-row"></div>
-          </div>
+          <div class="facet-body"><div id="facetConsent" class="chip-row"></div></div>
         </div>
 
-        <div class="facet collapsed" data-facet="domain">
+        <div class="facet collapsed">
           <div class="facet-header">
             <h3 class="facet-title">Domain</h3>
-            <span class="chevron"></span>
           </div>
-          <div class="facet-body">
-            <div id="facetDomain" class="chip-row"></div>
-          </div>
+          <div class="facet-body"><div id="facetDomain" class="chip-row"></div></div>
         </div>
 
-        <div class="facet collapsed" data-facet="institution">
+        <div class="facet collapsed">
           <div class="facet-header">
             <h3 class="facet-title">Institution</h3>
-            <span class="chevron"></span>
           </div>
-          <div class="facet-body">
-            <div id="facetInstitution" class="chip-row"></div>
-          </div>
+          <div class="facet-body"><div id="facetInstitution" class="chip-row"></div></div>
         </div>
-
       </div>
     </div>
   </div>
 </header>
 
+
 <div class="wrap">
   <section id="storyGrid" class="grid"></section>
-  <div id="empty" style="display:none;text-align:center;padding:2rem;color:var(--muted)">No user stories found.</div>
-
-  <div class="pagination">
-    <button id="prevPage" class="page-btn">Previous</button>
-    <span id="pageInfo" class="page-info"></span>
-    <button id="nextPage" class="page-btn">Next</button>
+  <div id="empty" style="display:none;text-align:center;color:var(--muted)">
+    No stories found.
   </div>
 </div>
 
-<!-- Bottom-sheet preview -->
+<!-- Preview -->
 <div id="sheet-backdrop"></div>
 <div id="sheet">
-  <div class="sheet-header">
-    <h3 id="sheetTitle" class="sheet-title">Loading…</h3>
-    <button id="sheetClose" class="sheet-close">Close</button>
-  </div>
-  <div id="sheetContent" class="sheet-content"></div>
+  <h2 id="sheetTitle"></h2>
+  <div id="sheetContent"></div>
 </div>
 
-<!-- Modal -->
+<!-- Modal Create -->
 <div id="modal-backdrop">
   <div id="modal">
-    <h3 class="modal-title">Create New User Story</h3>
+    <h2>Create User Story</h2>
+
     <form id="storyForm">
       <div class="modal-grid">
+
         <div class="full">
           <label>Title</label>
-          <input id="titleInput" placeholder='User Story: ' required />
+          <input id="titleInput" required />
         </div>
+
         <div>
           <label>As a…</label>
-          <input id="roleInput" placeholder="e.g., researcher, data steward"/>
+          <input id="roleInput"/>
         </div>
+
         <div>
           <label>I want to…</label>
-          <input id="goalInput" placeholder="action you want to perform"/>
+          <input id="goalInput"/>
         </div>
+
         <div class="full">
           <label>…so that I can…</label>
-          <input id="benefitInput" placeholder="the outcome/benefit"/>
+          <input id="benefitInput"/>
         </div>
+
         <div class="full">
           <label>Additional context</label>
-          <textarea id="contextInput" placeholder="data sources, domain, workflows, constraints…"></textarea>
+          <textarea id="contextInput"></textarea>
         </div>
+
         <div class="full">
           <label>Contact consent</label>
           <select id="consentInput">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-            <option value="N/A" selected>N/A</option>
+            <option>Yes</option>
+            <option>No</option>
+            <option selected>N/A</option>
           </select>
         </div>
+
         <div class="full">
-          <label>Labels (comma; default keeps “user-story”)</label>
+          <label>Labels</label>
           <input id="labelsInput" value="user-story"/>
         </div>
+
       </div>
 
       <div style="text-align:right;margin-top:1rem">
         <button type="button" id="cancelModal" class="btn btn-secondary">Cancel</button>
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button class="btn btn-primary">Create</button>
       </div>
     </form>
   </div>
 </div>
 
 <script>
-/* ============================================================
-   CONFIG
-============================================================ */
 const OWNER="BrigitaPVoll";
 const REPO ="User_Story_Library";
-const PER_PAGE=20;
 
 const LABELS = [
   "Contact consent>NO","Contact consent>YES",
@@ -359,209 +309,128 @@ const LABELS = [
   "Institution>University of Copenhagen","Institution>University of Southern Denmark (SDU)"
 ];
 
-/* Create facet sets */
 const FACETS = {
-  consent: ["Contact consent>NO","Contact consent>YES"].sort((a,b)=>a.localeCompare(b)),
-  domain : LABELS.filter(x=>x.startsWith("Domain>"))
-                 .sort((a,b)=>a.split(">")[1].localeCompare(b.split(">")[1])),
-  inst   : LABELS.filter(x=>x.startsWith("Institution>"))
-                 .sort((a,b)=>a.split(">")[1].localeCompare(b.split(">")[1]))
+  consent: LABELS.filter(x=>x.startsWith("Contact")),
+  domain: LABELS.filter(x=>x.startsWith("Domain")),
+  inst: LABELS.filter(x=>x.startsWith("Institution"))
 };
 
-const $ = s => document.querySelector(s);
-function esc(s){ return String(s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+const $ = q=>document.querySelector(q);
+function esc(s){return String(s||"").replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
 
-let issues=[], filtered=[], page=1, activeChips=new Set();
+let issues=[],filtered=[],activeChips=new Set();
 
-/* ============================================================
-   DARK MODE
-============================================================ */
-const darkToggle=$("#darkToggle");
-if(localStorage.getItem("darkMode")==="true"){ document.body.classList.add("dark"); darkToggle.checked=true; }
-darkToggle.onchange=()=>{ document.body.classList.toggle("dark"); localStorage.setItem("darkMode",document.body.classList.contains("dark")); };
-
-/* ============================================================
-   FACETS
-============================================================ */
-function chipLabel(label){
-  if(label.includes(">")) return label.split(">")[1].trim();
-  return label;
-}
-function buildFacet(container, list){
-  const box=$(container);
-  box.innerHTML="";
+/* Build facet chips */
+function buildFacet(id,list){
+  const el=$(id); el.innerHTML="";
   list.forEach(L=>{
     const chip=document.createElement("div");
     chip.className="chip";
+    chip.textContent=L.split(">")[1];
     chip.dataset.value=L;
-    chip.textContent=chipLabel(L);
     chip.onclick=()=>{
-      const v=chip.dataset.value;
-      if(activeChips.has(v)) activeChips.delete(v);
-      else activeChips.add(v);
+      if(activeChips.has(L)) activeChips.delete(L);
+      else activeChips.add(L);
       chip.classList.toggle("selected");
       applyFilters();
     };
-    box.appendChild(chip);
+    el.appendChild(chip);
   });
 }
-function initFacets(){
-  buildFacet("#facetConsent",    FACETS.consent);
-  buildFacet("#facetDomain",     FACETS.domain);
-  buildFacet("#facetInstitution",FACETS.inst);
 
-  document.querySelectorAll(".facet").forEach(f=>{
-    f.querySelector(".facet-header").onclick=()=>f.classList.toggle("collapsed");
-  });
-}
-function clearFilters(){
-  activeChips.clear();
-  document.querySelectorAll(".chip.selected").forEach(c=>c.classList.remove("selected"));
-  $("#search").value="";
-  $("#sort").value="newest";
-  page=1;
-  applyFilters();
-}
+buildFacet("#facetConsent",FACETS.consent);
+buildFacet("#facetDomain",FACETS.domain);
+buildFacet("#facetInstitution",FACETS.inst);
 
-/* ============================================================
-   LOAD ISSUES
-============================================================ */
+/* Load Issues */
 async function loadIssues(){
-  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues?state=all&per_page=100`,
-                        {headers:{"Accept":"application/vnd.github+json"}});
-  const data=await res.json();
-  issues=(data||[]).filter(x=>!x.pull_request);
-
-  issues.forEach(i=>{
-    if(i.labels) i.labels.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
-  });
-
+  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues?state=all&per_page=100`);
+  const d=await res.json();
+  issues=d.filter(x=>!x.pull_request);
   applyFilters();
 }
 
-/* ============================================================
-   FILTER + SORT + PAGINATE
-============================================================ */
 function applyFilters(){
-  const q=($("#search").value||"").toLowerCase();
-  const sort=$("#sort").value;
+  const q=$("#search").value.toLowerCase();
 
   filtered=issues.filter(it=>{
-    if(q){
-      const hay=`${it.title||""} ${it.body||""}`.toLowerCase();
-      if(!hay.includes(q)) return false;
-    }
-    if(activeChips.size>0){
-      const names=(it.labels||[]).map(l=>l.name);
-      for(const lab of activeChips){ if(!names.includes(lab)) return false; }
+    if(q && !(`${it.title} ${it.body}`.toLowerCase().includes(q))) return false;
+
+    if(activeChips.size){
+      const names=it.labels.map(l=>l.name);
+      for(const L of activeChips){ if(!names.includes(L)) return false; }
     }
     return true;
   });
 
-  filtered.sort((a,b)=>{
-    if(sort==="newest") return new Date(b.created_at)-new Date(a.created_at);
-    return new Date(a.created_at)-new Date(b.created_at);
-  });
+  if($("#sort").value==="newest")
+    filtered.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  else
+    filtered.sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
 
-  page=1;
-  renderPage();
+  render();
 }
 
-function renderPage(){
+function render(){
   const grid=$("#storyGrid");
   grid.innerHTML="";
 
-  const start=(page-1)*PER_PAGE;
-  const end=start+PER_PAGE;
-  const slice=filtered.slice(start,end);
-
-  if(slice.length===0){
+  if(!filtered.length){
     $("#empty").style.display="block";
-    $("#pageInfo").textContent="";
-    $("#prevPage").disabled=true; $("#nextPage").disabled=true;
     return;
   }
   $("#empty").style.display="none";
 
-  slice.forEach(it=>{
-    const labelsHTML=(it.labels||[]).map(l=>`<span class="label">${esc(l.name)}</span>`).join("");
-
+  filtered.forEach(it=>{
     const card=document.createElement("div");
     card.className="card";
     card.innerHTML=`
-      <div class="card-title">${esc(it.title)}</div>
-      <div class="meta">#${it.number} · ${esc(it.state)} · ${new Date(it.updated_at).toLocaleString()}</div>
-      <div class="labels">${labelsHTML}</div>
+      <h3>${esc(it.title)}</h3>
+      <div class="labels">${it.labels.map(l=>`<span class="label">${esc(l.name)}</span>`).join("")}</div>
     `;
     card.onclick=()=>openSheet(it.number);
     grid.appendChild(card);
   });
-
-  const pages=Math.max(1,Math.ceil(filtered.length/PER_PAGE));
-  $("#pageInfo").textContent=`Page ${page} / ${pages}`;
-  $("#prevPage").disabled=(page===1);
-  $("#nextPage").disabled=(page>=pages);
 }
 
-$("#prevPage").onclick=()=>{ if(page>1){page--;renderPage();} };
-$("#nextPage").onclick=()=>{ const pages=Math.ceil(filtered.length/PER_PAGE); if(page<pages){page++;renderPage();} };
-
-/* ============================================================
-   SHEET
-============================================================ */
-async function openSheet(number){
+/* Preview Sheet */
+async function openSheet(n){
   $("#sheet-backdrop").style.display="block";
   $("#sheet").classList.add("open");
-  $("#sheetTitle").textContent=`#${number} — Loading…`;
-  $("#sheetContent").innerHTML="";
 
-  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${number}`, 
-    {headers:{"Accept":"application/vnd.github+json"}});
+  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${n}`);
   const it=await res.json();
 
-  const labelsHTML=(it.labels||[]).map(l=>`<span class="label">${esc(l.name)}</span>`).join("");
-
-  $("#sheetTitle").textContent=it.title || `Issue #${it.number}`;
+  $("#sheetTitle").textContent=it.title;
   $("#sheetContent").innerHTML=`
-    <div><strong>ID:</strong> #${it.number}</div>
-    <div><strong>Status:</strong> ${esc(it.state||"")}</div>
-    <div><strong>Updated:</strong> ${new Date(it.updated_at).toLocaleString()}</div>
-
-    <hr style="margin:1rem 0">
-
-    <pre>${esc(it.body||"")}</pre>
-
-    <div style="margin-top:1rem"><strong>Labels:</strong><br>${labelsHTML || "<span class='meta'>No labels</span>"}</div>
-
-    <div style="margin-top:1rem">
-      <a href="${it.html_url}" target="_blank">Open on GitHub ↗</a>
-    </div>
+    <p><strong>ID:</strong> #${it.number}</p>
+    <pre>${esc(it.body)}</pre>
   `;
 }
-function closeSheet(){ $("#sheet-backdrop").style.display="none"; $("#sheet").classList.remove("open"); }
-$("#sheet-backdrop").onclick=closeSheet; $("#sheetClose").onclick=closeSheet;
 
-/* ============================================================
-   CREATE STORY — via GitHub Pages Function
-============================================================ */
+$("#sheet-backdrop").onclick=()=>{
+  $("#sheet-backdrop").style.display="none";
+  $("#sheet").classList.remove("open");
+};
+
+/* Create Story */
 $("#openModal").onclick=()=>$("#modal-backdrop").style.display="flex";
 $("#cancelModal").onclick=()=>$("#modal-backdrop").style.display="none";
 
-$("#storyForm").onsubmit=async(e)=>{
+$("#storyForm").onsubmit=async e=>{
   e.preventDefault();
 
-  const title   = ($("#titleInput").value || "User Story").trim();
-  const role    = $("#roleInput").value.trim();
-  const goal    = $("#goalInput").value.trim();
-  const benefit = $("#benefitInput").value.trim();
-  const context = $("#contextInput").value.trim();
-  const consent = $("#consentInput").value;
-  const labels  = ($("#labelsInput").value || "user-story")
-                    .split(",").map(x=>x.trim()).filter(Boolean);
+  const title=$("#titleInput").value.trim();
+  const role=$("#roleInput").value.trim();
+  const goal=$("#goalInput").value.trim();
+  const benefit=$("#benefitInput").value.trim();
+  const context=$("#contextInput").value.trim();
+  const consent=$("#consentInput").value;
+  const labels=$("#labelsInput").value.split(",").map(x=>x.trim()).filter(Boolean);
 
   if(!labels.includes("user-story")) labels.unshift("user-story");
 
-  const body = [
+  const body=[
     '---',
     'name: User Story',
     'about: FAIR use case',
@@ -571,42 +440,37 @@ $("#storyForm").onsubmit=async(e)=>{
     '---',
     '',
     '## 🧩 User story',
+    '**As a**', role || "…",
     '',
-    '**As a**',
-    role || "…",
+    '**I want to**', goal || "…",
     '',
-    '**I want to**',
-    goal || "…",
-    '',
-    '**So that I can**',
-    benefit || "…",
+    '**So that I can**', benefit || "…",
     '',
     '---',
-    '',
     '## 📌 Additional context',
-    '',
     context || "…",
     '',
     '---',
-    '',
     '## 📬 Contact for future EOSC projects',
-    '',
-    consent === "Yes"
-      ? '- [x] Yes\n- [ ] No'
-      : consent === "No"
-      ? '- [ ] Yes\n- [x] No'
+    consent==="Yes" ? '- [x] Yes\n- [ ] No'
+      : consent==="No" ? '- [ ] Yes\n- [x] No'
       : '- [ ] Yes\n- [ ] No',
     ''
   ].join("\n");
 
-  const res = await fetch("/api/createStory", {
+  const res=await fetch("/api/createStory",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({title, body, labels})
+    body:JSON.stringify({title,body,labels})
   });
 
   if(!res.ok){
-    alert("Failed to create issue.");
+    const text=await res.text();
+    if(text.includes("GitHub token missing")){
+      alert("Error: TOKEN is missing in GitHub Pages settings.\nGo to Settings → Pages → Environment variables → Add 'TOKEN'");
+    } else {
+      alert("Failed to create story:\n" + text);
+    }
     return;
   }
 
@@ -615,35 +479,19 @@ $("#storyForm").onsubmit=async(e)=>{
   loadIssues();
 };
 
-/* ============================================================
-   CSV + PRINT
-============================================================ */
-$("#exportCsv").onclick=()=>{
-  const rows=[["number","title","state","updated","labels","body"]];
-  issues.forEach(i=>{
-    const labels=(i.labels||[]).map(l=>l.name).sort().join("|").replace(/"/g,'""');
-    const body=(i.body||"").replace(/"/g,'""');
-    rows.push([
-      i.number,(i.title||"").replace(/"/g,'""'),i.state||"",i.updated_at||"",
-      labels,body
-    ].map(v=>/[,"\n]/.test(v)?`"${v}"`:v).join(","));
-  });
-  const blob=new Blob([rows.join("\n")],{type:"text/csv"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);a.download="user_stories.csv";a.click();
-};
-$("#printPdf").onclick=()=>window.print();
-
-/* ============================================================
-   INIT
-============================================================ */
+/* INIT */
 $("#search").oninput=applyFilters;
 $("#sort").onchange=applyFilters;
 $("#refresh").onclick=loadIssues;
-$("#clearFilters").onclick=clearFilters;
+$("#clearFilters").onclick=()=>{
+  activeChips.clear();
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("selected"));
+  $("#search").value="";
+  loadIssues();
+};
 
-initFacets();
 loadIssues();
 </script>
+
 </body>
 </html>
