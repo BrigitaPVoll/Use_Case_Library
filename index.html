@@ -1394,20 +1394,6 @@
     $('#search').addEventListener('input', () => renderIssues(accumulated));
     $('#only-template').addEventListener('change', () => renderIssues(accumulated));
 
-    // Label filter event listeners
-    const labelFilterCheckboxes = document.querySelectorAll('#label-filters input[type="checkbox"]');
-    labelFilterCheckboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', () => {
-        selectedLabels = [];
-        labelFilterCheckboxes.forEach(cb => {
-          if (cb.checked) {
-            selectedLabels.push(cb.value);
-          }
-        });
-        renderIssues(accumulated);
-      });
-    });
-
     $('#toggle-token').addEventListener('click', () => {
       const isOpen = tokenBox.style.display !== 'none';
       tokenBox.style.display = isOpen ? 'none' : 'grid';
