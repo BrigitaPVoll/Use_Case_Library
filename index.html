@@ -457,7 +457,7 @@ $("#storyForm").onsubmit=async e=>{
     ''
   ].join("\n");
 
-  const res=await fetch("api/createStory",{   // <-- fixed: relative path
+  const res=await fetch("./api/createStory", {   // <-- fixed: relative path
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({title,body,labels})
