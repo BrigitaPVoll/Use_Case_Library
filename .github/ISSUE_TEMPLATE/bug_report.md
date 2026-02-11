@@ -42,7 +42,9 @@ Can we contact you to participate in a future EOSC‑funded project on FAIR data
 
 - [ ] **Yes**
 - [ ] **No**
-
+<!--
+Add your email for further contact
+-->
 <!--
 If yes, please leave your preferred contact details in a comment
 (e.g. email or GitHub username).
