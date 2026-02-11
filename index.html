@@ -427,7 +427,6 @@ $("#storyForm").onsubmit=async e=>{
   const context=$("#contextInput").value.trim();
   const consent=$("#consentInput").value;
   const labels=$("#labelsInput").value.split(",").map(x=>x.trim()).filter(Boolean);
-
   if(!labels.includes("user-story")) labels.unshift("user-story");
 
   const body=[
@@ -458,7 +457,7 @@ $("#storyForm").onsubmit=async e=>{
     ''
   ].join("\n");
 
-  const res=await fetch("/api/createStory",{
+  const res=await fetch("api/createStory",{   // <-- fixed: relative path
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({title,body,labels})
@@ -467,7 +466,7 @@ $("#storyForm").onsubmit=async e=>{
   if(!res.ok){
     const text=await res.text();
     if(text.includes("GitHub token missing")){
-      alert("Error: TOKEN is missing in GitHub Pages settings.\nGo to Settings → Pages → Environment variables → Add 'TOKEN'");
+      alert("Error: TOKEN is missing in GitHub Pages settings.\nSettings → Pages → Environment variables → Add 'TOKEN'");
     } else {
       alert("Failed to create story:\n" + text);
     }
