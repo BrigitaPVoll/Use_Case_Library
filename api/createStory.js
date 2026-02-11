@@ -1,7 +1,7 @@
 export async function onRequestPost(context) {
-  const { GITHUB_TOKEN } = context.env;
+  const { TOKEN } = context.env;
 
-  if (!GITHUB_TOKEN) {
+  if (!TOKEN) {
     return new Response("GitHub token missing", { status: 500 });
   }
 
