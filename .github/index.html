@@ -210,7 +210,7 @@
             </label>
           </div>
           <div class="inline" style="align-items:end">
-            <small>Backend: https://github.com/BrigitaPVoll/User_Story_LibraryBrigitaPVoll/User_Story_Library</a></small>
+            <small>Backend: <a href="https://github.com/BrigitaPVoll/User_Story_Library" target="_blank" rel="noopener">BrigitaPVoll/User_Story_Library</a></small>
           </div>
         </div>
 
@@ -219,8 +219,8 @@
           <input id="token" type="password" placeholder="ghp_… (classic) or fine-grained token" />
           <div class="notice">
             Stored locally in your browser (localStorage) to raise API limits and enable issue creation.
-            Docs: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokensPATs</a>,
-            https://stackoverflow.com/questions/63906613/minimal-set-of-scopes-to-push-to-github-using-an-access-tokenscopes</a>
+            Docs: <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">PATs</a>,
+            <a href="https://stackoverflow.com/questions/63906613/minimal-set-of-scopes-to-push-to-github-using-an-access-token" target="_blank" rel="noopener">scopes</a>
           </div>
         </div>
       </div>
@@ -310,7 +310,7 @@
           <p class="notice" style="margin-top:.5rem;">
             Requires a GitHub token (set in <strong>Token</strong>) with permission to create issues.
             Public repo: classic <code>public_repo</code> or fine‑grained token with <em>Contents: Read &amp; write</em> on this repo.
-            See https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokensdocs</a>.
+            See <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">docs</a>.
           </p>
         </form>
       </div>
@@ -553,7 +553,7 @@
         const card = document.createElement('article');
         card.className = 'card';
         card.innerHTML = `
-          <h3>${escapeHTML(i.html_url)}${escapeHTML(title)}</a></h3>
+          <h3><a href="${i.html_url}" target="_blank" rel="noopener">${escapeHTML(title)}</a></h3>
           <div class="meta">
             <span>#${i.number}</span><span>•</span>
             <span>${escapeHTML(i.state)}</span>
@@ -586,7 +586,7 @@
             </div>` : ''}
 
           <div class="meta">
-            ${escapeHTML(i.html_url)}Open in GitHub</a>
+            <a href="${i.html_url}" target="_blank" rel="noopener">→ Open in GitHub</a>
           </div>
         `;
         storiesEl.appendChild(card);
