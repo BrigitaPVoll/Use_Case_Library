@@ -183,11 +183,11 @@ input,select{
 .sheet-close{background:var(--card);border:1px solid var(--border);padding:.45rem .8rem;border-radius:var(--radius);cursor:pointer}
 .sheet-content pre{
   white-space:pre-wrap;padding:1rem;border-radius:var(--radius);border:1px solid var(--border);
-  background:var(--card);color:var(--text); /* ensure readable in dark mode */
+  background:var(--card);color:var(--text);
 }
 
 /* ============================================================
-   MODAL (Create Story) — NO assignees, NO token field
+   MODAL (Create Story)
 ============================================================ */
 #modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:200}
 #modal{
@@ -200,7 +200,6 @@ input,select{
 .modal-grid .full{grid-column:1/-1}
 textarea{min-height:110px;resize:vertical;padding:.75rem;border:1px solid var(--border);border-radius:var(--radius)}
 .hint{font-size:.85rem;color:var(--muted);margin-top:.6rem}
-
 </style>
 </head>
 <body>
@@ -294,7 +293,7 @@ textarea{min-height:110px;resize:vertical;padding:.75rem;border:1px solid var(--
   <div id="sheetContent" class="sheet-content"></div>
 </div>
 
-<!-- Create Story Modal (NO assignees, NO token field) -->
+<!-- Modal -->
 <div id="modal-backdrop">
   <div id="modal">
     <h3 class="modal-title">Create New User Story</h3>
@@ -333,10 +332,7 @@ textarea{min-height:110px;resize:vertical;padding:.75rem;border:1px solid var(--
           <input id="labelsInput" value="user-story"/>
         </div>
       </div>
-      <div class="hint">
-        To create issues, ensure a token exists in <code>localStorage</code>:<br/>
-        <code>localStorage.setItem('GITHUB_TOKEN','ghp_…')</code>
-      </div>
+
       <div style="text-align:right;margin-top:1rem">
         <button type="button" id="cancelModal" class="btn btn-secondary">Cancel</button>
         <button type="submit" class="btn btn-primary">Create</button>
@@ -363,7 +359,7 @@ const LABELS = [
   "Institution>University of Copenhagen","Institution>University of Southern Denmark (SDU)"
 ];
 
-/* Create facet sets and sort alphabetically by the label suffix */
+/* Create facet sets */
 const FACETS = {
   consent: ["Contact consent>NO","Contact consent>YES"].sort((a,b)=>a.localeCompare(b)),
   domain : LABELS.filter(x=>x.startsWith("Domain>"))
@@ -373,7 +369,7 @@ const FACETS = {
 };
 
 const $ = s => document.querySelector(s);
-function esc(s){ return String(s||"").replace(/[&<>"]/g, c => ({'&':'&','<':'<','>':'>'}[c])); }
+function esc(s){ return String(s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 
 let issues=[], filtered=[], page=1, activeChips=new Set();
 
@@ -385,11 +381,10 @@ if(localStorage.getItem("darkMode")==="true"){ document.body.classList.add("dark
 darkToggle.onchange=()=>{ document.body.classList.toggle("dark"); localStorage.setItem("darkMode",document.body.classList.contains("dark")); };
 
 /* ============================================================
-   FACETS (build + collapse)
+   FACETS
 ============================================================ */
 function chipLabel(label){
-  if(label.startsWith("Domain>")||label.startsWith("Institution>")) return label.split(">")[1].trim();
-  if(label.startsWith("Contact consent>")) return label.split(">")[1].trim();
+  if(label.includes(">")) return label.split(">")[1].trim();
   return label;
 }
 function buildFacet(container, list){
@@ -398,8 +393,8 @@ function buildFacet(container, list){
   list.forEach(L=>{
     const chip=document.createElement("div");
     chip.className="chip";
-    chip.dataset.value=L;                 // full label used for filtering
-    chip.textContent=chipLabel(L);        // display suffix only for readability
+    chip.dataset.value=L;
+    chip.textContent=chipLabel(L);
     chip.onclick=()=>{
       const v=chip.dataset.value;
       if(activeChips.has(v)) activeChips.delete(v);
@@ -415,14 +410,10 @@ function initFacets(){
   buildFacet("#facetDomain",     FACETS.domain);
   buildFacet("#facetInstitution",FACETS.inst);
 
-  // Collapse/expand behavior
   document.querySelectorAll(".facet").forEach(f=>{
-    const header=f.querySelector(".facet-header");
-    header.addEventListener("click", ()=> f.classList.toggle("collapsed"));
+    f.querySelector(".facet-header").onclick=()=>f.classList.toggle("collapsed");
   });
 }
-
-/* Clear all filters */
 function clearFilters(){
   activeChips.clear();
   document.querySelectorAll(".chip.selected").forEach(c=>c.classList.remove("selected"));
@@ -433,7 +424,7 @@ function clearFilters(){
 }
 
 /* ============================================================
-   LOAD ISSUES (state=all)
+   LOAD ISSUES
 ============================================================ */
 async function loadIssues(){
   const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues?state=all&per_page=100`,
@@ -441,7 +432,6 @@ async function loadIssues(){
   const data=await res.json();
   issues=(data||[]).filter(x=>!x.pull_request);
 
-  // for display, sort card labels alphabetically by name
   issues.forEach(i=>{
     if(i.labels) i.labels.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
   });
@@ -513,12 +503,11 @@ function renderPage(){
   $("#nextPage").disabled=(page>=pages);
 }
 
-/* Pagination buttons */
 $("#prevPage").onclick=()=>{ if(page>1){page--;renderPage();} };
 $("#nextPage").onclick=()=>{ const pages=Math.ceil(filtered.length/PER_PAGE); if(page<pages){page++;renderPage();} };
 
 /* ============================================================
-   BOTTOM-SHEET PREVIEW
+   SHEET
 ============================================================ */
 async function openSheet(number){
   $("#sheet-backdrop").style.display="block";
@@ -526,7 +515,8 @@ async function openSheet(number){
   $("#sheetTitle").textContent=`#${number} — Loading…`;
   $("#sheetContent").innerHTML="";
 
-  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${number}`, {headers:{"Accept":"application/vnd.github+json"}});
+  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues/${number}`, 
+    {headers:{"Accept":"application/vnd.github+json"}});
   const it=await res.json();
 
   const labelsHTML=(it.labels||[]).map(l=>`<span class="label">${esc(l.name)}</span>`).join("");
@@ -541,10 +531,10 @@ async function openSheet(number){
 
     <pre>${esc(it.body||"")}</pre>
 
-    <div style="margin-top:1rem"><strong>Labels:</strong><br>${labelsHTML||"<span class='meta'>No labels</span>"}</div>
+    <div style="margin-top:1rem"><strong>Labels:</strong><br>${labelsHTML || "<span class='meta'>No labels</span>"}</div>
 
     <div style="margin-top:1rem">
-      <a href="${it.html_url}" target="_blank" rel="noopener">Open on GitHub ↗</a>
+      <a href="${it.html_url}" target="_blank">Open on GitHub ↗</a>
     </div>
   `;
 }
@@ -552,7 +542,7 @@ function closeSheet(){ $("#sheet-backdrop").style.display="none"; $("#sheet").cl
 $("#sheet-backdrop").onclick=closeSheet; $("#sheetClose").onclick=closeSheet;
 
 /* ============================================================
-   CREATE STORY — NO assignees/token fields; token via localStorage
+   CREATE STORY — via GitHub Pages Function
 ============================================================ */
 $("#openModal").onclick=()=>$("#modal-backdrop").style.display="flex";
 $("#cancelModal").onclick=()=>$("#modal-backdrop").style.display="none";
@@ -560,74 +550,65 @@ $("#cancelModal").onclick=()=>$("#modal-backdrop").style.display="none";
 $("#storyForm").onsubmit=async(e)=>{
   e.preventDefault();
 
-  const token=localStorage.getItem("GITHUB_TOKEN");
-  if(!token){ alert("To create issues, set a token in localStorage:\nlocalStorage.setItem('GITHUB_TOKEN','ghp_…')"); return; }
-
-  const title   = ($("#titleInput").value || "User Story: ").trim();
+  const title   = ($("#titleInput").value || "User Story").trim();
   const role    = $("#roleInput").value.trim();
   const goal    = $("#goalInput").value.trim();
   const benefit = $("#benefitInput").value.trim();
   const context = $("#contextInput").value.trim();
   const consent = $("#consentInput").value;
-  const labels  = ($("#labelsInput").value || "user-story").split(",").map(x=>x.trim()).filter(Boolean);
+  const labels  = ($("#labelsInput").value || "user-story")
+                    .split(",").map(x=>x.trim()).filter(Boolean);
+
   if(!labels.includes("user-story")) labels.unshift("user-story");
 
-  /* Issue body using your exact template (front-matter + sections) */
   const body = [
-'---',
-'name: User Story',
-'about: A FAIR use case describing who needs what data, for what purpose, and under what conditions.',
-'title: "User Story: "',
-'labels: ["user-story"]',
-'assignees: ""',
-'---',
-'',
-'## 🧩 User story',
-'',
-'Please follow the standard user‑story syntax.',
-'',
-'**As a**',
-(role || '…'),
-'',
-'**I want to**',
-(goal || '…'),
-'',
-'**So that I can**',
-(benefit || '…'),
-'',
-'---',
-'',
-'## 📌 Additional context',
-'',
-(context || '…'),
-'',
-'---',
-'',
-'## 📬 Contact for future EOSC‑funded FAIR projects',
-'',
-'Can we contact you to participate in a future EOSC‑funded project on FAIR data management?',
-'',
-(consent==="Yes" ? '- [x] **Yes**\n- [ ] **No**' :
- consent==="No"  ? '- [ ] **Yes**\n- [x] **No**' :
-                    '- [ ] **Yes**\n- [ ] **No**'),
-'',
-'<!--',
-'If yes, please leave your preferred contact details in a comment',
-'(e.g. email or GitHub username).',
-'-->'
-  ].join('\n');
+    '---',
+    'name: User Story',
+    'about: FAIR use case',
+    'title: "User Story"',
+    'labels: ["user-story"]',
+    'assignees: ""',
+    '---',
+    '',
+    '## 🧩 User story',
+    '',
+    '**As a**',
+    role || "…",
+    '',
+    '**I want to**',
+    goal || "…",
+    '',
+    '**So that I can**',
+    benefit || "…",
+    '',
+    '---',
+    '',
+    '## 📌 Additional context',
+    '',
+    context || "…",
+    '',
+    '---',
+    '',
+    '## 📬 Contact for future EOSC projects',
+    '',
+    consent === "Yes"
+      ? '- [x] Yes\n- [ ] No'
+      : consent === "No"
+      ? '- [ ] Yes\n- [x] No'
+      : '- [ ] Yes\n- [ ] No',
+    ''
+  ].join("\n");
 
-  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues`,{
+  const res = await fetch("/api/createStory", {
     method:"POST",
-    headers:{
-      "Accept":"application/vnd.github+json",
-      "Authorization":"Bearer "+token,
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({title,body,labels})
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({title, body, labels})
   });
 
-  if(!res.ok){ alert("Failed to create issue: "+(await res.text())); return; }
+  if(!res.ok){
+    alert("Failed to create issue.");
+    return;
+  }
 
   alert("Story created!");
   $("#modal-backdrop").style.display="none";
@@ -645,7 +626,7 @@ $("#exportCsv").onclick=()=>{
     rows.push([
       i.number,(i.title||"").replace(/"/g,'""'),i.state||"",i.updated_at||"",
       labels,body
-    ].map(v=>/[,\"\n]/.test(v)?`"${v}"`:v).join(","));
+    ].map(v=>/[,"\n]/.test(v)?`"${v}"`:v).join(","));
   });
   const blob=new Blob([rows.join("\n")],{type:"text/csv"});
   const a=document.createElement("a");
@@ -654,7 +635,7 @@ $("#exportCsv").onclick=()=>{
 $("#printPdf").onclick=()=>window.print();
 
 /* ============================================================
-   EVENTS + INIT
+   INIT
 ============================================================ */
 $("#search").oninput=applyFilters;
 $("#sort").onchange=applyFilters;
