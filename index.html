@@ -218,6 +218,29 @@
     }
     .assignee-badge button:hover{color:var(--deic-blue)}
 
+    /* ==== Label selection in story form ==== */
+    .selected-story-labels{
+      display:flex; gap:.35rem; flex-wrap:wrap; margin-bottom:.5rem;
+    }
+    .selected-story-labels p{
+      margin:0; font-size:.85rem; color:var(--muted);
+    }
+    .available-story-labels{
+      display:flex; flex-wrap:wrap; gap:.4rem;
+    }
+    .label-select-btn{
+      display:inline-flex; align-items:center; gap:.35rem;
+      padding:.4rem .7rem; border-radius:6px; border:1px solid;
+      font-size:.8rem; font-weight:500; cursor:pointer;
+      transition:all 0.2s ease; background:color-mix(in oklab, white 90%, currentColor);
+      color:var(--fg); border-color:currentColor;
+    }
+    .label-select-btn:hover{
+      filter:brightness(0.95);
+      transform:translateY(-1px);
+      box-shadow:0 2px 8px rgba(0,0,0,.12);
+    }
+
     /* ==== Label filters ==== */
     .filter-group{
       margin-top:1rem; border-top:1px solid var(--control-border); padding-top:0.75rem;
@@ -238,38 +261,52 @@
       letter-spacing:0.3px; margin-bottom:.5rem; font-weight:600;
     }
     .filter-options{
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:.5rem;
+      display:flex; flex-wrap:wrap; gap:.4rem; align-items:flex-start;
     }
     .filter-checkbox{
-      display:flex; align-items:center; gap:.35rem; font-size:.85rem; cursor:pointer;
-      padding:.35rem .5rem; border-radius:.4rem; transition:all 0.2s ease;
+      display:inline-block; font-size:.8rem; cursor:pointer;
+      padding:.4rem .75rem; border-radius:20px; transition:all 0.2s ease;
+      background:color-mix(in oklab, var(--accent) 12%, var(--control-bg));
+      border:1px solid color-mix(in oklab, var(--accent) 25%, var(--border));
+      color:var(--fg);
     }
-    .filter-checkbox:hover{background:color-mix(in oklab, var(--accent) 8%, var(--control-bg));}
+    .filter-checkbox:hover{
+      background:color-mix(in oklab, var(--accent) 20%, var(--control-bg));
+      border-color:var(--accent);
+    }
     .filter-checkbox input{
-      width:16px; height:16px; margin:0; cursor:pointer; accent-color:var(--deic-green);
+      display:none;
     }
     .filter-checkbox label{
-      margin:0; cursor:pointer; user-select:none; flex:1;
+      margin:0; cursor:pointer; user-select:none; display:inline;
     }
     .filter-checkbox input:checked + label{
-      font-weight:600; color:var(--deic-blue);
+      font-weight:600; color:var(--accent-contrast);
+    }
+    .filter-checkbox input:checked{
+      accent-color:var(--deic-green);
+    }
+    .filter-checkbox:has(input:checked){
+      background:var(--accent);
+      border-color:var(--accent);
+      color:var(--accent-contrast);
     }
 
     /* ==== Preview drawer (slides up from bottom) ==== */
     .preview-overlay{position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; z-index:100; transition:opacity 0.3s ease; backdrop-filter:blur(2px);}
     .preview-overlay.show{display:block; opacity:1;}
-    .preview-drawer{position:fixed; bottom:0; left:0; right:0; max-height:90vh; background:var(--control-bg); color:var(--fg); border-top:2px solid var(--accent); box-shadow:0 -8px 32px rgba(0,0,0,.25); display:none; flex-direction:column; z-index:101; transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);}
+    .preview-drawer{position:fixed; bottom:0; left:0; right:0; max-height:75vh; width:100%; max-width:500px; margin-left:auto; margin-right:auto; background:var(--control-bg); color:var(--fg); border-top:2px solid var(--accent); box-shadow:0 -8px 32px rgba(0,0,0,.25); display:none; flex-direction:column; z-index:101; transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);}
     .preview-drawer.show{display:flex; transform:translateY(0);}
     
     .preview-drawer header{
       background:linear-gradient(135deg, color-mix(in oklab, var(--deic-blue) 95%, var(--control-bg)), color-mix(in oklab, var(--deic-blue) 90%, var(--control-bg)));
-      border-bottom:1px solid var(--control-border); padding:1.25rem; display:flex; align-items:flex-start; justify-content:space-between; gap:1rem;
+      border-bottom:1px solid var(--control-border); padding:1rem .9rem; display:flex; align-items:flex-start; justify-content:space-between; gap:.75rem;
     }
-    .preview-drawer h2{margin:0 0 0.5rem; font-size:1.4rem; color:var(--fg); font-weight:700;}
-    .preview-header-meta{display:flex; gap:1rem; flex-wrap:wrap; font-size:.85rem;}
+    .preview-drawer h2{margin:0 0 0.3rem; font-size:1.2rem; color:var(--fg); font-weight:700;}
+    .preview-header-meta{display:flex; gap:.6rem; flex-wrap:wrap; font-size:.75rem;}
     .preview-meta-badge{
-      display:inline-flex; align-items:center; gap:.35rem; background:color-mix(in oklab, var(--accent) 20%, var(--fg)); 
-      color:var(--fg); padding:.4rem .6rem; border-radius:999px; font-weight:600;
+      display:inline-flex; align-items:center; gap:.3rem; background:color-mix(in oklab, var(--accent) 20%, var(--fg)); 
+      color:var(--fg); padding:.3rem .5rem; border-radius:999px; font-weight:600; white-space:nowrap;
     }
     .preview-drawer .close-btn{
       background:none; border:none; font-size:1.8rem; cursor:pointer; color:var(--muted); padding:0;
@@ -279,36 +316,36 @@
     .preview-drawer .close-btn:hover{color:var(--fg); background:color-mix(in oklab, var(--fg) 10%, var(--control-bg));}
     
     .preview-drawer .content{
-      flex:1; overflow-y:auto; padding:1.5rem 1.25rem;
+      flex:1; overflow-y:auto; padding:1rem 0.9rem;
     }
     
     .preview-section{
-      margin-bottom:1.75rem; background:color-mix(in oklab, var(--accent) 2%, var(--control-bg));
-      border:1px solid var(--control-border); border-radius:0.6rem; padding:1rem; transition:all 0.2s ease;
+      margin-bottom:1rem; background:color-mix(in oklab, var(--accent) 2%, var(--control-bg));
+      border:1px solid var(--control-border); border-radius:0.5rem; padding:.75rem; transition:all 0.2s ease;
     }
     .preview-section:hover{border-color:var(--accent);}
     .preview-section h3{
-      margin:0 0 .75rem; font-size:.85rem; color:var(--deic-blue); font-weight:700;
-      text-transform:uppercase; letter-spacing:0.5px; display:flex; align-items:center; gap:.4rem;
+      margin:0 0 .5rem; font-size:.75rem; color:var(--deic-blue); font-weight:700;
+      text-transform:uppercase; letter-spacing:0.5px; display:flex; align-items:center; gap:.3rem;
     }
     .preview-section h3::before{content:'•'; font-size:1.2rem; color:var(--accent);}
-    .preview-section p{margin:0; line-height:1.7; font-size:.95rem; color:var(--fg);}
+    .preview-section p{margin:0; line-height:1.6; font-size:.85rem; color:var(--fg);}
     
     .preview-story-line{
-      font-size:1.05rem; font-style:italic; color:var(--fg); line-height:1.7;
-      padding:.75rem; background:color-mix(in oklab, var(--accent) 5%, var(--control-bg));
-      border-left:3px solid var(--accent); border-radius:.4rem; margin-bottom:1rem;
+      font-size:.9rem; font-style:italic; color:var(--fg); line-height:1.6;
+      padding:.6rem; background:color-mix(in oklab, var(--accent) 5%, var(--control-bg));
+      border-left:3px solid var(--accent); border-radius:.4rem; margin-bottom:.8rem;
     }
     
     .preview-rgb-grid{
-      display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75rem; margin:0;
+      display:grid; grid-template-columns:1fr 1fr 1fr; gap:.5rem; margin:0;
     }
     .preview-rgb-item{
       background:color-mix(in oklab, var(--fg) 3%, var(--control-bg)); border:1px solid var(--control-border);
-      padding:.75rem; border-radius:.5rem; text-align:center;
+      padding:.5rem; border-radius:.4rem; text-align:center;
     }
-    .preview-rgb-item h4{margin:0 0 .4rem; font-size:.75rem; color:var(--muted); text-transform:uppercase; font-weight:600; letter-spacing:0.3px;}
-    .preview-rgb-item p{margin:0; font-size:.9rem; color:var(--fg); font-weight:500;}
+    .preview-rgb-item h4{margin:0 0 .3rem; font-size:.65rem; color:var(--muted); text-transform:uppercase; font-weight:600; letter-spacing:0.3px;}
+    .preview-rgb-item p{margin:0; font-size:.75rem; color:var(--fg); font-weight:500;}
     
     .preview-meta{
       display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:.75rem; margin:0;
@@ -320,8 +357,8 @@
     .preview-meta-label{font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; font-weight:700;}
     .preview-meta-value{font-size:.9rem; color:var(--fg); font-weight:600;}
     
-    .preview-labels{display:flex; gap:.35rem; flex-wrap:wrap; margin:0;}
-    .preview-label{background:var(--accent); color:var(--accent-contrast); border:1px solid var(--accent); border-radius:999px; padding:.25rem .65rem; font-size:.8rem; font-weight:600;}
+    .preview-labels{display:flex; gap:.3rem; flex-wrap:wrap; margin:0;}
+    .preview-label{background:var(--accent); color:var(--accent-contrast); border:1px solid var(--accent); border-radius:999px; padding:.2rem .5rem; font-size:.7rem; font-weight:600;}
     
     .preview-assignees-list{
       display:flex; align-items:center; gap:.5rem; margin:0;
@@ -331,10 +368,10 @@
     }
     
     .preview-footer{
-      border-top:1px solid var(--control-border); padding:1rem 1.25rem; display:flex; gap:.5rem; flex-wrap:wrap; justify-content:flex-end; background:color-mix(in oklab, var(--accent) 2%, var(--control-bg));
+      border-top:1px solid var(--control-border); padding:.75rem .9rem; display:flex; gap:.4rem; flex-wrap:wrap; justify-content:flex-end; background:color-mix(in oklab, var(--accent) 2%, var(--control-bg));
     }
     .preview-footer a{
-      display:inline-flex; align-items:center; gap:.35rem; padding:.6rem .9rem; background:var(--accent); color:var(--accent-contrast); border-radius:.6rem; text-decoration:none; font-weight:600; cursor:pointer; transition:all 0.2s ease; border:none;
+      display:inline-flex; align-items:center; gap:.3rem; padding:.5rem .8rem; background:var(--accent); color:var(--accent-contrast); border-radius:.5rem; text-decoration:none; font-weight:600; cursor:pointer; transition:all 0.2s ease; border:none; font-size:.85rem;
     }
     .preview-footer a:hover{filter:brightness(1.08); transform:translateY(-2px);}
 
@@ -569,9 +606,9 @@
               </select>
             </div>
 
-            <div>
-              <label for="labels">Labels (comma)</label>
-              <input id="labels" type="text" value="user-story" />
+            <div class="full">
+              <label>Labels (Click to select)</label>
+              <div id="label-selection-ui" style="display:flex; flex-direction:column; gap:.75rem;"></div>
             </div>
 
             <div class="full">
@@ -660,7 +697,9 @@
     let accumulated = [];
     let selectedAssignees = [];
     let availableUsers = [];
+    let availableLabels = [];  // All labels from repo
     let selectedLabels = [];  // State for selected label filters
+    let selectedStoryLabels = [];  // State for labels selected in new story form
 
     // ---------- DOM ----------
     const $ = sel => document.querySelector(sel);
@@ -811,6 +850,147 @@
       } catch (err) {
         console.warn('Could not fetch users:', err);
       }
+    }
+
+    // Fetch all available labels from the repository
+    async function fetchRepositoryLabels(){
+      const url = `https://api.github.com/repos/${OWNER}/${REPO}/labels?per_page=100`;
+      const headers = {
+        'Accept': 'application/vnd.github+json'
+      };
+
+      try {
+        const res = await fetch(url, { headers });
+        if (res.ok) {
+          availableLabels = await res.json();
+          // Dynamically rebuild the filter UI with fetched labels
+          renderLabelFilters();
+          // Render label selection in the modal
+          renderLabelSelection();
+        }
+      } catch (err) {
+        console.warn('Could not fetch labels:', err);
+      }
+    }
+
+    // Render label filters dynamically
+    function renderLabelFilters(){
+      const filterGroup = $('#label-filters');
+      if (!filterGroup) return;
+      
+      // Group labels by category (Contact consent, Domain, Institution, etc.)
+      const grouped = {};
+      availableLabels.forEach(label => {
+        const name = label.name;
+        const category = name.split('>')[0];
+        if (!grouped[category]) grouped[category] = [];
+        grouped[category].push(label);
+      });
+
+      // Rebuild filter HTML with label buttons (no checkboxes)
+      let html = '<h4>🏷️ Filter by Labels</h4>';
+      for (const [category, labels] of Object.entries(grouped)) {
+        html += `<div class="filter-category"><strong>${escapeHTML(category)}</strong><div class="filter-options">`;
+        labels.forEach(label => {
+          const value = label.name;
+          const isSelected = selectedLabels.includes(value);
+          html += `<button type="button" class="filter-checkbox" data-label="${escapeHTML(value)}" 
+                    style="${isSelected ? 'background:var(--accent); color:var(--accent-contrast); border-color:var(--accent);' : ''}">
+            ${escapeHTML(value.split('>').pop())}
+          </button>`;
+        });
+        html += '</div></div>';
+      }
+      
+      // Replace the content
+      filterGroup.innerHTML = html;
+      
+      // Re-attach event listeners to buttons
+      const buttons = filterGroup.querySelectorAll('.filter-checkbox');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const labelValue = btn.dataset.label;
+          if (selectedLabels.includes(labelValue)) {
+            selectedLabels = selectedLabels.filter(l => l !== labelValue);
+          } else {
+            selectedLabels.push(labelValue);
+          }
+          renderLabelFilters();  // Re-render to update button styles
+          renderIssues(accumulated);
+        });
+      });
+    }
+
+    // Render label selection in the create story modal
+    function renderLabelSelection(){
+      const labelSelectionEl = $('#label-selection-ui');
+      if (!labelSelectionEl) return;
+
+      // Build HTML for selected labels and available labels
+      let html = '<div class="selected-story-labels" id="selected-story-labels-list"></div>';
+      html += '<div class="available-story-labels">';
+      
+      availableLabels.forEach(label => {
+        const isSelected = selectedStoryLabels.includes(label.name);
+        const textColor = parseInt(label.color, 16) > 0xffffff/2 ? '#000' : '#fff';
+        html += `<button type="button" class="label-select-btn" data-label="${escapeHTML(label.name)}" 
+                  style="background-color: #${label.color}; color: ${textColor}; ${isSelected ? 'border-width:2px; box-shadow:0 0 0 2px white, 0 0 0 4px #' + label.color + ';' : ''}">
+          ${escapeHTML(label.name)}
+        </button>`;
+      });
+      html += '</div>';
+      
+      // Set all HTML at once
+      labelSelectionEl.innerHTML = html;
+
+      // Attach click handlers
+      labelSelectionEl.querySelectorAll('.label-select-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const labelName = btn.dataset.label;
+          if (selectedStoryLabels.includes(labelName)) {
+            selectedStoryLabels = selectedStoryLabels.filter(l => l !== labelName);
+          } else {
+            selectedStoryLabels.push(labelName);
+          }
+          renderLabelSelection();  // Re-render to update visual feedback
+          renderSelectedStoryLabels();
+        });
+      });
+      
+      renderSelectedStoryLabels();
+    }
+
+    // Render selected labels for new story
+    function renderSelectedStoryLabels(){
+      const selectedEl = $('#selected-story-labels-list');
+      if (!selectedEl) return;
+      
+      if (selectedStoryLabels.length === 0) {
+        selectedEl.innerHTML = '<p style="color:var(--muted); font-size:.85rem; margin:0;">No labels selected</p>';
+        return;
+      }
+
+      selectedEl.innerHTML = selectedStoryLabels.map(labelName => {
+        const label = availableLabels.find(l => l.name === labelName);
+        if (!label) return '';
+        return `
+          <div class="assignee-badge" style="background:var(--accent-soft);">
+            <span>${escapeHTML(labelName)}</span>
+            <button type="button" data-label="${escapeHTML(labelName)}" style="background:none; border:none; color:inherit; cursor:pointer; padding:0; margin-left:.25rem; font-weight:bold;">×</button>
+          </div>
+        `;
+      }).join('');
+
+      selectedEl.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const labelName = btn.dataset.label;
+          selectedStoryLabels = selectedStoryLabels.filter(l => l !== labelName);
+          renderSelectedStoryLabels();
+        });
+      });
     }
 
     // ---------- Assignee selector UI ----------
@@ -984,10 +1164,18 @@
       const token = localStorage.getItem('GITHUB_TOKEN') || tokenInput.value.trim();
       if (!token) throw new Error('Missing token. Set Token in the header.');
 
+      // Handle labels as array or string
+      let labelNames;
+      if (Array.isArray(labels)) {
+        labelNames = labels.map(l => l.name || l).filter(Boolean);
+      } else {
+        labelNames = (labels || 'user-story').split(',').map(s => s.trim()).filter(Boolean);
+      }
+
       const body = {
         title: title.trim(),
         body: buildIssueBody({role, goal, benefit, context, consent}),
-        labels: (labels || 'user-story').split(',').map(s => s.trim()).filter(Boolean),
+        labels: labelNames,
         assignees: assignees.map(a => a.login)
       };
 
@@ -1224,17 +1412,22 @@
     openModalBtn.addEventListener('click', () => { 
       backdrop.style.display = 'flex';
       fetchRepositoryUsers();
+      fetchRepositoryLabels();
     });
     cancelModalBtn.addEventListener('click', () => { 
       backdrop.style.display = 'none';
       selectedAssignees = [];
+      selectedStoryLabels = [];
       renderSelectedAssignees();
+      renderSelectedStoryLabels();
     });
     backdrop.addEventListener('click', (e) => { 
       if (e.target === backdrop) {
         backdrop.style.display = 'none';
         selectedAssignees = [];
+        selectedStoryLabels = [];
         renderSelectedAssignees();
+        renderSelectedStoryLabels();
       }
     });
     document.addEventListener('keydown', (e) => { 
@@ -1263,7 +1456,7 @@
         benefit,
         context: $('#context').value.trim(),
         consent: $('#consent').value,
-        labels: $('#labels').value.trim(),
+        labels: selectedStoryLabels,
         assignees: selectedAssignees
       };
 
@@ -1275,9 +1468,10 @@
 
         // Clear the form and re-render
         storyForm.reset();
-        $('#labels').value = 'user-story';
         selectedAssignees = [];
+        selectedStoryLabels = [];
         renderSelectedAssignees();
+        renderSelectedStoryLabels();
         accumulated = [issue, ...accumulated];
         renderIssues(accumulated);
       } catch (err) {
