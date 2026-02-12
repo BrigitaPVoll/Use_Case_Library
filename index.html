@@ -13,7 +13,7 @@
       --deic-blue:  #16385D;   /* Supporting */
 
       /* Page background */
-      --bg: #f8f8f6;           /* Off-white */
+      --bg: #ececea;           /* Darker off-white */
       --fg: #1A1A1A;           /* Near-black text */
       --muted: #666666;        /* Medium grey */
 
@@ -135,6 +135,10 @@
 
     /* ==== Controls: crisp white surface ==== */
     .controls{display:grid; grid-template-columns:1fr; gap:.75rem; margin-top:.75rem; background: color-mix(in oklab, var(--control-bg) 94%, transparent); border: 1px solid var(--control-border); border-radius: 12px; padding: .8rem; box-shadow: var(--control-shadow);}
+    @media (max-width:1200px){
+      main{flex-direction:column;}
+      main .wrap:last-child{flex:1; min-width:0;}
+    }
     .controls-row{display:grid; grid-template-columns:2fr 1fr 1fr auto auto; gap:.5rem}
     @media (max-width:1000px){ .controls-row{grid-template-columns:1fr 1fr 1fr 1fr} }
     @media (max-width:700px){ .controls-row{grid-template-columns:1fr 1fr} }
@@ -153,7 +157,9 @@
     small{color:var(--muted)}
 
     /* ==== Main content ==== */
-    main{max-width:1100px; margin:0 auto; padding:1rem 1.25rem 3rem}
+    main{max-width:1400px; margin:0 auto; padding:1rem 1.25rem 3rem; display:flex; gap:1.5rem;}
+    main .wrap{flex:1; min-width:0;}
+    main .wrap:last-child{flex:0 0 280px;}
     .status{margin:1rem 0; font-size:.95rem; color:var(--fg); display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; font-weight:500;}
     .rate{font-size:.85rem; color:var(--fg); padding:.1rem .4rem; border:1px solid var(--control-border); border-radius:999px; background:var(--accent-soft); font-weight:500;}
     .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:1rem}
@@ -265,18 +271,17 @@
 
     /* ==== Label filters ==== */
     .filter-group{
-      margin-top:.5rem; border-top:1px solid var(--control-border); padding:.5rem;
-      background:color-mix(in oklab, var(--accent) 3%, var(--control-bg)); border-radius:0.6rem;
-      border:1px solid var(--control-border); max-height:none; overflow:visible; transition:max-height 0.3s ease;
-    }
-    .filter-group.collapsed{
-      max-height:50px; overflow:hidden;
+      padding:.75rem; background:var(--control-bg); border:1px solid var(--control-border); 
+      border-radius:12px; max-height:none; overflow:visible; transition:max-height 0.3s ease;
     }
     .filter-group h4{
-      margin:0 0 .4rem; font-size:.75rem; color:var(--deic-blue); font-weight:700;
+      margin:0 0 .6rem; font-size:.85rem; color:var(--fg); font-weight:700;
       text-transform:uppercase; letter-spacing:0.5px; display:flex; align-items:center; gap:.25rem; justify-content:space-between;
     }
     .filter-group h4::before{content:'🏷️'; font-size:0.85rem;}
+    .filter-group.collapsed{
+      max-height:50px; overflow:hidden;
+    }
     .filter-toggle-btn{
       background:none; border:none; color:var(--fg); cursor:pointer; font-size:.8rem; padding:0;
       display:inline-flex; align-items:center; gap:.2rem; transition:all 0.2s ease;
@@ -327,11 +332,11 @@
       color:var(--accent-contrast);
     }
 
-    /* ==== Preview panel (slides from right) ==== */
+    /* ==== Preview panel (slides from bottom) ==== */
     .preview-overlay{position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; z-index:100; transition:opacity 0.3s ease; backdrop-filter:blur(2px);}
     .preview-overlay.show{display:block; opacity:1;}
-    .preview-drawer{position:fixed; top:0; right:0; height:100vh; max-height:100vh; width:100%; max-width:450px; background:var(--control-bg); color:var(--fg); border-left:1px solid var(--control-border); box-shadow:-8px 0 32px rgba(0,0,0,.25); display:none; flex-direction:column; z-index:101; transform:translateX(100%); transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);}
-    .preview-drawer.show{display:flex; transform:translateX(0);}
+    .preview-drawer{position:fixed; bottom:0; left:0; width:100%; max-height:75vh; background:var(--control-bg); color:var(--fg); border-top:1px solid var(--control-border); box-shadow:0 -8px 32px rgba(0,0,0,.25); display:none; flex-direction:column; z-index:101; transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);}
+    .preview-drawer.show{display:flex; transform:translateY(0);}
     
     .preview-drawer header{
       background:var(--control-bg);
@@ -419,7 +424,7 @@
       .preview-rgb-grid{ grid-template-columns:1fr; }
       .preview-meta{ grid-template-columns:1fr 1fr; }
       .preview-drawer .content{ padding:1rem 0.75rem; }
-      .preview-drawer{ max-width:100%; }
+      .preview-drawer{ max-height:90vh; }
     }
     @page { size: A4; margin: 16mm; }
     @media print {
@@ -489,96 +494,6 @@
             <a href="https://stackoverflow.com/questions/63906613/minimal-set-of-scopes-to-push-to-github-using-an-access-token" target="_blank" rel="noopener">scopes</a>
           </div>
         </div>
-
-        <div id="label-filters" class="filter-group">
-          <h4>Filter by Labels</h4>
-          
-          <div class="filter-category">
-            <strong>Contact Consent</strong>
-            <div class="filter-options">
-              <div class="filter-checkbox">
-                <input type="checkbox" id="filter-consent-yes" value="Contact consent>YES" />
-                <label for="filter-consent-yes">YES</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" id="filter-consent-no" value="Contact consent>NO" />
-                <label for="filter-consent-no">NO</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="filter-category">
-            <strong>Domain</strong>
-            <div class="filter-options">
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Domain>Agricultural Sciences" />
-                <label>Agricultural Sciences</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Domain>Domain agnostic" />
-                <label>Domain agnostic</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Domain>Engineering and Technology" />
-                <label>Engineering and Technology</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Domain>Humanities" />
-                <label>Humanities</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Domain>Medical and Health Sciences" />
-                <label>Medical and Health Sciences</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Domain>Natural Sciences" />
-                <label>Natural Sciences</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Domain>Social Sciences" />
-                <label>Social Sciences</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="filter-category">
-            <strong>Institution</strong>
-            <div class="filter-options">
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Institution>Aalborg University" />
-                <label>Aalborg University</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Institution>Aarhus University" />
-                <label>Aarhus University</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Institution>Copenhagen Business School (CBS)" />
-                <label>Copenhagen Business School (CBS)</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Institution>IT University of Copenhagen" />
-                <label>IT University of Copenhagen</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Institution>Roskilde University" />
-                <label>Roskilde University</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Institution>Technical University of Denmark (DTU)" />
-                <label>Technical University of Denmark (DTU)</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Institution>University of Copenhagen" />
-                <label>University of Copenhagen</label>
-              </div>
-              <div class="filter-checkbox">
-                <input type="checkbox" value="Institution>University of Southern Denmark (SDU)" />
-                <label>University of Southern Denmark (SDU)</label>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </header>
@@ -594,6 +509,11 @@
 
       <div class="load-more" style="display:flex; justify-content:center; margin-top:1rem;">
         <button id="more" style="display:none;">Load more</button>
+      </div>
+    </div>
+    <div class="wrap">
+      <div id="main-label-filters" class="filter-group" style="position:sticky; top:1rem;">
+        <h4>Filter by Labels</h4>
       </div>
     </div>
   </main>
@@ -916,7 +836,7 @@
 
     // Render label filters dynamically
     function renderLabelFilters(){
-      const filterGroup = $('#label-filters');
+      const filterGroup = $('#main-label-filters');
       if (!filterGroup) return;
       
       // Group labels by category (Contact consent, Domain, Institution, etc.)
